@@ -1,57 +1,41 @@
 {
-    "public": true,
-    "github": {
-      "enabled": false
+  "public": true,
+  "github": {
+    "enabled": false
+  },
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" }
+      ]
     },
-    "framework": "vite",
-    "buildCommand": "npm run build",
-    "outputDirectory": "dist",
-    "headers": [
-      {
-        "source": "/(.*)",
-        "headers": [
-          {
-            "key": "X-Content-Type-Options",
-            "value": "nosniff"
-          },
-          {
-            "key": "X-Frame-Options",
-            "value": "DENY"
-          },
-          {
-            "key": "X-XSS-Protection",
-            "value": "1; mode=block"
-          }
-        ]
-      },
-      {
-        "source": "/api/(.*)",
-        "headers": [
-          {
-            "key": "Access-Control-Allow-Origin",
-            "value": "https://defensapenalprotegida.cl"
-          },
-          {
-            "key": "Access-Control-Allow-Methods",
-            "value": "GET, POST, PUT, DELETE, OPTIONS"
-          },
-          {
-            "key": "Access-Control-Allow-Headers",
-            "value": "Content-Type, Authorization"
-          }
-        ]
-      }
-    ],
-    "redirects": [
-      {
-        "source": "/home",
-        "destination": "/",
-        "permanent": true
-      }
-    ],
-    "routes": [
-      { "handle": "filesystem" },
-      { "src": "/sitemap.xml", "dest": "/api/sitemap" },
-      { "src": "/(.*)", "dest": "/index.html" }
-    ]
-  }
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "https://defensapenalprotegida.cl" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, PUT, DELETE, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
+      ]
+    }
+  ],
+
+  "redirects": [
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    }
+  ],
+
+  "rewrites": [
+    { "source": "/sitemap.xml", "destination": "/api/sitemap" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
