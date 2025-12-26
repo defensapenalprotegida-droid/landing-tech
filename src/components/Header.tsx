@@ -26,12 +26,24 @@ const Header = () => {
       <div className="max-w-7xl mx-auto container-padding">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <img
+         <img
   src="/logo.png"
   alt="Defensa Penal Protegida"
-  className="h-12 md:h-16 lg:h-20 w-auto object-contain cursor-pointer"
-  onClick={() => scrollToSection("inicio")}
+  className="
+    h-12
+    sm:h-16
+    md:h-24
+    lg:h-40
+    xl:h-48
+    2xl:h-56
+    w-auto
+    max-w-full
+    object-contain
+    cursor-pointer
+  "
+  onClick={() => scrollToSection('inicio')}
 />
+
     {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             {navItems.map((item) => (

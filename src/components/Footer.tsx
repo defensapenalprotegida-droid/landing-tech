@@ -37,6 +37,12 @@ const Footer = () => {
                 <Phone className="w-5 h-5 text-legal-primary" />
                 <span className="font-body text-gray-300">+56 9 9533 6140</span>
               </div>
+              <div className="flex flex-col space-y-3">
+                <div className="flex items-center space-x-3">
+                <Mail  className="w-5 h-5 text-legal-primary" />
+                 <span className="font-body text-gray-300">abogados@arteagayaldunate.cl</span>
+                 </div>
+             </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="w-5 h-5 text-legal-primary" />
                 <span className="font-body text-gray-300">Bombero Salas 1369, of. 701, Santiago</span>
@@ -97,7 +103,7 @@ const Footer = () => {
         <div className="py-6 border-t border-gray-700">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="font-body text-sm text-gray-400">
-              © {currentYear} Defensa Penal Protegida. Todos los derechos reservados.
+              © {currentYear} Arteaga y Aldunate | Abogados & Asociados. Todos los derechos reservados.
             </div>
             
             <div className="flex items-center space-x-6 font-body text-sm text-gray-400">

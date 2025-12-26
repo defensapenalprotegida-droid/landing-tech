@@ -14,10 +14,10 @@ const Index = () => {
       <Header />
       <main>
         <HeroSection />
-        <MissionSection />
         <ServicesSection />
-        <ApproachSection />
         <TeamSection />
+        <MissionSection />
+        <ApproachSection />
         <ContactSection />
         <WhatsAppButton />
       </main>
