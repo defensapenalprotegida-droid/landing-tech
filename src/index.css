@@ -1,0 +1,180 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Defensa Penal Protegida - Design System */
+
+@layer base {
+  :root {
+    /* Core colors */
+    --background: 0 0% 100%; /* White */
+    --foreground: 0 0% 12%; /* Near black */
+    
+    /* Card colors */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 15%;
+    
+    /* Legal brand colors */
+    --legal-primary: 345 61% 38%; /* Rojo vino #A12341 */
+    --legal-secondary: 194 64% 17%; /* Azul petróleo #0F3B47 */
+    --legal-dark: 0 0% 7%; /* Negro profundo #111111 */
+    
+    /* Primary semantic colors */
+    --primary: 345 61% 38%; /* Rojo vino */
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary colors */
+    --secondary: 0 0% 96%; /* Gris claro neutro */
+    --secondary-foreground: 0 0% 7%;
+    
+    /* Muted colors */
+    --muted: 210 17% 95%;
+    --muted-foreground: 215 14% 45%;
+    
+    /* Accent colors */
+    --accent: 194 64% 17%; /* Azul petróleo */
+    --accent-foreground: 0 0% 100%;
+    
+    /* Utility colors */
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 215 20% 90%;
+    --input: 215 20% 90%;
+    --ring: 345 61% 38%;
+    
+    --radius: 0.75rem;
+    
+    /* Custom gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(345 61% 38%), hsl(194 64% 17%));
+    --gradient-primary-soft: linear-gradient(135deg, hsl(345 20% 95%), hsl(194 20% 95%));
+    
+    /* Shadows */
+    --shadow-legal: 0 4px 20px -4px hsl(345 61% 38% / 0.25);
+    --shadow-card: 0 2px 20px -2px hsl(0 0% 0% / 0.08);
+    --shadow-elevated: 0 8px 32px -8px hsl(0 0% 0% / 0.12);
+    
+    /* Typography weights */
+    --font-light: 300;
+    --font-normal: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+    --font-black: 900;
+  }
+  
+  .dark {
+    --background: 0 0% 8%;
+    --foreground: 0 0% 95%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 95%;
+    --primary: 345 61% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 194 64% 20%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 194 64% 20%;
+    --muted-foreground: 0 0% 65%;
+    --accent: 194 64% 25%;
+    --accent-foreground: 0 0% 100%;
+    --border: 194 30% 25%;
+    --input: 194 30% 25%;
+    --ring: 345 61% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+@layer components {
+  /* Professional gradient backgrounds */
+  .bg-gradient-legal {
+    background: var(--gradient-primary);
+  }
+  
+  .bg-gradient-legal-soft {
+    background: var(--gradient-primary-soft);
+  }
+  
+  /* Professional shadows */
+  .shadow-legal {
+    box-shadow: var(--shadow-legal);
+  }
+  
+  .shadow-card-soft {
+    box-shadow: var(--shadow-card);
+  }
+  
+  .shadow-elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+  
+  /* Legal professional animations */
+  .animate-slide-up {
+    animation: slide-up 0.6s ease-out;
+  }
+  
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out;
+  }
+  
+  /* Hover effects for legal elements */
+  .hover-lift {
+    @apply transition-all duration-300;
+  }
+  
+  .hover-lift:hover {
+    @apply -translate-y-1 shadow-elevated;
+  }
+}
+
+@layer utilities {
+  /* Text gradient utilities */
+  .text-gradient-legal {
+    background: var(--gradient-primary);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  /* Professional spacing */
+  .section-padding {
+    @apply py-16 lg:py-24;
+  }
+  
+  .container-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
