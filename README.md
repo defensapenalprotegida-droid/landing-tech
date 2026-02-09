@@ -1,4 +1,4 @@
-# ⚖️ Defensa Penal Protegida — Landing
+# ⚖️ Defensa Legal — Landing
 
 **Estudio jurídico penal especializado en defensa estratégica de personas imputadas por delitos en Chile.**
 

@@ -37,7 +37,7 @@ const TeamSection = () => {
   return (
     <section id="equipo" className="section-padding bg-white">
       <div className="max-w-7xl mx-auto container-padding">
-        {/* Intro */}
+        {/* Intro
         <div className="text-center mb-16">
           <div className="inline-flex items-center space-x-2 bg-legal-primary/10 text-legal-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
             <Users className="w-4 h-4" />
@@ -53,9 +53,9 @@ const TeamSection = () => {
             Nuestro equipo está conformado por abogados especialistas en derecho penal con 
             amplia trayectoria en tribunales chilenos y formación académica de excelencia.
           </p>
-        </div>
+        </div> */}
 
-        {/* Expertise Cards */}
+        {/* Expertise Cards 
         <div className="grid lg:grid-cols-3 gap-8 mb-12">
           <Card className="p-8 text-center hover-lift shadow-card-soft border-0 bg-gradient-to-br from-legal-primary/5 to-white">
             <div className="w-16 h-16 bg-legal-primary/10 rounded-xl flex items-center justify-center mx-auto mb-6">
@@ -125,7 +125,7 @@ const TeamSection = () => {
               </div>
             </div>
           </Card>
-        </div>
+        </div>*/}
 
         {/* Team Philosophy */}
         <div className="bg-gradient-legal-soft rounded-2xl p-8 lg:p-12 text-center">
