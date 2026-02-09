@@ -14,11 +14,11 @@ const Header = () => {
   };
 
   const navItems = [
-    { label: "Inicio", id: "inicio" },
-    { label: "Servicios", id: "servicios" },
-    { label: "Enfoque", id: "enfoque" },
-    { label: "Equipo", id: "equipo" },
-    { label: "Contacto", id: "contacto" },
+    { label: "INICIO", id: "inicio" },
+    { label: "SERVICIO", id: "area" },
+    { label: "QUIENES SOMOS", id: "nosotros" },
+    { label: "PREGUNTAS FRECUENTES", id: "faq" },
+    { label: "CONTACTO", id: "contacto" },
   ];
 
   return (
@@ -28,7 +28,7 @@ const Header = () => {
           {/* Logo */}
          <img
   src="/logo.png"
-  alt="Defensa Penal Protegida"
+  alt="Arteaga & Aldunate "
   className="
     h-12
     sm:h-16

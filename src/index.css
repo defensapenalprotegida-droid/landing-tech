@@ -8,11 +8,11 @@
   :root {
     /* Core colors */
     --background: 0 0% 100%; /* White */
-    --foreground: 0 0% 12%; /* Near black */
+    --foreground: 230 50% 12%;
     
     /* Card colors */
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 15%;
+     --card: 230 33% 97%;
+    --card-foreground: 230 50% 12%;
     
     /* Legal brand colors */
     --legal-primary: 345 61% 38%; /* Rojo vino #A12341 */
@@ -20,7 +20,7 @@
     --legal-dark: 0 0% 7%; /* Negro profundo #111111 */
     
     /* Primary semantic colors */
-    --primary: 345 61% 38%; /* Rojo vino */
+    --primary: 230 50% 12%;
     --primary-foreground: 0 0% 100%;
     
     /* Secondary colors */

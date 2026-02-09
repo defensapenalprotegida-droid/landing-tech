@@ -7,6 +7,10 @@ import TeamSection from "@/components/TeamSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import PracticeAreas from "@/components/PracticeAreas";
+import FAQSection from "@/components/FAQSection";
+import AboutSection from "@/components/AboutSection";
+
 
 const Index = () => {
   return (
@@ -14,10 +18,11 @@ const Index = () => {
       <Header />
       <main>
         <HeroSection />
-        <ServicesSection />
-        <TeamSection />
+        <ServicesSection/>
+        <AboutSection/>
         <MissionSection />
         <ApproachSection />
+        <FAQSection/>
         <ContactSection />
         <WhatsAppButton />
       </main>

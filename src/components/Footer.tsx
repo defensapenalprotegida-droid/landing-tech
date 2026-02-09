@@ -20,7 +20,7 @@ const Footer = () => {
             <div className="flex items-center space-x-3 mb-6">
                <img
   src="/logo_blanco.png"
-  alt="Defensa Penal Protegida"
+  alt="Defensa legal"
   className="max-h-44 w-auto object-contain"
 />
 
@@ -58,7 +58,8 @@ const Footer = () => {
                 { label: "Inicio", id: "inicio" },
                 { label: "Servicios", id: "servicios" },
                 { label: "Enfoque", id: "enfoque" },
-                { label: "Equipo", id: "equipo" },
+                { label: "Quienes Somos", id: "nosotros" },
+                { label: "Preguntas frecuentes", id: "faq" },
                 { label: "Contacto", id: "contacto" }
               ].map((item) => (
                 <button
