@@ -10,6 +10,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import PracticeAreas from "@/components/PracticeAreas";
 import FAQSection from "@/components/FAQSection";
 import AboutSection from "@/components/AboutSection";
+import BlogSection from "@/components/BlogSection";
 
 
 const Index = () => {
@@ -18,10 +19,11 @@ const Index = () => {
       <Header />
       <main>
         <HeroSection />
+        <TeamSection/>
         <WhatsAppButton />
         <AboutSection/>
-        <TeamSection/>
        <PracticeAreas/>  
+       <BlogSection/>
         <ContactSection /> 
       </main>
       <Footer />

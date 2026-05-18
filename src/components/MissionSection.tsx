@@ -26,7 +26,7 @@ const reasons = [
 
 const MissionSection = () => {
   return (
-    <section className="section-padding bg-gradient-legal-soft">
+    <section id="mission" className="section-padding bg-gradient-legal-soft">
       <div className="max-w-7xl mx-auto container-padding">
         <div className="text-center mb-16">
           <div className="inline-flex items-center space-x-2 bg-white/80 text-legal-primary px-4 py-2 rounded-full text-sm font-medium mb-6 shadow-sm">
