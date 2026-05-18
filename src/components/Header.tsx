@@ -15,10 +15,13 @@ const Header = () => {
 
   const navItems = [
     { label: "INICIO", id: "inicio" },
-    { label: "SERVICIO", id: "area" },
-    { label: "QUIENES SOMOS", id: "nosotros" },
-    { label: "PREGUNTAS FRECUENTES", id: "faq" },
+    { label: "NOSOTROS", id: "nosotros" },
+    { label: "ÁREAS DE PRÁCTICA", id: "area" },
+    { label: "EQUIPO", id: "equipo" },
+    { label: "BLOG JURÍDICO", id: "contacto" },
     { label: "CONTACTO", id: "contacto" },
+   // { label: "PREGUNTAS FRECUENTES", id: "faq" },
+
   ];
 
   return (

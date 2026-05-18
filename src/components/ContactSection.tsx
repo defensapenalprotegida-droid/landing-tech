@@ -98,10 +98,25 @@ const ContactSection = () => {
                     Teléfono y WhatsApp
                   </h3>
                   <p className="font-body text-legal-primary font-semibold text-lg">
-                    +56 9 9533 6140
+                    +56 9 9533 6140 - +56966416504
                   </p>
                   <p className="font-body text-sm text-muted-foreground mt-1">
                     Disponible para WhatsApp las 24 horas
+                  </p>
+                </div>
+              </div>
+            </Card>
+                <Card className="p-6 hover-lift shadow-card-soft border-0">
+              <div className="flex items-start space-x-4">
+                <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Mail className="w-6 h-6 text-accent" />
+                </div>
+                <div>
+                  <h3 className="font-heading text-lg font-bold text-legal-dark mb-2">
+                   	Correo electrónico
+                  </h3>
+                  <p className="font-body text-legal-primary font-semibold text-lg">
+                    abogados@arteagayaldunate.cl
                   </p>
                 </div>
               </div>

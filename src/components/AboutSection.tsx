@@ -1,201 +1,216 @@
 import { motion } from "framer-motion";
-import { Shield, Users, Award } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { ShieldCheck, Scale, Landmark, LockKeyhole } from "lucide-react";
 
-const features = [
+const values = [
   {
-    icon: Shield,
-    title: "Ética profesional",
-    desc: "Actuamos con integridad, transparencia y responsabilidad en cada caso que asumimos.",
+    icon: ShieldCheck,
+    title: "Compromiso",
+    desc: "Asumimos cada caso con seriedad, responsabilidad y dedicación profesional.",
   },
   {
-    icon: Users,
-    title: "Equipo multidisciplinario",
-    desc: "Abogados especializados en diversas ramas del derecho para una asesoría integral.",
+    icon: Scale,
+    title: "Excelencia técnica",
+    desc: "Estudiamos cada asunto con rigor jurídico, estrategia procesal y criterio práctico.",
   },
   {
-    icon: Award,
-    title: "Prestigio comprobado",
-    desc: "Reconocidos por nuestra trayectoria y resultados favorables en tribunales de todo Chile.",
-  },
-];
-
-const team = [
-  {
-    name: "Patricio Aldunate",
-    role: "Abogado litigante",
-    description: "Concentra su práctica en las áreas de derecho penal, derecho laboral y procedimientos concursales. Su experiencia profesional se ha desarrollado en la representación y asesoría de personas y empresas, abordando conflictos jurídicos complejos con un enfoque estratégico, técnico y orientado a resultados. A lo largo de su ejercicio, ha intervenido en diversas instancias judiciales y administrativas, destacándose por una labor rigurosa, analítica y comprometida con la defensa de los intereses de sus representados, brindando una asesoría clara, cercana y confiable.",
-    image: "/equipo/maria.jpg",
+    icon: Landmark,
+    title: "Transparencia",
+    desc: "Entregamos información clara, honorarios definidos y comunicación permanente.",
   },
   {
-    name: "Ignacio Arteaga",
-    role: "Abogado senior",
-    description: " Concentra su práctica en Derecho Penal y Derecho Administrativo, con experiencia en litigios complejos y en la representación de personas y empresas ante instancias judiciales y administrativas; ha intervenido en materias vinculadas a delitos económicos, cibercrimen, lavado de activos e infracciones a normativas anticorrupción y tributarias, y en el ámbito administrativo asesora y representa a clientes en reclamaciones y demandas contra el Estado, municipalidades y diversos órganos de la Administración, caracterizándose su trabajo por una defensa técnica, estratégica y orientada a la protección efectiva de los derechos de sus representados.",
-    image: "/equipo/jose.jpg",
+    icon: LockKeyhole,
+    title: "Confidencialidad",
+    desc: "Resguardamos con absoluta reserva la información de nuestros clientes.",
   },
- {
-  name: "Jose Pereira",
-  role: "Abogada litigante",
-  description: "Forma parte del equipo en las áreas de Derecho Laboral, Civil y Asesoría Corporativa, contando con sólida experiencia en la asesoría a personas y empresas en materias de derecho del trabajo —tanto individual como colectivo—, seguridad social y gestión de relaciones laborales, asumiendo además la defensa judicial en conflictos laborales y contingencias propias de la actividad empresarial. Asimismo, interviene en asuntos de derecho civil vinculados a contratos, obligaciones y responsabilidad civil, distinguiéndose su práctica profesional por un análisis jurídico crítico, un enfoque preventivo y estratégico y una asesoría rigurosa, clara y eficaz, orientada a la correcta aplicación de la normativa vigente y a la resolución oportuna de controversias.",
-  image: "/equipo/camila.jpg",
-},
-{
-
-  name: "Marta Garasa",
-  role: "Abogada litigante",
-  description: "Integra el equipo en las áreas de Derecho Penal y Derecho de Familia, con experiencia en litigación ante tribunales penales y superiores de justicia, representando a personas y empresas en causas de diversa complejidad. Asimismo, asesora en materias de compliance y responsabilidad penal de personas jurídicas, interviniendo también en asuntos de familia como alimentos, cuidado personal, relación directa y regular y divorcios.",
-  image: "/equipo/marta.jpg",
-},
-// {
-//   name: "Kony Pedreros",
-//   role: "Analista informática",
-//   description: "Integra el equipo aportando conocimientos especializados en el ámbito tecnológico y digital, colaborando en el análisis de antecedentes vinculados a causas jurídicas y participando en materias que requieren evaluación técnica o pericial en contextos asociados a ciberdelitos. Su participación contribuye al fortalecimiento de la estrategia jurídica del estudio en asuntos donde convergen el derecho y la tecnología.",
-//   image: "/equipo/kony.jpg",
-// }
-
-
-
-
-
-
-
 ];
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i: number) => ({
+  hidden: { opacity: 0, y: 28 },
+  visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.15, duration: 0.5 },
+    transition: {
+      delay: i * 0.12,
+      duration: 0.55,
+      ease: "easeOut",
+    },
   }),
 };
 
 const AboutSection = () => {
   return (
-    <section id="nosotros" className="section-padding bg-card">
-      <div className="max-w-7xl mx-auto">
+    <section
+      id="nosotros"
+      className="relative section-padding overflow-hidden bg-card"
+    >
+      {/* Fondo decorativo sutil */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-primary/5 blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full bg-[#A12341]/5 blur-3xl" />
+      </div>
 
-        {/* HEADER */}
+      <div className="relative max-w-7xl mx-auto">
+        {/* Encabezado */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeUp}
           custom={0}
-          className="text-center mb-16"
+          className="max-w-4xl mx-auto text-center mb-16"
         >
-          <p className="text-primary/70 font-semibold text-sm tracking-widest uppercase mb-3">
+          <p className="text-primary/70 font-semibold text-sm tracking-[0.25em] uppercase mb-4">
             Quiénes somos
           </p>
 
-          <h2 className="font-serif text-3xl md:text-5xl font-bold text-foreground mb-8">
-            Su confianza, nuestra prioridad
+          <h2 className="font-serif text-3xl md:text-5xl font-bold text-foreground mb-6 leading-tight">
+            Asesoría jurídica estratégica, cercana y orientada a resultados
           </h2>
 
-          {/* TEXTO ORDENADO */}
-  <div className="text-muted-foreground text-lg leading-relaxed space-y-5 max-w-4xl mx-auto">
-  <p>
-    El prestigio y la reputación que hemos construido en el ámbito jurídico
-    nacional se sustentan en nuestra vasta experiencia, en los altos estándares
-    de calidad de los servicios que prestamos, en el estricto apego a la ética
-    profesional y en la eficiencia con la que asumimos cada encargo.
-  </p>
+          <div className="w-20 h-[2px] bg-gradient-to-r from-[#A12341] to-[#0F3B47] mx-auto mb-8" />
 
-  <p>
-    Somos un equipo multidisciplinario, cercano y altamente especializado,
-    conformado por profesionales de excelencia en sus respectivas áreas de
-    desempeño, comprometidos con brindar asesoría jurídica sólida y confiable.
-  </p>
-
-  <p>
-    Nuestro objetivo es analizar cada conflicto de manera integral y entregar
-    soluciones oportunas, personalizadas y eficaces a las necesidades de
-    nuestros clientes, siempre con pleno respeto por los principios éticos que
-    rigen el ejercicio de la profesión.
-  </p>
-
-
-          </div>
+          <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
+            Arteaga & Aldunate Abogados y Asociados es un estudio jurídico de servicios
+            legales integrales, con sede en Santiago y cobertura en todo Chile.
+            Asesoramos a personas, familias, emprendedores y empresas en la
+            prevención, gestión y solución de sus conflictos jurídicos.
+          </p>
         </motion.div>
 
-        {/* FEATURES */}
-        <div className="grid md:grid-cols-3 gap-6">
-          {features.map((f, i) => (
+        {/* Bloque institucional */}
+        <div className="grid lg:grid-cols-2 gap-10 items-stretch mb-16">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUp}
+            custom={1}
+            className="bg-background border border-border rounded-3xl p-8 md:p-10 shadow-soft"
+          >
+            <p className="text-primary/70 font-semibold text-sm tracking-widest uppercase mb-4">
+              Nuestra propuesta
+            </p>
+
+            <h3 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-5">
+              Una defensa seria, clara y técnicamente preparada
+            </h3>
+
+            <div className="space-y-5 text-muted-foreground text-base md:text-lg leading-relaxed">
+              <p>
+                Nuestro trabajo combina análisis jurídico riguroso, estrategia
+                procesal y una comunicación directa con el cliente. Entendemos
+                que enfrentar un problema legal puede generar incertidumbre; por
+                eso buscamos entregar orientación clara, oportuna y enfocada en
+                soluciones concretas.
+              </p>
+
+              <p>
+                Intervenimos en materias penales, civiles, laborales,
+                familiares, corporativas, inmobiliarias y tributarias, siempre
+                con una mirada preventiva y litigiosa según las necesidades de
+                cada caso.
+              </p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUp}
+            custom={2}
+            className="relative rounded-3xl p-[2px] bg-gradient-to-br from-[#A12341] to-[#0F3B47] shadow-soft"
+          >
+            <div className="h-full bg-background rounded-[22px] p-8 md:p-10">
+              <p className="text-primary/70 font-semibold text-sm tracking-widest uppercase mb-4">
+                Nuestra misión
+              </p>
+
+              <h3 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-5">
+                Proteger lo que más importa
+              </h3>
+
+              <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8">
+                Entregar a cada cliente —sea persona natural o empresa—
+                soluciones jurídicas estratégicas, claras y ejecutables, que
+                protejan su libertad, su familia, su trabajo y su patrimonio,
+                bajo los más altos estándares éticos y profesionales.
+              </p>
+
+              <div className="border-t border-border pt-6">
+                <p className="font-serif text-xl text-foreground italic leading-relaxed">
+                  “La mejor asesoría legal no solo resuelve conflictos: también
+                  los previene.”
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Valores */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+          custom={3}
+          className="text-center mb-10"
+        >
+          <p className="text-primary/70 font-semibold text-sm tracking-[0.25em] uppercase mb-3">
+            Nuestros valores
+          </p>
+
+          <h3 className="font-serif text-2xl md:text-4xl font-bold text-foreground">
+            Principios que guían nuestra práctica
+          </h3>
+        </motion.div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {values.map((item, i) => (
             <motion.div
-              key={f.title}
+              key={item.title}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp}
-              custom={i + 1}
-              className="bg-background rounded-2xl p-8 border border-border shadow-soft hover:shadow-hover transition-all duration-300 group"
+              custom={i + 4}
+              className="group bg-background border border-border rounded-2xl p-7 shadow-soft hover:shadow-hover transition-all duration-300 hover:-translate-y-1"
             >
-              <div className="w-14 h-14 rounded-xl bg-primary/5 flex items-center justify-center mb-6 group-hover:bg-primary/10 transition">
-                <f.icon className="w-7 h-7 text-primary" />
+              <div className="w-13 h-13 mb-5 rounded-xl bg-primary/5 flex items-center justify-center group-hover:bg-primary/10 transition">
+                <item.icon className="w-7 h-7 text-primary" />
               </div>
 
-              <h3 className="font-serif text-xl font-semibold text-foreground mb-3">
-                {f.title}
-              </h3>
+              <h4 className="font-serif text-xl font-semibold text-foreground mb-3">
+                {item.title}
+              </h4>
 
               <p className="font-sans text-muted-foreground leading-relaxed">
-                {f.desc}
+                {item.desc}
               </p>
             </motion.div>
           ))}
         </div>
 
-        {/* TEAM */}
-        <div className="mt-20">
-          <h3 className="font-serif text-3xl font-bold text-foreground text-center mb-12">
-            Nuestro Equipo
-          </h3>
+        {/* Cierre */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+          custom={8}
+          className="mt-16 bg-background border border-border rounded-3xl px-8 py-10 md:px-12 md:py-12 text-center shadow-soft"
+        >
+          <p className="text-primary/70 font-semibold text-sm tracking-widest uppercase mb-4">
+            Nuestro enfoque
+          </p>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {team.map((member) => (
-              <Card
-                key={member.name}
-                className="relative group p-[2px] rounded-xl bg-transparent
-                transition-all duration-300 hover:bg-gradient-to-tr
-                hover:from-[#A12341] hover:to-[#0F3B47]
-                hover:shadow-xl hover:-translate-y-2
-                h-full min-h-[340px]"
-              >
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-white/90 opacity-0 group-hover:opacity-100
-                  transition-opacity duration-500 z-10 flex items-center justify-center
-                  rounded-xl px-6 text-center">
-                  <p className="text-black text-sm leading-relaxed">
-                    {member.description}
-                  </p>
-                </div>
-
-                <div className="bg-white rounded-[10px] h-full w-full relative z-0 flex flex-col">
-                  <CardContent className="p-6 text-center flex flex-col items-center justify-center flex-grow">
-
-                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#A12341] to-[#0F3B47] mb-4 overflow-hidden">
-                      <img
-                        src={member.image}
-                        alt={member.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-
-                    <h4 className="font-serif text-xl font-semibold text-foreground mb-1">
-                      {member.name}
-                    </h4>
-
-                    <p className="font-sans text-primary font-medium">
-                      {member.role}
-                    </p>
-
-                  </CardContent>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-
+          <p className="max-w-4xl mx-auto text-muted-foreground text-lg md:text-xl leading-relaxed">
+            Creemos que cada caso exige una estrategia propia. Por eso
+            analizamos los antecedentes, evaluamos los riesgos y diseñamos un
+            camino jurídico claro, ya sea para prevenir conflictos, negociar una
+            solución o litigar con firmeza ante los tribunales competentes.
+          </p>
+        </motion.div>
       </div>
     </section>
   );

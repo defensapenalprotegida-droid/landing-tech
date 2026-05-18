@@ -64,14 +64,14 @@ const HeroSection = () => {
                 Estudio Jurídico en Chile
               </p>
 
-              <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight mb-6">
-                Defensa legal con{" "}
-                <span className="text-gradient-navy">excelencia</span> y compromiso
+              <h1 className="font-serif text-4xl md:text-6xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
+               Defensa estratégica, asesoría cercana y resultados que se ven.
               </h1>
 
               <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mb-10 leading-relaxed">
-                Abogados especializados en litigación civil, penal, familiar y laboral.
-                Asesoría online y presencial en todo Chile con más de 15 años de experiencia.
+                Somos un estudio jurídico, con sede en Santiago y cobertura nacional, que combina la rigurosidad
+técnica con la cercanía y disponibilidad que usted necesita. Defendemos sus derechos, su patrimonio
+y su tranquilidad.
               </p>
             </motion.div>
 
@@ -87,16 +87,15 @@ const HeroSection = () => {
                 className="inline-flex items-center justify-center gap-3 bg-primary text-primary-foreground px-8 py-4 rounded-xl text-lg font-semibold hover:bg-primary/90 transition shadow-soft"
               >
                 <Phone className="w-5 h-5" />
-                Llamar ahora
+                Agenda tu reunión
               </a>
 
               <a
                 href={`https://wa.me/${WHATSAPP_PHONE}?text=${WHATSAPP_MESSAGE}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 border border-border bg-background text-foreground px-8 py-4 rounded-xl text-lg font-semibold hover:bg-secondary transition shadow-soft"
-              >
-                <MessageCircle className="w-5 h-5" />
+               className="inline-flex items-center justify-center gap-3 border-[2px] border-[#25D366] bg-background text-foreground px-8 py-4 rounded-xl text-lg font-semibold hover:bg-secondary transition shadow-soft"              >
+                <MessageCircle className="w-5 h-5 "  />
                 WhatsApp
               </a>
             </motion.div>
