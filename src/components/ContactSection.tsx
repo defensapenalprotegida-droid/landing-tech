@@ -1,104 +1,191 @@
-import { useState } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { MapPin, Phone, Clock, Mail, Send, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import {
+  leadSchema, type LeadFormValues, AREAS, AREA_LABELS, URGENCIAS, URGENCIA_LABELS,
+  HORARIOS, HORARIO_LABELS, MONTO_RANGOS, MONTO_LABELS, PENAL_SITUACIONES,
+  FAMILIA_MATERIAS, LABORAL_PARTE, LABORAL_SITUACIONES,
+  montoAplica, situacionPenalAplica, materiaFamiliaAplica, laboralAplica,
+} from "@/lib/leadSchema";
+import { submitLead } from "@/lib/leadApi";
+import { onPrefillArea } from "@/lib/leadPrefill";
 
-const ContactSection = () => {
+const selectCls =
+  "w-full h-11 rounded-md border border-border bg-background px-3 text-sm focus:border-legal-primary focus:outline-none";
+const inputCls =
+  "w-full h-11 rounded-md border border-border bg-background px-3 text-sm focus:border-legal-primary focus:outline-none";
+
+const ContactForm = () => {
   const { toast } = useToast();
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
+  const {
+    register, handleSubmit, watch, setValue, reset,
+    formState: { errors, isSubmitting },
+  } = useForm<LeadFormValues>({
+    resolver: zodResolver(leadSchema),
+    defaultValues: { horario: "cualquiera", website: "" },
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  const area = watch("area");
 
-  const validateEmail = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
+  useEffect(() => onPrefillArea((a) => setValue("area", a, { shouldValidate: false })), [setValue]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-      toast({
-        title: "Campos requeridos",
-        description: "Por favor completa nombre, correo electrónico y descripción del caso.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!validateEmail(formData.email)) {
-      toast({
-        title: "Correo inválido",
-        description: "Ingresa un correo electrónico válido.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      setIsSubmitting(true);
-
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.name.trim(),
-          email: formData.email.trim(),
-          phone: formData.phone.trim(),
-          message: formData.message.trim(),
-        }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok || !result.ok) {
-        throw new Error(result.message || "No se pudo enviar el formulario.");
-      }
-
-      toast({
-        title: "Consulta enviada",
-        description: "Gracias por contactarnos. Te responderemos a la brevedad.",
-      });
-
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        message: "",
-      });
-    } catch (error) {
-      toast({
-        title: "Error al enviar",
-        description:
-          error instanceof Error
-            ? error.message
-            : "Ocurrió un error al enviar la consulta. Intenta nuevamente.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
+  const onSubmit = async (values: LeadFormValues) => {
+    if (values.website) return; // honeypot
+    const res = await submitLead(values);
+    if (res.ok) {
+      toast({ title: "Consulta enviada",
+        description: "Gracias por contactarnos. Te responderemos a la brevedad." });
+      reset({ horario: "cualquiera", website: "" });
+    } else {
+      toast({ title: "Error al enviar", description: res.message, variant: "destructive" });
     }
   };
 
+  const err = (k: keyof LeadFormValues) =>
+    errors[k] ? <p className="text-destructive text-xs mt-1">{errors[k]?.message as string}</p> : null;
+
+  return (
+    <Card className="p-8 shadow-card-soft border-0">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+        <div>
+          <h3 className="font-heading text-xl font-bold text-legal-dark mb-1">Cuéntanos tu caso</h3>
+          <p className="text-muted-foreground text-sm">Los campos con * son obligatorios.</p>
+        </div>
+
+        {/* honeypot */}
+        <input type="text" tabIndex={-1} autoComplete="off"
+          className="hidden" aria-hidden="true" {...register("website")} />
+
+        <div className="grid md:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="name" className="text-sm font-medium text-legal-dark mb-1 block">Nombre completo *</label>
+            <input id="name" className={inputCls} placeholder="Tu nombre completo" {...register("name")} />
+            {err("name")}
+          </div>
+          <div>
+            <label htmlFor="phone" className="text-sm font-medium text-legal-dark mb-1 block">Teléfono *</label>
+            <input id="phone" className={inputCls} placeholder="+56 9 XXXX XXXX" {...register("phone")} />
+            {err("phone")}
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="email" className="text-sm font-medium text-legal-dark mb-1 block">Correo electrónico *</label>
+          <input id="email" type="email" className={inputCls} placeholder="tu@email.com" {...register("email")} />
+          {err("email")}
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="area" className="text-sm font-medium text-legal-dark mb-1 block">Área / Tipo de causa *</label>
+            <select id="area" className={selectCls} defaultValue="" {...register("area")}>
+              <option value="" disabled>Selecciona un área</option>
+              {AREAS.map((a) => <option key={a} value={a}>{AREA_LABELS[a]}</option>)}
+            </select>
+            {err("area")}
+          </div>
+          <div>
+            <label htmlFor="urgencia" className="text-sm font-medium text-legal-dark mb-1 block">Urgencia *</label>
+            <select id="urgencia" className={selectCls} defaultValue="" {...register("urgencia")}>
+              <option value="" disabled>Selecciona</option>
+              {URGENCIAS.map((u) => <option key={u} value={u}>{URGENCIA_LABELS[u]}</option>)}
+            </select>
+            {err("urgencia")}
+          </div>
+        </div>
+
+        {/* Condicionales por área */}
+        {situacionPenalAplica(area) && (
+          <div>
+            <label htmlFor="situacionPenal" className="text-sm font-medium text-legal-dark mb-1 block">Situación actual *</label>
+            <select id="situacionPenal" className={selectCls} defaultValue="" {...register("situacionPenal")}>
+              <option value="" disabled>Selecciona</option>
+              {PENAL_SITUACIONES.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
+            </select>
+            {err("situacionPenal")}
+          </div>
+        )}
+
+        {materiaFamiliaAplica(area) && (
+          <div>
+            <label htmlFor="materiaFamilia" className="text-sm font-medium text-legal-dark mb-1 block">Materia *</label>
+            <select id="materiaFamilia" className={selectCls} defaultValue="" {...register("materiaFamilia")}>
+              <option value="" disabled>Selecciona</option>
+              {FAMILIA_MATERIAS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
+            </select>
+            {err("materiaFamilia")}
+          </div>
+        )}
+
+        {laboralAplica(area) && (
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="laboralParte" className="text-sm font-medium text-legal-dark mb-1 block">¿Trabajador o empresa? *</label>
+              <select id="laboralParte" className={selectCls} defaultValue="" {...register("laboralParte")}>
+                <option value="" disabled>Selecciona</option>
+                {LABORAL_PARTE.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
+              </select>
+              {err("laboralParte")}
+            </div>
+            <div>
+              <label htmlFor="laboralSituacion" className="text-sm font-medium text-legal-dark mb-1 block">Situación *</label>
+              <select id="laboralSituacion" className={selectCls} defaultValue="" {...register("laboralSituacion")}>
+                <option value="" disabled>Selecciona</option>
+                {LABORAL_SITUACIONES.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
+              </select>
+              {err("laboralSituacion")}
+            </div>
+          </div>
+        )}
+
+        {area && montoAplica(area) && (
+          <div>
+            <label htmlFor="monto" className="text-sm font-medium text-legal-dark mb-1 block">Monto involucrado</label>
+            <select id="monto" className={selectCls} defaultValue="" {...register("monto")}>
+              <option value="" disabled>Selecciona (opcional)</option>
+              {MONTO_RANGOS.map((m) => <option key={m} value={m}>{MONTO_LABELS[m]}</option>)}
+            </select>
+          </div>
+        )}
+
+        <div>
+          <label htmlFor="horario" className="text-sm font-medium text-legal-dark mb-1 block">Mejor horario de contacto</label>
+          <select id="horario" className={selectCls} {...register("horario")}>
+            {HORARIOS.map((h) => <option key={h} value={h}>{HORARIO_LABELS[h]}</option>)}
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="message" className="text-sm font-medium text-legal-dark mb-1 block">Describe tu caso *</label>
+          <textarea id="message" rows={5} className={inputCls + " h-auto py-2 resize-none"}
+            placeholder="Cuéntanos brevemente qué ocurrió, si has sido citado, detenido, o necesitas asesoría preventiva..."
+            {...register("message")} />
+          {err("message")}
+        </div>
+
+        <div className="bg-legal-primary/5 p-4 rounded-lg flex items-start gap-2">
+          <Mail className="w-5 h-5 text-legal-primary mt-0.5 flex-shrink-0" />
+          <p className="text-sm text-muted-foreground">
+            <strong>Confidencialidad garantizada:</strong> la información que compartas está
+            protegida por el secreto profesional del abogado.
+          </p>
+        </div>
+
+        <Button type="submit" variant="legal" size="lg" className="w-full group" disabled={isSubmitting}>
+          {isSubmitting
+            ? <><Loader2 className="w-5 h-5 animate-spin" /> Enviando...</>
+            : <><Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" /> Enviar consulta gratuita</>}
+        </Button>
+      </form>
+    </Card>
+  );
+};
+
+const ContactSection = () => {
   return (
     <section
       id="contacto"
@@ -234,117 +321,7 @@ const ContactSection = () => {
           </div>
 
           {/* Formulario */}
-          <Card className="p-8 shadow-card-soft border-0">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <h3 className="font-heading text-xl font-bold text-legal-dark mb-4">
-                  Cuéntanos tu caso
-                </h3>
-
-                <p className="font-body text-muted-foreground text-sm mb-6">
-                  Todos los campos marcados con * son obligatorios.
-                </p>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="font-body text-sm font-medium text-legal-dark mb-2 block">
-                    Nombre completo *
-                  </label>
-
-                  <Input
-                    name="name"
-                    type="text"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Tu nombre completo"
-                    className="border-border focus:border-legal-primary"
-                    disabled={isSubmitting}
-                  />
-                </div>
-
-                <div>
-                  <label className="font-body text-sm font-medium text-legal-dark mb-2 block">
-                    Teléfono
-                  </label>
-
-                  <Input
-                    name="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="+56 9 XXXX XXXX"
-                    className="border-border focus:border-legal-primary"
-                    disabled={isSubmitting}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="font-body text-sm font-medium text-legal-dark mb-2 block">
-                  Correo electrónico *
-                </label>
-
-                <Input
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="tu@email.com"
-                  className="border-border focus:border-legal-primary"
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              <div>
-                <label className="font-body text-sm font-medium text-legal-dark mb-2 block">
-                  Describe tu situación *
-                </label>
-
-                <Textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Cuéntanos brevemente qué tipo de caso tienes, si has sido citado, detenido o necesitas asesoría preventiva..."
-                  rows={5}
-                  className="border-border focus:border-legal-primary resize-none"
-                  disabled={isSubmitting}
-                />
-              </div>
-
-              <div className="bg-legal-primary/5 p-4 rounded-lg">
-                <div className="flex items-start space-x-2">
-                  <Mail className="w-5 h-5 text-legal-primary mt-0.5 flex-shrink-0" />
-
-                  <p className="font-body text-sm text-muted-foreground">
-                    <strong>Confidencialidad garantizada:</strong> Toda la
-                    información que compartas está protegida por el secreto
-                    profesional del abogado.
-                  </p>
-                </div>
-              </div>
-
-              <Button
-                type="submit"
-                variant="legal"
-                size="lg"
-                className="w-full group"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    Enviando consulta...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    Enviar consulta gratuita
-                  </>
-                )}
-              </Button>
-            </form>
-          </Card>
+          <ContactForm />
         </div>
 
         <div className="mt-12">
