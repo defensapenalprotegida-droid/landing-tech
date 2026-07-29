@@ -50,7 +50,7 @@ export const PENAL_SITUACIONES = [
   { value: "preventiva", label: "Consulta preventiva" },
 ] as const;
 export const PENAL_SITUACION_VALUES = PENAL_SITUACIONES.map((s) => s.value) as
-  [string, ...string[]];
+  [(typeof PENAL_SITUACIONES)[number]["value"], ...(typeof PENAL_SITUACIONES)[number]["value"][]];
 
 export const FAMILIA_MATERIAS = [
   { value: "divorcio", label: "Divorcio" },
@@ -60,14 +60,14 @@ export const FAMILIA_MATERIAS = [
   { value: "otro", label: "Otro" },
 ] as const;
 export const FAMILIA_MATERIA_VALUES = FAMILIA_MATERIAS.map((s) => s.value) as
-  [string, ...string[]];
+  [(typeof FAMILIA_MATERIAS)[number]["value"], ...(typeof FAMILIA_MATERIAS)[number]["value"][]];
 
 export const LABORAL_PARTE = [
   { value: "trabajador", label: "Trabajador" },
   { value: "empresa", label: "Empresa / empleador" },
 ] as const;
 export const LABORAL_PARTE_VALUES = LABORAL_PARTE.map((s) => s.value) as
-  [string, ...string[]];
+  [(typeof LABORAL_PARTE)[number]["value"], ...(typeof LABORAL_PARTE)[number]["value"][]];
 
 export const LABORAL_SITUACIONES = [
   { value: "despido", label: "Despido injustificado" },
@@ -77,7 +77,7 @@ export const LABORAL_SITUACIONES = [
   { value: "otro", label: "Otro" },
 ] as const;
 export const LABORAL_SITUACION_VALUES = LABORAL_SITUACIONES.map((s) => s.value) as
-  [string, ...string[]];
+  [(typeof LABORAL_SITUACIONES)[number]["value"], ...(typeof LABORAL_SITUACIONES)[number]["value"][]];
 
 const MONTO_AREAS: Area[] = ["civil", "corporativo", "inmobiliario", "tributario"];
 export const montoAplica = (a: Area) => MONTO_AREAS.includes(a) || a === "penal";
