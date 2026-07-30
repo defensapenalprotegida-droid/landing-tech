@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Phone, MessageCircle, Mail, Send } from "lucide-react";
+import { Phone, MessageCircle, Mail, Send, Loader2 } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { submitLead } from "@/lib/leadApi";
+import { useToast } from "@/hooks/use-toast";
+import heroBg from "@/assets/hero-legal.jpg";
 
 type FormData = {
   name: string;
@@ -18,12 +21,14 @@ const WHATSAPP_PHONE = "56995336140"; // sin "+"
 const WHATSAPP_MESSAGE = encodeURIComponent("Hola, necesito ayuda legal.");
 
 const HeroSection = () => {
+  const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>({
     name: "",
     phone: "",
     email: "",
     message: "",
   });
+  const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -32,21 +37,65 @@ const HeroSection = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log("Formulario enviado:", formData);
+    if (
+      !formData.name.trim() ||
+      !formData.email.trim() ||
+      formData.message.trim().length < 15
+    ) {
+      toast({
+        title: "Completa los campos",
+        description:
+          "Nombre, correo y una breve descripción (mín. 15 caracteres).",
+        variant: "destructive",
+      });
+      return;
+    }
 
-    setFormData({ name: "", phone: "", email: "", message: "" });
+    setSubmitting(true);
+    const res = await submitLead({
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      phone: formData.phone.trim(),
+      message: formData.message.trim(),
+    });
+    setSubmitting(false);
+
+    if (res.ok) {
+      toast({
+        title: "Consulta enviada",
+        description: "Te responderemos a la brevedad.",
+      });
+      setFormData({ name: "", phone: "", email: "", message: "" });
+    } else {
+      toast({
+        title: "Error al enviar",
+        description: res.message,
+        variant: "destructive",
+      });
+    }
   };
 
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center overflow-hidden bg-gradient-hero"
+      className="relative min-h-screen flex items-center overflow-hidden"
     >
+      {/* Banner de fondo */}
+      <div className="absolute inset-0 -z-10">
+        <img
+          src={heroBg}
+          alt=""
+          aria-hidden
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/92 to-white/60" />
+      </div>
+
       {/* Decorative elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden -z-10">
         <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-primary/[0.03]" />
         <div className="absolute -bottom-60 -left-40 w-[500px] h-[500px] rounded-full bg-primary/[0.02]" />
       </div>
@@ -82,13 +131,17 @@ y su tranquilidad.
               transition={{ duration: 0.7, delay: 0.3 }}
               className="flex flex-col sm:flex-row gap-4"
             >
-              <a
-                href={`tel:+${WHATSAPP_PHONE}`}
+              <button
+                onClick={() =>
+                  document
+                    .getElementById("contacto")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
                 className="inline-flex items-center justify-center gap-3 bg-primary text-primary-foreground px-8 py-4 rounded-xl text-lg font-semibold hover:bg-primary/90 transition shadow-soft"
               >
                 <Phone className="w-5 h-5" />
-                Agenda tu reunión
-              </a>
+                Cuéntanos tu caso
+              </button>
 
               <a
                 href={`https://wa.me/${WHATSAPP_PHONE}?text=${WHATSAPP_MESSAGE}`}
@@ -210,9 +263,23 @@ y su tranquilidad.
                   </div>
                 </div>
 
-                <Button type="submit" size="lg" className="w-full gap-2 group">
-                  <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  Enviar consulta gratuita
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="w-full gap-2 group"
+                  disabled={submitting}
+                >
+                  {submitting ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Enviando...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      Enviar consulta gratuita
+                    </>
+                  )}
                 </Button>
               </form>
             </Card>
