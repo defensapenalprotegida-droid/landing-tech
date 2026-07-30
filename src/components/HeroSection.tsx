@@ -113,7 +113,7 @@ const HeroSection = () => {
                 Estudio Jurídico en Chile
               </p>
 
-              <h1 className="font-serif text-4xl md:text-6xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
+              <h1 className="font-heading text-4xl md:text-6xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
                Defensa estratégica, asesoría cercana y resultados que se ven.
               </h1>
 
@@ -187,7 +187,7 @@ y su tranquilidad.
             <Card className="p-8 shadow-card-soft border border-border bg-background/80 backdrop-blur rounded-2xl">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <h3 className="font-serif text-2xl font-bold text-foreground mb-2">
+                  <h3 className="font-heading text-2xl font-bold text-foreground mb-2">
                     Cuéntanos tu caso
                   </h3>
                   <p className="text-muted-foreground text-sm">
