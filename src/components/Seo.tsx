@@ -1,4 +1,8 @@
-import { Helmet } from "react-helmet-async";
+// `Head` es el wrapper de Helmet que expone vite-react-ssg. Importarlo desde
+// aquí garantiza que usemos la MISMA instancia de react-helmet-async que el
+// HelmetProvider que monta el prerender; con una copia propia el contexto
+// llega undefined y el build SSR falla.
+import { Head } from "vite-react-ssg";
 
 const SITE = "https://arteagayaldunate.cl";
 
@@ -13,7 +17,7 @@ const Seo = ({ title, description, path = "/", type = "website" }: SeoProps) => 
   const url = SITE + path;
   const full = `${title} | Arteaga & Aldunate Abogados`;
   return (
-    <Helmet>
+    <Head>
       <title>{full}</title>
       <meta name="description" content={description} />
       <link rel="canonical" href={url} />
@@ -28,7 +32,7 @@ const Seo = ({ title, description, path = "/", type = "website" }: SeoProps) => 
       <meta name="twitter:title" content={full} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={`${SITE}/logo.png`} />
-    </Helmet>
+    </Head>
   );
 };
 
