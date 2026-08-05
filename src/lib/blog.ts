@@ -57,3 +57,14 @@ export function getAllPosts(): BlogPost[] {
 export function getPostBySlug(slug: string): BlogPost | undefined {
   return posts.find((p) => p.slug === slug);
 }
+
+// `new Date("2026-07-10")` se interpreta como medianoche UTC y al formatear
+// en horario de Chile (UTC-3/-4) retrocede un día. Forzamos la lectura como
+// fecha local agregando la hora.
+export function formatPostDate(iso: string): string {
+  return new Date(`${iso}T00:00:00`).toLocaleDateString("es-CL", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
