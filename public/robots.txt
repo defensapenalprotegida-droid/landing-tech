@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://www.arteagayaldunate.cl/sitemap.xml
+Sitemap: https://arteagayaldunate.cl/sitemap.xml
