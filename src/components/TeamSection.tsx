@@ -19,6 +19,14 @@ const team = [
     image: "/equipo/patricio-aldunate.webp",
   },
   {
+    // Kony no figura en abogados.md: falta confirmar sus áreas y su reseña.
+    name: "Kony Pedreros",
+    role: "Socia",
+    areas: "",
+    description: "",
+    image: "/equipo/kony-pedreros.webp",
+  },
+  {
     name: "José Pereira V.",
     role: "Asociado",
     areas: "Corporativo · Inmobiliario · Civil",
@@ -65,33 +73,47 @@ const TeamSection = () => {
               className="group relative overflow-hidden rounded-xl border border-border bg-card
               shadow-soft transition-all duration-300 hover:shadow-hover hover:-translate-y-2"
             >
-              <div className="h-56 overflow-hidden bg-muted">
+              {/* La foto ya viene recortada en 4:3, misma proporción que este
+                  contenedor: el navegador no vuelve a recortar y ninguna
+                  cabeza queda cortada. */}
+              <div className="relative aspect-[4/3] overflow-hidden bg-muted">
                 <img
                   src={member.image}
                   alt={`${member.name}, ${member.role}`}
                   loading="lazy"
                   width={800}
-                  height={1067}
-                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  height={600}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
+
+                {member.description && (
+                  <div
+                    className="absolute inset-0 bg-legal-dark/95 text-white opacity-0
+                    group-hover:opacity-100 group-focus-within:opacity-100
+                    transition-opacity duration-300
+                    flex items-center justify-center p-5 text-center"
+                  >
+                    <p className="font-body text-xs leading-relaxed">
+                      {member.description}
+                    </p>
+                  </div>
+                )}
               </div>
 
-              <div className="p-6">
-                <h4 className="font-serif text-xl font-semibold text-foreground mb-1">
+              <div className="p-5">
+                <h4 className="font-serif text-lg font-semibold text-foreground mb-0.5">
                   {member.name}
                 </h4>
 
-                <p className="font-sans text-primary font-medium mb-3">
+                <p className="font-sans text-sm text-primary font-medium">
                   {member.role}
                 </p>
 
-                <p className="font-body text-xs font-medium text-foreground/70 uppercase tracking-wide leading-relaxed mb-4">
-                  {member.areas}
-                </p>
-
-                <p className="font-body text-sm text-muted-foreground leading-relaxed">
-                  {member.description}
-                </p>
+                {member.areas && (
+                  <p className="font-body text-[11px] text-muted-foreground leading-relaxed mt-2">
+                    {member.areas}
+                  </p>
+                )}
               </div>
             </Card>
           ))}
