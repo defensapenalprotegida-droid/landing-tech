@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSectionNav } from "@/hooks/use-section-nav";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -17,8 +18,11 @@ const WHATSAPP_URL =
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const goToSection = useSectionNav();
+
+  // Funciona igual desde el home que desde /blog o las páginas legales.
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    goToSection(id);
     setIsMenuOpen(false);
   };
 

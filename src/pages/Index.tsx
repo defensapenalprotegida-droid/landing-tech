@@ -1,20 +1,20 @@
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
-import MissionSection from "@/components/MissionSection";
-import ServicesSection from "@/components/ServicesSection";
-import ApproachSection from "@/components/ApproachSection";
+import AboutSection from "@/components/AboutSection";
+import PracticeAreas from "@/components/PracticeAreas";
+import WhyChooseUs from "@/components/WhyChooseUs";
 import TeamSection from "@/components/TeamSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import BlogSection from "@/components/BlogSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import PracticeAreas from "@/components/PracticeAreas";
-import FAQSection from "@/components/FAQSection";
-import AboutSection from "@/components/AboutSection";
-import BlogSection from "@/components/BlogSection";
 import Seo from "@/components/Seo";
-
+import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
 
 const Index = () => {
+  useScrollToHash();
+
   return (
     <div className="min-h-screen">
       <Seo
@@ -25,14 +25,16 @@ const Index = () => {
       <Header />
       <main>
         <HeroSection />
-        <TeamSection/>
-        <WhatsAppButton />
-        <AboutSection/>
-       <PracticeAreas/>  
-       <BlogSection/>
-        <ContactSection /> 
+        <AboutSection />
+        <PracticeAreas />
+        <WhyChooseUs />
+        <TeamSection />
+        <TestimonialsSection />
+        <BlogSection />
+        <ContactSection />
       </main>
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 };
