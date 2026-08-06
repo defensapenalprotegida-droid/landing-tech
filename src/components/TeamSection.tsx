@@ -55,7 +55,7 @@ const team = [
 const TeamSection = () => {
   return (
     <section id="equipo" className="section-padding bg-background">
-      <div className="max-w-7xl mx-auto container-padding">
+      <div className="max-w-5xl mx-auto container-padding">
         <div className="text-center mb-12">
           <p className="text-primary/70 font-semibold text-sm tracking-widest uppercase mb-3">
             Profesionales
@@ -66,7 +66,7 @@ const TeamSection = () => {
           </h3>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {team.map((member) => (
             <Card
               key={member.name}
@@ -88,29 +88,29 @@ const TeamSection = () => {
 
                 {member.description && (
                   <div
-                    className="absolute inset-0 bg-legal-dark/95 text-white opacity-0
+                    className="absolute inset-0 bg-legal-dark/60 backdrop-blur-[3px] text-white opacity-0
                     group-hover:opacity-100 group-focus-within:opacity-100
                     transition-opacity duration-300
-                    flex items-center justify-center p-5 text-center"
+                    flex items-center justify-center p-4 text-center"
                   >
-                    <p className="font-body text-xs leading-relaxed">
+                    <p className="font-body text-[11px] leading-snug [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]">
                       {member.description}
                     </p>
                   </div>
                 )}
               </div>
 
-              <div className="p-5">
-                <h4 className="font-serif text-lg font-semibold text-foreground mb-0.5">
+              <div className="p-4">
+                <h4 className="font-serif text-base font-semibold text-foreground mb-0.5">
                   {member.name}
                 </h4>
 
-                <p className="font-sans text-sm text-primary font-medium">
+                <p className="font-sans text-xs text-primary font-medium">
                   {member.role}
                 </p>
 
                 {member.areas && (
-                  <p className="font-body text-[11px] text-muted-foreground leading-relaxed mt-2">
+                  <p className="font-body text-[10px] text-muted-foreground leading-relaxed mt-1.5">
                     {member.areas}
                   </p>
                 )}
