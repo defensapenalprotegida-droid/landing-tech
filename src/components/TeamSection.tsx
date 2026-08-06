@@ -55,7 +55,7 @@ const team = [
 const TeamSection = () => {
   return (
     <section id="equipo" className="section-padding bg-background">
-      <div className="max-w-5xl mx-auto container-padding">
+      <div className="max-w-4xl mx-auto container-padding">
         <div className="text-center mb-12">
           <p className="text-primary/70 font-semibold text-sm tracking-widest uppercase mb-3">
             Profesionales
@@ -73,17 +73,17 @@ const TeamSection = () => {
               className="group relative overflow-hidden rounded-xl border border-border bg-card
               shadow-soft transition-all duration-300 hover:shadow-hover hover:-translate-y-2"
             >
-              {/* La foto ya viene recortada en 4:3, misma proporción que este
-                  contenedor: el navegador no vuelve a recortar y ninguna
-                  cabeza queda cortada. */}
-              <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+              {/* object-contain y no cover: las fotos vienen sin recortar y
+                  con proporciones distintas, así se ve a cada persona de
+                  cuerpo entero sin que el navegador corte nada. */}
+              <div className="relative aspect-[3/4] overflow-hidden bg-muted">
                 <img
                   src={member.image}
                   alt={`${member.name}, ${member.role}`}
                   loading="lazy"
-                  width={800}
-                  height={600}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  width={600}
+                  height={800}
+                  className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
                 />
 
                 {member.description && (
