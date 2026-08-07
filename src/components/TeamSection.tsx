@@ -1,61 +1,21 @@
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
-
-// Fuente: descrpcionabogados/abogados.md
-const team = [
-  {
-    name: "Ignacio Arteaga C.",
-    role: "Socio fundador",
-    areas: "Penal · Civil · Administrativo · Derechos Humanos · Financiero",
-    description:
-      "Abogado litigante experto en juicios contra el Estado, con trayectoria desde 1994. Asesora y representa a personas y organizaciones en asuntos de alta complejidad, con una visión estratégica, rigurosa y comprometida con la defensa de sus derechos.",
-    image: "/equipo/ignacio-arteaga.webp",
-  },
-  {
-    name: "Patricio Aldunate C.",
-    role: "Socio administrador",
-    areas: "Penal · Laboral · Civil · Negociación y solución de controversias",
-    description:
-      "Concentra su práctica en litigios penales y laborales. Asesora a personas y empresas en la prevención y resolución de conflictos, combinando una estrategia jurídica rigurosa con una atención cercana y orientada a resultados.",
-    image: "/equipo/patricio-aldunate.webp",
-  },
-  {
-    // Kony no figura en abogados.md: falta confirmar sus áreas y su reseña.
-    name: "Kony Pedreros",
-    role: "Socia",
-    areas: "",
-    description: "",
-    image: "/equipo/kony-pedreros.webp",
-  },
-  {
-    name: "José Pereira V.",
-    role: "Asociado",
-    areas: "Corporativo · Inmobiliario · Civil",
-    description:
-      "Se incorporó al estudio en 2025. Asesora a personas y empresas en materias civiles, comerciales, societarias, contractuales e inmobiliarias, con especial atención a la prevención de contingencias y al diseño de soluciones jurídicas claras y eficientes.",
-    image: "/equipo/jose-pereira.webp",
-  },
-  {
-    name: "Fabián Gómez R.",
-    role: "Asociado",
-    areas: "Tributario · Procedimientos concursales · Civil",
-    description:
-      "Se incorporó al estudio en 2026. Su práctica se concentra en materias tributarias, civiles y concursales, brindando asesoría en la evaluación de contingencias, reorganización de obligaciones y búsqueda de soluciones jurídicas sostenibles.",
-    image: "/equipo/fabian-gomez.webp",
-  },
-  {
-    name: "Marta Garasa G.",
-    role: "Asociada",
-    areas: "Familia · Penal · Solución de controversias",
-    description:
-      "Se incorporó al estudio en 2024. Litiga en materias de familia y penales, incluyendo asuntos de especial complejidad y alta sensibilidad. Entrega una asesoría estratégica, cercana y comprometida con la protección de los intereses de cada cliente.",
-    image: "/equipo/marta-garasa.webp",
-  },
-];
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Phone, Mail, Linkedin, Plus } from "lucide-react";
+import { TEAM, type TeamMember } from "@/lib/team";
 
 const TeamSection = () => {
+  const [selected, setSelected] = useState<TeamMember | null>(null);
+
   return (
     <section id="equipo" className="section-padding bg-background">
-      <div className="max-w-4xl mx-auto container-padding">
+      <div className="max-w-5xl mx-auto container-padding">
         <div className="text-center mb-12">
           <p className="text-primary/70 font-semibold text-sm tracking-widest uppercase mb-3">
             Profesionales
@@ -66,59 +26,163 @@ const TeamSection = () => {
           </h3>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {team.map((member) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+          {TEAM.map((member) => (
             <Card
-              key={member.name}
-              className="group relative overflow-hidden rounded-xl border border-border bg-card
-              shadow-soft transition-all duration-300 hover:shadow-hover hover:-translate-y-2"
+              key={member.slug}
+              className="group overflow-hidden rounded-xl border border-border bg-card
+              shadow-soft transition-all duration-300 hover:shadow-hover hover:-translate-y-1"
             >
-              {/* object-contain y no cover: las fotos vienen sin recortar y
-                  con proporciones distintas, así se ve a cada persona de
-                  cuerpo entero sin que el navegador corte nada. */}
-              <div className="relative aspect-[3/4] overflow-hidden bg-muted">
-                <img
-                  src={member.image}
-                  alt={`${member.name}, ${member.role}`}
-                  loading="lazy"
-                  width={600}
-                  height={800}
-                  className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
-                />
+              <button
+                type="button"
+                onClick={() => setSelected(member)}
+                aria-label={`Ver detalle de ${member.name}`}
+                className="block w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              >
+                {/* Todas las fotos vienen recortadas a 3:4 y con la cara a la
+                    misma escala, así el conjunto se ve parejo pese a que los
+                    originales tenían encuadres muy distintos. */}
+                <div className="relative aspect-[3/4] overflow-hidden bg-muted">
+                  <img
+                    src={member.image}
+                    alt={`${member.name}, ${member.role}`}
+                    loading="lazy"
+                    width={480}
+                    height={640}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
 
-                {member.description && (
                   <div
-                    className="absolute inset-0 bg-legal-dark/60 backdrop-blur-[3px] text-white opacity-0
-                    group-hover:opacity-100 group-focus-within:opacity-100
-                    transition-opacity duration-300
-                    flex items-center justify-center p-4 text-center"
+                    className="absolute inset-0 bg-legal-dark/55 opacity-0 group-hover:opacity-100
+                    group-focus-within:opacity-100 transition-opacity duration-300
+                    flex items-end justify-center pb-4"
                   >
-                    <p className="font-body text-[11px] leading-snug [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]">
-                      {member.description}
-                    </p>
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-[11px] font-semibold text-legal-dark">
+                      <Plus className="w-3 h-3" /> Ver detalle
+                    </span>
                   </div>
-                )}
-              </div>
+                </div>
 
-              <div className="p-4">
-                <h4 className="font-serif text-base font-semibold text-foreground mb-0.5">
-                  {member.name}
-                </h4>
-
-                <p className="font-sans text-xs text-primary font-medium">
-                  {member.role}
-                </p>
-
-                {member.areas && (
-                  <p className="font-body text-[10px] text-muted-foreground leading-relaxed mt-1.5">
-                    {member.areas}
+                <div className="p-3">
+                  <h4 className="font-serif text-sm font-semibold text-foreground leading-tight">
+                    {member.name}
+                  </h4>
+                  <p className="font-sans text-xs text-primary font-medium mt-0.5">
+                    {member.role}
                   </p>
-                )}
-              </div>
+                </div>
+              </button>
             </Card>
           ))}
         </div>
       </div>
+
+      <Dialog
+        open={selected !== null}
+        onOpenChange={(open) => !open && setSelected(null)}
+      >
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+          {selected && (
+            <>
+              <DialogHeader>
+                <div className="flex items-start gap-4">
+                  <img
+                    src={selected.image}
+                    alt=""
+                    width={480}
+                    height={640}
+                    className="w-20 h-[6.7rem] shrink-0 rounded-lg object-cover bg-muted"
+                  />
+                  <div className="text-left">
+                    <DialogTitle className="font-serif text-xl text-foreground">
+                      {selected.name}
+                    </DialogTitle>
+                    <DialogDescription className="text-primary font-medium">
+                      {selected.role}
+                    </DialogDescription>
+                    <div className="flex flex-wrap gap-1.5 mt-3">
+                      {selected.areas.map((area) => (
+                        <span
+                          key={area}
+                          className="rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary"
+                        >
+                          {area}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </DialogHeader>
+
+              <div className="space-y-6 pt-2">
+                <section>
+                  <h5 className="font-sans text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">
+                    Experiencia profesional
+                  </h5>
+                  <p className="font-body text-sm text-foreground/85 leading-relaxed">
+                    {selected.bio}
+                  </p>
+                </section>
+
+                <section>
+                  <h5 className="font-sans text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">
+                    Formación académica
+                  </h5>
+                  <ul className="space-y-1.5">
+                    {selected.formacion.map((item) => (
+                      <li
+                        key={item}
+                        className="font-body text-sm text-foreground/85 leading-relaxed pl-4 relative
+                        before:absolute before:left-0 before:top-[0.6em] before:h-1 before:w-1
+                        before:rounded-full before:bg-primary"
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+
+                <section>
+                  <h5 className="font-sans text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">
+                    Contacto
+                  </h5>
+                  <div className="flex flex-col gap-2">
+                    {selected.contacto.telefono && (
+                      <a
+                        href={`tel:${selected.contacto.telefono.replace(/\s/g, "")}`}
+                        className="inline-flex items-center gap-2 font-body text-sm text-foreground/85 hover:text-primary transition-colors"
+                      >
+                        <Phone className="w-4 h-4 text-primary shrink-0" />
+                        {selected.contacto.telefono}
+                      </a>
+                    )}
+                    {selected.contacto.correo && (
+                      <a
+                        href={`mailto:${selected.contacto.correo}`}
+                        className="inline-flex items-center gap-2 font-body text-sm text-foreground/85 hover:text-primary transition-colors break-all"
+                      >
+                        <Mail className="w-4 h-4 text-primary shrink-0" />
+                        {selected.contacto.correo}
+                      </a>
+                    )}
+                    {selected.contacto.linkedin && (
+                      <a
+                        href={selected.contacto.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 font-body text-sm text-foreground/85 hover:text-primary transition-colors"
+                      >
+                        <Linkedin className="w-4 h-4 text-primary shrink-0" />
+                        Perfil de LinkedIn
+                      </a>
+                    )}
+                  </div>
+                </section>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
