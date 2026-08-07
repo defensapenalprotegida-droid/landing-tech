@@ -637,7 +637,7 @@ Parameters:
   InitialRecipients:
     Type: String
     Description: Lista inicial de destinatarios separados por coma
-    Default: luis.guerrero.godoy@gmail.com
+    Default: defensapenalprotegida@gmail.com
 
 Globals:
   Function:
@@ -764,7 +764,7 @@ Expected: todos los tests (9 de Tasks 2-4 + 1 de Task 5 = 10) PASS.
 ```bash
 sam deploy --guided \
   --stack-name arteagayaldunate-contact-backend-prod \
-  --parameter-overrides Stage=prod SesFromEmail=no-responder@arteagayaldunate.cl InitialRecipients=luis.guerrero.godoy@gmail.com
+  --parameter-overrides Stage=prod SesFromEmail=no-responder@arteagayaldunate.cl InitialRecipients=defensapenalprotegida@gmail.com
 ```
 
 Expected: deploy exitoso. Guardar de los Outputs: `ContactApiUrl` y `ContactApiId`.
@@ -955,7 +955,7 @@ CONTACT_BACKEND_API_KEY=<valor recuperado en Task 7, Step 4>
 
 Llenar el formulario en `https://arteagayaldunate.cl/#contacto` con datos de prueba y confirmar:
 1. El toast de éxito aparece ("Consulta enviada").
-2. El correo llega a `luis.guerrero.godoy@gmail.com` (revisar también spam) dentro de 1-2 minutos.
+2. El correo llega a `defensapenalprotegida@gmail.com` (revisar también spam) dentro de 1-2 minutos.
 3. El campo "Responder a" del correo recibido corresponde al email ingresado en el formulario.
 
 - [ ] **Step 4: ⚠️ Limpiar las variables SMTP antiguas en Vercel (solo tras confirmar que el paso 3 funcionó)**
