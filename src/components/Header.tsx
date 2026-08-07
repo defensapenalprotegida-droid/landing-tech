@@ -1,28 +1,30 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useSectionNav } from "@/hooks/use-section-nav";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Scale, Phone } from "lucide-react";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { AREAS, AREA_LABELS } from "@/lib/leadSchema";
+import { Menu, X, Phone } from "lucide-react";
+
+const WHATSAPP_URL =
+  "https://wa.me/56995336140?text=Hola,%20necesito%20hablar%20con%20un%20abogado.";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const goToSection = useSectionNav();
+
+  // Funciona igual desde el home que desde /blog o las páginas legales.
+  const scrollTo = (id: string) => {
+    goToSection(id);
     setIsMenuOpen(false);
   };
-
-  const navItems = [
-    { label: "INICIO", id: "inicio" },
-    { label: "NOSOTROS", id: "nosotros" },
-    { label: "ÁREAS DE PRÁCTICA", id: "area" },
-    { label: "EQUIPO", id: "equipo" },
-    { label: "BLOG JURÍDICO", id: "contacto" },
-    { label: "CONTACTO", id: "contacto" },
-   // { label: "PREGUNTAS FRECUENTES", id: "faq" },
-
-  ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-border shadow-card-soft">
@@ -44,34 +46,77 @@ const Header = () => {
     object-contain
     cursor-pointer
   "
-  onClick={() => scrollToSection('inicio')}
+  onClick={() => scrollTo('hero')}
 />
 
     {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className="font-body text-sm font-medium text-foreground hover:text-legal-primary transition-colors duration-200"
-              >
-                {item.label}
-              </button>
-            ))}
+          <nav className="hidden lg:flex items-center gap-6">
+            <button
+              onClick={() => scrollTo("hero")}
+              className="font-body text-sm font-medium hover:text-legal-primary"
+            >
+              INICIO
+            </button>
+            <button
+              onClick={() => scrollTo("nosotros")}
+              className="font-body text-sm font-medium hover:text-legal-primary"
+            >
+              NOSOTROS
+            </button>
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="font-body text-sm font-medium">
+                    ÁREAS DE PRÁCTICA
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[420px] grid-cols-2 gap-1 p-3">
+                      {AREAS.map((a) => (
+                        <li key={a}>
+                          <button
+                            onClick={() => scrollTo("areas")}
+                            className="block w-full text-left rounded-md px-3 py-2 text-sm hover:bg-legal-primary/5 hover:text-legal-primary"
+                          >
+                            {AREA_LABELS[a]}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+            <button
+              onClick={() => scrollTo("equipo")}
+              className="font-body text-sm font-medium hover:text-legal-primary"
+            >
+              EQUIPO
+            </button>
+            <Link
+              to="/blog"
+              className="font-body text-sm font-medium hover:text-legal-primary"
+            >
+              BLOG
+            </Link>
+            <button
+              onClick={() => scrollTo("contacto")}
+              className="font-body text-sm font-medium hover:text-legal-primary"
+            >
+              CONTACTO
+            </button>
           </nav>
 
           {/* Contact Button & Mobile Menu Toggle */}
           <div className="flex items-center space-x-4">
-            <Button
-              variant="legal"
-              size="lg"
-              className="hidden sm:flex"
-              onClick={() => scrollToSection("contacto")}
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-2 bg-legal-primary text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-legal-primary/90 transition"
             >
-              <Phone className="w-4 h-4" />
-              Contactar
-            </Button>
-            
+              <Phone className="w-4 h-4" /> Habla con un abogado
+            </a>
+
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -86,25 +131,52 @@ const Header = () => {
         {isMenuOpen && (
           <div className="lg:hidden border-t border-border bg-white">
             <nav className="py-4 space-y-2">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className="block w-full text-left px-4 py-3 font-body text-base text-foreground hover:text-legal-primary hover:bg-gray-50 transition-colors duration-200"
-                >
-                  {item.label}
-                </button>
-              ))}
+              <button
+                onClick={() => scrollTo("hero")}
+                className="block w-full text-left px-4 py-3 font-body text-base text-foreground hover:text-legal-primary hover:bg-gray-50 transition-colors duration-200"
+              >
+                Inicio
+              </button>
+              <button
+                onClick={() => scrollTo("nosotros")}
+                className="block w-full text-left px-4 py-3 font-body text-base text-foreground hover:text-legal-primary hover:bg-gray-50 transition-colors duration-200"
+              >
+                Nosotros
+              </button>
+              <button
+                onClick={() => scrollTo("areas")}
+                className="block w-full text-left px-4 py-3 font-body text-base text-foreground hover:text-legal-primary hover:bg-gray-50 transition-colors duration-200"
+              >
+                Áreas de Práctica
+              </button>
+              <button
+                onClick={() => scrollTo("equipo")}
+                className="block w-full text-left px-4 py-3 font-body text-base text-foreground hover:text-legal-primary hover:bg-gray-50 transition-colors duration-200"
+              >
+                Equipo
+              </button>
+              <Link
+                to="/blog"
+                onClick={() => setIsMenuOpen(false)}
+                className="block w-full text-left px-4 py-3 font-body text-base text-foreground hover:text-legal-primary hover:bg-gray-50 transition-colors duration-200"
+              >
+                Blog
+              </Link>
+              <button
+                onClick={() => scrollTo("contacto")}
+                className="block w-full text-left px-4 py-3 font-body text-base text-foreground hover:text-legal-primary hover:bg-gray-50 transition-colors duration-200"
+              >
+                Contacto
+              </button>
               <div className="px-4 pt-2">
-                <Button
-                  variant="legal"
-                  size="lg"
-                  className="w-full"
-                  onClick={() => scrollToSection("contacto")}
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-legal-primary text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-legal-primary/90 transition"
                 >
-                  <Phone className="w-4 h-4" />
-                  Contactar
-                </Button>
+                  <Phone className="w-4 h-4" /> Habla con un abogado
+                </a>
               </div>
             </nav>
           </div>

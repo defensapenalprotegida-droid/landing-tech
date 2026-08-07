@@ -1,34 +1,25 @@
+import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
-import { CalendarDays, ArrowRight, Scale, Briefcase, Heart } from "lucide-react";
+import {
+  CalendarDays,
+  ArrowRight,
+  Scale,
+  Briefcase,
+  Heart,
+  FileText,
+  type LucideIcon,
+} from "lucide-react";
+import { getAllPosts, formatPostDate } from "@/lib/blog";
 
-const posts = [
-  {
-    icon: Scale,
-    category: "Derecho Penal",
-    title: "¿Qué hacer si fui citado a declarar por Fiscalía?",
-    excerpt:
-      "Conozca los primeros pasos que debe seguir si recibió una citación del Ministerio Público y por qué es clave contar con defensa desde el inicio.",
-    date: "Artículo legal",
-  },
-  {
-    icon: Briefcase,
-    category: "Derecho Laboral",
-    title: "Despido injustificado: derechos del trabajador en Chile",
-    excerpt:
-      "Explicamos cuándo un despido puede ser considerado injustificado, qué indemnizaciones pueden reclamarse y qué plazos existen para demandar.",
-    date: "Guía práctica",
-  },
-  {
-    icon: Heart,
-    category: "Derecho de Familia",
-    title: "Pensión de alimentos: cómo solicitar aumento, rebaja o cese",
-    excerpt:
-      "Una guía clara para entender cuándo procede modificar una pensión de alimentos y qué antecedentes son relevantes ante el tribunal.",
-    date: "Orientación legal",
-  },
-];
+const CATEGORY_ICONS: Record<string, LucideIcon> = {
+  "Derecho Penal": Scale,
+  "Derecho Laboral": Briefcase,
+  "Derecho de Familia": Heart,
+};
 
 const BlogSection = () => {
+  const posts = getAllPosts().slice(0, 3);
+
   return (
     <section id="blog" className="section-padding bg-background">
       <div className="max-w-7xl mx-auto container-padding">
@@ -51,55 +42,55 @@ const BlogSection = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {posts.map((post) => (
-            <Card
-              key={post.title}
-              className="group overflow-hidden bg-card border border-border shadow-soft hover:shadow-hover transition-all duration-300 hover:-translate-y-2"
-            >
-              <div className="p-7">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="w-13 h-13 rounded-xl bg-primary/5 flex items-center justify-center group-hover:bg-primary/10 transition">
-                    <post.icon className="w-7 h-7 text-primary" />
+          {posts.map((post) => {
+            const Icon = CATEGORY_ICONS[post.category] ?? FileText;
+            return (
+              <Card
+                key={post.slug}
+                className="group overflow-hidden bg-card border border-border shadow-soft hover:shadow-hover transition-all duration-300 hover:-translate-y-2"
+              >
+                <Link to={`/blog/${post.slug}`} className="block p-7">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="w-13 h-13 rounded-xl bg-primary/5 flex items-center justify-center group-hover:bg-primary/10 transition">
+                      <Icon className="w-7 h-7 text-primary" />
+                    </div>
+
+                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                      <CalendarDays className="w-4 h-4" />
+                      <span>{formatPostDate(post.date)}</span>
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                    <CalendarDays className="w-4 h-4" />
-                    <span>{post.date}</span>
-                  </div>
-                </div>
+                  <p className="text-primary/70 font-semibold text-sm tracking-widest uppercase mb-3">
+                    {post.category}
+                  </p>
 
-                <p className="text-primary/70 font-semibold text-sm tracking-widest uppercase mb-3">
-                  {post.category}
-                </p>
+                  <h3 className="font-serif text-xl md:text-2xl font-bold text-foreground mb-4 leading-snug">
+                    {post.title}
+                  </h3>
 
-                <h3 className="font-serif text-xl md:text-2xl font-bold text-foreground mb-4 leading-snug">
-                  {post.title}
-                </h3>
+                  <p className="text-muted-foreground leading-relaxed mb-6">
+                    {post.excerpt}
+                  </p>
 
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  {post.excerpt}
-                </p>
-
-                <a
-                  href="#contacto"
-                  className="inline-flex items-center text-primary font-semibold hover:underline"
-                >
-                  Leer más
-                  <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-                </a>
-              </div>
-            </Card>
-          ))}
+                  <span className="inline-flex items-center text-primary font-semibold group-hover:underline">
+                    Leer más
+                    <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </Link>
+              </Card>
+            );
+          })}
         </div>
 
         <div className="mt-14 text-center">
-          <a
-            href="#contacto"
+          <Link
+            to="/blog"
             className="inline-flex items-center justify-center rounded-xl border border-primary/30 px-7 py-4 text-primary font-semibold hover:bg-primary hover:text-primary-foreground transition"
           >
-            Solicitar asesoría legal
+            Ver todos los artículos
             <ArrowRight className="w-5 h-5 ml-2" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>

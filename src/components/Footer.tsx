@@ -1,14 +1,27 @@
-import { Scale, Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Link } from "react-router-dom";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  Instagram,
+  Linkedin,
+  Facebook,
+} from "lucide-react";
+import { useSectionNav } from "@/hooks/use-section-nav";
+
+// TODO: reemplazar por las URLs reales de las redes del estudio.
+const SOCIALS = [
+  { label: "Instagram", href: "#", Icon: Instagram },
+  { label: "LinkedIn", href: "#", Icon: Linkedin },
+  { label: "Facebook", href: "#", Icon: Facebook },
+] as const;
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  // Funciona igual desde el home que desde /blog o las páginas legales.
+  const scrollToSection = useSectionNav();
 
   return (
     <footer className="bg-legal-dark text-white">
@@ -48,6 +61,21 @@ const Footer = () => {
                 <span className="font-body text-gray-300">Bombero Salas 1369, of. 701, Santiago</span>
               </div>
             </div>
+
+            <div className="flex items-center gap-4 mt-6">
+              {SOCIALS.map(({ label, href, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  aria-label={label}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-legal-primary transition-colors"
+                >
+                  <Icon className="w-5 h-5" />
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Quick Links */}
@@ -55,11 +83,10 @@ const Footer = () => {
             <h4 className="font-heading text-lg font-bold mb-6">Enlaces Rápidos</h4>
             <nav className="space-y-3">
               {[
-                { label: "Inicio", id: "inicio" },
-                { label: "Servicios", id: "servicios" },
-                { label: "Enfoque", id: "enfoque" },
-                { label: "Quienes Somos", id: "nosotros" },
-                { label: "Preguntas frecuentes", id: "faq" },
+                { label: "Inicio", id: "hero" },
+                { label: "Quiénes somos", id: "nosotros" },
+                { label: "Áreas de práctica", id: "areas" },
+                { label: "Equipo", id: "equipo" },
                 { label: "Contacto", id: "contacto" }
               ].map((item) => (
                 <button
@@ -108,12 +135,18 @@ const Footer = () => {
             </div>
             
             <div className="flex items-center space-x-6 font-body text-sm text-gray-400">
-              <button className="hover:text-legal-primary transition-colors">
+              <Link
+                to="/privacidad"
+                className="hover:text-legal-primary transition-colors"
+              >
                 Política de Privacidad
-              </button>
-              <button className="hover:text-legal-primary transition-colors">
+              </Link>
+              <Link
+                to="/terminos"
+                className="hover:text-legal-primary transition-colors"
+              >
                 Términos de Servicio
-              </button>
+              </Link>
             </div>
           </div>
           

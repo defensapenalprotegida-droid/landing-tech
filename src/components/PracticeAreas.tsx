@@ -10,6 +10,18 @@ import {
   ReceiptText,
   ChevronRight,
 } from "lucide-react";
+import { prefillArea } from "@/lib/leadPrefill";
+import type { Area } from "@/lib/leadSchema";
+
+const AREA_KEY: Record<string, Area> = {
+  "Derecho Penal": "penal",
+  "Derecho Civil": "civil",
+  "Derecho Laboral": "laboral",
+  "Derecho de Familia": "familia",
+  "Derecho Corporativo": "corporativo",
+  "Derecho Inmobiliario": "inmobiliario",
+  "Derecho Tributario": "tributario",
+};
 
 const areas = [
   {
@@ -279,13 +291,13 @@ const PracticeAreas = () => {
                         {areas[active].cta}
                       </p>
 
-                      <a
-                        href="#contacto"
+                      <button
+                        onClick={() => prefillArea(AREA_KEY[areas[active].title])}
                         className="inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 text-primary-foreground font-semibold shadow-soft hover:opacity-90 transition"
                       >
                         Consultar ahora
                         <ChevronRight className="w-5 h-5 ml-2" />
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </motion.div>
