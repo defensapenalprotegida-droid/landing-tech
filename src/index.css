@@ -13,6 +13,12 @@
     /* Card colors */
      --card: 230 33% 97%;
     --card-foreground: 230 50% 12%;
+
+    /* Paneles emergentes (menú de áreas, selects, popovers). Sin estos
+       tokens, bg-popover no resuelve a ningún color y los paneles salen
+       transparentes: se ve el contenido de la página a través. */
+    --popover: 0 0% 100%;
+    --popover-foreground: 230 50% 12%;
     
     /* Legal brand colors */
     --legal-primary: 345 61% 38%; /* Rojo vino #A12341 */
@@ -68,6 +74,8 @@
     --foreground: 0 0% 95%;
     --card: 0 0% 10%;
     --card-foreground: 0 0% 95%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 95%;
     --primary: 345 61% 45%;
     --primary-foreground: 0 0% 100%;
     --secondary: 194 64% 20%;
