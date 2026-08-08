@@ -43,7 +43,7 @@ const HeroSection = () => {
     if (
       !formData.name.trim() ||
       !formData.email.trim() ||
-      formData.message.trim().length < 15
+      formData.message.trim().length < 5
     ) {
       toast({
         title: "Completa los campos",
