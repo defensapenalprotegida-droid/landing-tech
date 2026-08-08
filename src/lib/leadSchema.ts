@@ -93,7 +93,7 @@ export const leadSchema = z
     area: z.enum(AREAS, { required_error: "Selecciona un área" }),
     urgencia: z.enum(URGENCIAS, { required_error: "Selecciona la urgencia" }),
     horario: z.enum(HORARIOS).default("cualquiera"),
-    message: z.string().trim().min(15, "Cuéntanos brevemente tu caso (mín. 15 caracteres)"),
+    message: z.string().trim().min(5, "Cuéntanos brevemente tu caso (mín. 5 caracteres)"),
     // condicionales
     situacionPenal: z.enum(PENAL_SITUACION_VALUES).optional(),
     monto: z.enum(MONTO_RANGOS).optional(),

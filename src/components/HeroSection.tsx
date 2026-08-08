@@ -48,7 +48,7 @@ const HeroSection = () => {
       toast({
         title: "Completa los campos",
         description:
-          "Nombre, correo y una breve descripción (mín. 15 caracteres).",
+          "Nombre, correo y una breve descripción (mín. 5 caracteres).",
         variant: "destructive",
       });
       return;
