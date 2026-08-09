@@ -1,8 +1,19 @@
 import type { LeadFormValues } from "./leadSchema";
+import type { BrokerageFormValues } from "./brokerageSchema";
 
-export type LeadPayload = Partial<LeadFormValues> & {
-  name: string; email: string; message: string;
-};
+export type Servicio = "legal" | "corretaje";
+
+/**
+ * El endpoint es el mismo para ambos formularios, así que el payload es la
+ * unión de los dos, con los tres campos que el backend siempre exige.
+ */
+export type LeadPayload = Partial<LeadFormValues> &
+  Partial<BrokerageFormValues> & {
+    name: string;
+    email: string;
+    message: string;
+    servicio?: Servicio;
+  };
 
 export async function submitLead(
   payload: LeadPayload
