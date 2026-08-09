@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Scale,
@@ -11,6 +11,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { prefillArea } from "@/lib/leadPrefill";
+import { consumePendingArea, onFocusArea } from "@/lib/areaFocus";
 import type { Area } from "@/lib/leadSchema";
 
 const AREA_KEY: Record<string, Area> = {
@@ -146,8 +147,25 @@ const areas = [
   },
 ];
 
+// Índice de cada área por su código, para poder abrirla desde el menú.
+const INDICE_POR_AREA: Record<Area, number> = areas.reduce(
+  (acc, a, i) => ({ ...acc, [AREA_KEY[a.title]]: i }),
+  {} as Record<Area, number>
+);
+
 const PracticeAreas = () => {
   const [active, setActive] = useState<number | null>(0);
+
+  useEffect(() => {
+    const abrir = (area: Area) => {
+      const i = INDICE_POR_AREA[area];
+      if (i !== undefined) setActive(i);
+    };
+    // Elegida desde otra ruta: la sección no existía cuando se hizo clic.
+    const pendiente = consumePendingArea();
+    if (pendiente) abrir(pendiente);
+    return onFocusArea(abrir);
+  }, []);
 
   return (
     <section id="areas" className="section-padding bg-card">
@@ -188,6 +206,9 @@ const PracticeAreas = () => {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05 }}
                 onClick={() => setActive(i)}
+                // El estado abierto se marcaba solo con clases: sin esto, un
+                // lector de pantalla no sabe cuál área está desplegada.
+                aria-expanded={active === i}
                 className={`w-full text-left rounded-2xl border p-5 transition-all duration-300 group ${
                   active === i
                     ? "bg-background border-primary/40 shadow-hover"

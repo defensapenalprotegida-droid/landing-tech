@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSectionNav } from "@/hooks/use-section-nav";
+import { focusArea } from "@/lib/areaFocus";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -74,7 +75,11 @@ const Header = () => {
                       {AREAS.map((a) => (
                         <li key={a}>
                           <button
-                            onClick={() => scrollTo("areas")}
+                            onClick={() => {
+                              // Abre esa área concreta, no solo la sección.
+                              focusArea(a);
+                              scrollTo("areas");
+                            }}
                             className="block w-full text-left rounded-md px-3 py-2 text-sm hover:bg-legal-primary/5 hover:text-legal-primary"
                           >
                             {AREA_LABELS[a]}
