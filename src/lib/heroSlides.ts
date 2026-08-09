@@ -1,4 +1,5 @@
 import heroLegal from "@/assets/hero-legal.jpg";
+import heroCorretaje from "@/assets/services-bienes.jpg";
 
 export interface HeroSlideData {
   id: "legal" | "corretaje";
@@ -29,7 +30,7 @@ export const HERO_SLIDES: HeroSlideData[] = [
     title: "Vende o arrienda tu propiedad con un estudio jurídico detrás.",
     description:
       "Corretaje de propiedades acompañado de asesoría legal y representación judicial. Si tu propiedad arrastra una herencia sin resolver, un arriendo impago o un conflicto entre copropietarios, lo vemos nosotros mismos: no tendrás que contratar a un abogado aparte.",
-    image: heroLegal,
+    image: heroCorretaje,
     ctaLabel: "Habla con un corredor",
     ctaTarget: "contacto",
     whatsappMessage: "Hola, quiero asesoría para vender o arrendar mi propiedad.",

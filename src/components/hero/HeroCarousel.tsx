@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import HeroSlide from "./HeroSlide";
 import type { HeroSlideData } from "@/lib/heroSlides";
@@ -22,6 +22,31 @@ const HeroCarousel = ({ slides }: Props) => {
     else if (e.key === "ArrowRight") ir(activo + 1);
   };
 
+  // Deslizar con el dedo: único control táctil disponible en móvil, ya que
+  // ahí las flechas están ocultas.
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const UMBRAL_SWIPE = 50;
+
+  const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    const t = e.touches[0];
+    touchStart.current = { x: t.clientX, y: t.clientY };
+  };
+
+  const onTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!touchStart.current) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - touchStart.current.x;
+    const dy = t.clientY - touchStart.current.y;
+    touchStart.current = null;
+
+    // Si el desplazamiento vertical domina, es scroll de página: no tocar.
+    if (Math.abs(dy) > Math.abs(dx)) return;
+    if (Math.abs(dx) < UMBRAL_SWIPE) return;
+
+    if (dx < 0) ir(activo + 1);
+    else ir(activo - 1);
+  };
+
   return (
     <section
       id="hero"
@@ -33,6 +58,8 @@ const HeroCarousel = ({ slides }: Props) => {
       <div
         className="flex items-start transition-transform duration-500 ease-out"
         style={{ transform: `translateX(-${activo * 100}%)` }}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
       >
         {slides.map(({ data, form }, i) => (
           <div

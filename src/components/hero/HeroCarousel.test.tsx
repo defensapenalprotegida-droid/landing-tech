@@ -46,6 +46,30 @@ describe("HeroCarousel", () => {
     expect(items[1].hasAttribute("inert")).toBe(false);
   });
 
+  it("cambia de slide con un gesto de swipe horizontal", () => {
+    const { container } = render(<HeroCarousel slides={slides} />);
+    const track = container.querySelector(".flex.items-start")!;
+
+    fireEvent.touchStart(track, { touches: [{ clientX: 300, clientY: 100 }] });
+    fireEvent.touchEnd(track, { changedTouches: [{ clientX: 200, clientY: 100 }] });
+
+    const items = container.querySelectorAll("[data-slide]");
+    expect(items[0].hasAttribute("inert")).toBe(true);
+    expect(items[1].hasAttribute("inert")).toBe(false);
+  });
+
+  it("ignora el swipe si el desplazamiento vertical domina", () => {
+    const { container } = render(<HeroCarousel slides={slides} />);
+    const track = container.querySelector(".flex.items-start")!;
+
+    fireEvent.touchStart(track, { touches: [{ clientX: 300, clientY: 100 }] });
+    fireEvent.touchEnd(track, { changedTouches: [{ clientX: 260, clientY: 250 }] });
+
+    const items = container.querySelectorAll("[data-slide]");
+    expect(items[0].hasAttribute("inert")).toBe(false);
+    expect(items[1].hasAttribute("inert")).toBe(true);
+  });
+
   it("no cambia de slide si ArrowRight se origina en un input", () => {
     const { container } = render(<HeroCarousel slides={slides} />);
     const section = container.querySelector("section")!;
