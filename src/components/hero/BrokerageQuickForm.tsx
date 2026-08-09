@@ -43,7 +43,18 @@ const BrokerageQuickForm = () => {
     }
 
     setSubmitting(true);
-    const res = await submitLead({ servicio: "corretaje", ...parsed.data });
+    const res = await submitLead({
+      servicio: "corretaje",
+      name: parsed.data.name,
+      email: parsed.data.email,
+      phone: parsed.data.phone,
+      message: parsed.data.message,
+      operacion: parsed.data.operacion,
+      tipoPropiedad: parsed.data.tipoPropiedad,
+      comuna: parsed.data.comuna,
+      temaLegal: parsed.data.temaLegal,
+      website: parsed.data.website,
+    });
     setSubmitting(false);
 
     if (res.ok) {
