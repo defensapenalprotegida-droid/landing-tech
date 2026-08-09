@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import HeroCarousel from "./HeroCarousel";
 import { HERO_SLIDES } from "@/lib/heroSlides";
 
@@ -33,5 +33,29 @@ describe("HeroCarousel", () => {
     render(<HeroCarousel slides={slides} />);
     expect(screen.getByRole("button", { name: /siguiente/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /anterior/i })).toBeInTheDocument();
+  });
+
+  it("cambia de slide con ArrowRight en el teclado", () => {
+    const { container } = render(<HeroCarousel slides={slides} />);
+    const section = container.querySelector("section")!;
+
+    fireEvent.keyDown(section, { key: "ArrowRight" });
+
+    const items = container.querySelectorAll("[data-slide]");
+    expect(items[0].hasAttribute("inert")).toBe(true);
+    expect(items[1].hasAttribute("inert")).toBe(false);
+  });
+
+  it("no cambia de slide si ArrowRight se origina en un input", () => {
+    const { container } = render(<HeroCarousel slides={slides} />);
+    const section = container.querySelector("section")!;
+    const input = document.createElement("input");
+    section.appendChild(input);
+
+    fireEvent.keyDown(input, { key: "ArrowRight" });
+
+    const items = container.querySelectorAll("[data-slide]");
+    expect(items[0].hasAttribute("inert")).toBe(false);
+    expect(items[1].hasAttribute("inert")).toBe(true);
   });
 });

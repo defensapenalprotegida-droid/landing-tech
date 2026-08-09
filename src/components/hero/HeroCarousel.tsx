@@ -13,15 +13,25 @@ const HeroCarousel = ({ slides }: Props) => {
   const total = slides.length;
   const ir = (i: number) => setActivo((i + total) % total);
 
+  const onKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
+    // No interferir con el cursor de texto dentro de campos del formulario.
+    if (["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)) return;
+
+    if (e.key === "ArrowLeft") ir(activo - 1);
+    else if (e.key === "ArrowRight") ir(activo + 1);
+  };
+
   return (
     <section
       id="hero"
       aria-roledescription="carousel"
       aria-label="Servicios del estudio"
       className="relative overflow-hidden"
+      onKeyDown={onKeyDown}
     >
       <div
-        className="flex transition-transform duration-500 ease-out"
+        className="flex items-start transition-transform duration-500 ease-out"
         style={{ transform: `translateX(-${activo * 100}%)` }}
       >
         {slides.map(({ data, form }, i) => (
@@ -42,11 +52,18 @@ const HeroCarousel = ({ slides }: Props) => {
         ))}
       </div>
 
+      {/*
+        En móvil el hero mide bastante más que una pantalla (texto + stats +
+        formulario apilados), así que top-1/2 no cae en el centro visual sino
+        sobre el formulario. Las flechas laterales solo son seguras desde md
+        (layout de dos columnas, centro vertical libre de formulario). En
+        móvil solo quedan los puntos indicadores de abajo.
+      */}
       <button
         type="button"
         onClick={() => ir(activo - 1)}
         aria-label="Servicio anterior"
-        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 rounded-full bg-white/90 border border-border p-2 shadow-soft hover:bg-white"
+        className="hidden md:block absolute left-3 top-1/2 -translate-y-1/2 z-20 rounded-full bg-white/90 border border-border p-2 shadow-soft hover:bg-white"
       >
         <ChevronLeft className="w-5 h-5" />
       </button>
@@ -54,7 +71,7 @@ const HeroCarousel = ({ slides }: Props) => {
         type="button"
         onClick={() => ir(activo + 1)}
         aria-label="Servicio siguiente"
-        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 rounded-full bg-white/90 border border-border p-2 shadow-soft hover:bg-white"
+        className="hidden md:block absolute right-3 top-1/2 -translate-y-1/2 z-20 rounded-full bg-white/90 border border-border p-2 shadow-soft hover:bg-white"
       >
         <ChevronRight className="w-5 h-5" />
       </button>

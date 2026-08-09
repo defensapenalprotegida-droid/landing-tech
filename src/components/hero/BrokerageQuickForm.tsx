@@ -29,6 +29,16 @@ const BrokerageQuickForm = () => {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Honeypot: si viene lleno es un bot. Respondemos como si el envío
+    // hubiera sido exitoso (sin llamar a submitLead) para no delatar que
+    // fue detectado.
+    if (form.website !== "") {
+      toast({ title: "Consulta enviada", description: "Te contactaremos a la brevedad." });
+      setForm(VACIO);
+      return;
+    }
+
     const limpio = Object.fromEntries(
       Object.entries(form).filter(([, v]) => v !== "")
     );
