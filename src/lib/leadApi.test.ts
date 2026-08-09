@@ -29,4 +29,27 @@ describe("submitLead", () => {
     expect(res.ok).toBe(false);
     expect(res.message).toBe("boom");
   });
+
+  it("envía los campos de corretaje junto al servicio", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ ok: true }),
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    await submitLead({
+      servicio: "corretaje",
+      name: "Juan",
+      email: "j@e.com",
+      message: "Hola!",
+      phone: "+56911111111",
+      operacion: "vender",
+      comuna: "Providencia",
+    });
+
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+    expect(body.servicio).toBe("corretaje");
+    expect(body.operacion).toBe("vender");
+    expect(body.comuna).toBe("Providencia");
+  });
 });
