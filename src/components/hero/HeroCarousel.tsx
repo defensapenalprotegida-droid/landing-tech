@@ -5,7 +5,7 @@ import type { HeroSlideData } from "@/lib/heroSlides";
 
 interface Props {
   slides: Array<{ data: HeroSlideData; form: React.ReactNode }>;
-  /** Milisegundos entre cambios automáticos. 0 desactiva la rotación. */
+  /** Milisegundos que un slide permanece visible. 0 desactiva la rotación. */
   intervaloMs?: number;
 }
 
@@ -19,7 +19,7 @@ const hayCampoEnfocado = (contenedor: HTMLElement | null) => {
   return contenedor?.contains(foco) ?? false;
 };
 
-const HeroCarousel = ({ slides, intervaloMs = 5000 }: Props) => {
+const HeroCarousel = ({ slides, intervaloMs = 8000 }: Props) => {
   // Arranca siempre en el slide legal: es el que Google indexa.
   const [activo, setActivo] = useState(0);
   const total = slides.length;
@@ -92,7 +92,7 @@ const HeroCarousel = ({ slides, intervaloMs = 5000 }: Props) => {
       onKeyDown={onKeyDown}
     >
       <div
-        className="flex items-start transition-transform duration-500 ease-out"
+        className="flex items-start transition-transform duration-1000 ease-in-out"
         style={{ transform: `translateX(-${activo * 100}%)` }}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}

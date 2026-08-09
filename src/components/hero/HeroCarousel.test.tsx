@@ -100,17 +100,30 @@ describe("HeroCarousel", () => {
       vi.restoreAllMocks();
     });
 
-    it("cambia de slide cada 5 segundos", () => {
+    it("cambia de slide al cumplirse el intervalo, y da la vuelta", () => {
       vi.useFakeTimers();
-      const { container } = render(<HeroCarousel slides={slides} />);
+      const { container } = render(
+        <HeroCarousel slides={slides} intervaloMs={5000} />
+      );
       expect(slideActivo(container)).toBe(0);
 
       act(() => { vi.advanceTimersByTime(5000); });
       expect(slideActivo(container)).toBe(1);
 
-      // Y vuelve a dar la vuelta.
       act(() => { vi.advanceTimersByTime(5000); });
       expect(slideActivo(container)).toBe(0);
+    });
+
+    it("por defecto deja cada slide 8 segundos", () => {
+      vi.useFakeTimers();
+      const { container } = render(<HeroCarousel slides={slides} />);
+
+      // A los 7 s todavía no cambió.
+      act(() => { vi.advanceTimersByTime(7000); });
+      expect(slideActivo(container)).toBe(0);
+
+      act(() => { vi.advanceTimersByTime(1000); });
+      expect(slideActivo(container)).toBe(1);
     });
 
     it("no cambia de slide mientras el cursor está en un campo del formulario", () => {
@@ -123,12 +136,12 @@ describe("HeroCarousel", () => {
       campo.focus();
       expect(document.activeElement).toBe(campo);
 
-      act(() => { vi.advanceTimersByTime(15000); });
+      act(() => { vi.advanceTimersByTime(30000); });
       expect(slideActivo(container)).toBe(0);
 
       // Al soltar el campo, la rotación se reanuda sola.
       campo.blur();
-      act(() => { vi.advanceTimersByTime(5000); });
+      act(() => { vi.advanceTimersByTime(8000); });
       expect(slideActivo(container)).toBe(1);
     });
 
@@ -142,7 +155,7 @@ describe("HeroCarousel", () => {
       } as unknown as MediaQueryList);
 
       const { container } = render(<HeroCarousel slides={slides} />);
-      act(() => { vi.advanceTimersByTime(20000); });
+      act(() => { vi.advanceTimersByTime(30000); });
       expect(slideActivo(container)).toBe(0);
     });
 
@@ -151,7 +164,7 @@ describe("HeroCarousel", () => {
       const { container } = render(
         <HeroCarousel slides={slides} intervaloMs={0} />
       );
-      act(() => { vi.advanceTimersByTime(20000); });
+      act(() => { vi.advanceTimersByTime(30000); });
       expect(slideActivo(container)).toBe(0);
     });
   });
