@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import HeroCarousel from "./HeroCarousel";
 import { HERO_SLIDES } from "@/lib/heroSlides";
 
@@ -7,6 +7,17 @@ const slides = HERO_SLIDES.map((data) => ({
   data,
   form: <div>form-{data.id}</div>,
 }));
+
+// Los tests de rotación no deben depender del reloj real.
+const conSlidesQueTienenInput = HERO_SLIDES.map((data) => ({
+  data,
+  form: <input aria-label={`campo-${data.id}`} />,
+}));
+
+const slideActivo = (container: HTMLElement) => {
+  const items = [...container.querySelectorAll("[data-slide]")];
+  return items.findIndex((el) => !el.hasAttribute("inert"));
+};
 
 describe("HeroCarousel", () => {
   it("renderiza ambos slides para que su texto sea indexable", () => {
@@ -81,5 +92,67 @@ describe("HeroCarousel", () => {
     const items = container.querySelectorAll("[data-slide]");
     expect(items[0].hasAttribute("inert")).toBe(false);
     expect(items[1].hasAttribute("inert")).toBe(true);
+  });
+
+  describe("rotación automática", () => {
+    afterEach(() => {
+      vi.useRealTimers();
+      vi.restoreAllMocks();
+    });
+
+    it("cambia de slide cada 5 segundos", () => {
+      vi.useFakeTimers();
+      const { container } = render(<HeroCarousel slides={slides} />);
+      expect(slideActivo(container)).toBe(0);
+
+      act(() => { vi.advanceTimersByTime(5000); });
+      expect(slideActivo(container)).toBe(1);
+
+      // Y vuelve a dar la vuelta.
+      act(() => { vi.advanceTimersByTime(5000); });
+      expect(slideActivo(container)).toBe(0);
+    });
+
+    it("no cambia de slide mientras el cursor está en un campo del formulario", () => {
+      vi.useFakeTimers();
+      const { container } = render(
+        <HeroCarousel slides={conSlidesQueTienenInput} />
+      );
+
+      const campo = screen.getByLabelText("campo-legal");
+      campo.focus();
+      expect(document.activeElement).toBe(campo);
+
+      act(() => { vi.advanceTimersByTime(15000); });
+      expect(slideActivo(container)).toBe(0);
+
+      // Al soltar el campo, la rotación se reanuda sola.
+      campo.blur();
+      act(() => { vi.advanceTimersByTime(5000); });
+      expect(slideActivo(container)).toBe(1);
+    });
+
+    it("no rota si el sistema pide menos movimiento", () => {
+      vi.useFakeTimers();
+      vi.spyOn(window, "matchMedia").mockReturnValue({
+        matches: true,
+        media: "(prefers-reduced-motion: reduce)",
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      } as unknown as MediaQueryList);
+
+      const { container } = render(<HeroCarousel slides={slides} />);
+      act(() => { vi.advanceTimersByTime(20000); });
+      expect(slideActivo(container)).toBe(0);
+    });
+
+    it("intervaloMs en 0 desactiva la rotación", () => {
+      vi.useFakeTimers();
+      const { container } = render(
+        <HeroCarousel slides={slides} intervaloMs={0} />
+      );
+      act(() => { vi.advanceTimersByTime(20000); });
+      expect(slideActivo(container)).toBe(0);
+    });
   });
 });

@@ -1,17 +1,52 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import HeroSlide from "./HeroSlide";
 import type { HeroSlideData } from "@/lib/heroSlides";
 
 interface Props {
   slides: Array<{ data: HeroSlideData; form: React.ReactNode }>;
+  /** Milisegundos entre cambios automáticos. 0 desactiva la rotación. */
+  intervaloMs?: number;
 }
 
-const HeroCarousel = ({ slides }: Props) => {
+const CAMPOS_DE_TEXTO = ["INPUT", "TEXTAREA", "SELECT"];
+
+/** Hay alguien escribiendo o eligiendo dentro de un campo del hero. */
+const hayCampoEnfocado = (contenedor: HTMLElement | null) => {
+  const foco = document.activeElement as HTMLElement | null;
+  if (!foco || !CAMPOS_DE_TEXTO.includes(foco.tagName)) return false;
+  // Solo cuentan los campos del propio carrusel, no los del resto de la página.
+  return contenedor?.contains(foco) ?? false;
+};
+
+const HeroCarousel = ({ slides, intervaloMs = 5000 }: Props) => {
   // Arranca siempre en el slide legal: es el que Google indexa.
   const [activo, setActivo] = useState(0);
   const total = slides.length;
   const ir = (i: number) => setActivo((i + total) % total);
+
+  const seccionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!intervaloMs || total < 2) return;
+
+    // Respeta a quien pidió menos movimiento en su sistema: para esas personas
+    // un carrusel que se mueve solo es directamente hostil.
+    const prefiereMenosMovimiento = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (prefiereMenosMovimiento) return;
+
+    const id = window.setInterval(() => {
+      // Si hay un campo con el cursor puesto, se salta el turno en vez de
+      // cortar la rotación: cambiar de slide mientras alguien escribe le
+      // arrebataría el formulario a medio llenar.
+      if (hayCampoEnfocado(seccionRef.current)) return;
+      setActivo((i) => (i + 1) % total);
+    }, intervaloMs);
+
+    return () => window.clearInterval(id);
+  }, [intervaloMs, total]);
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
@@ -49,6 +84,7 @@ const HeroCarousel = ({ slides }: Props) => {
 
   return (
     <section
+      ref={seccionRef}
       id="hero"
       aria-roledescription="carousel"
       aria-label="Servicios del estudio"
