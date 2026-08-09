@@ -91,8 +91,7 @@ En el backend
 - El asunto pasa a incluir el servicio: `[CORRETAJE · VENDER] Nueva consulta — Nombre`.
   Los leads legales conservan el formato actual.
 
-Los destinatarios no cambian: `abogados@arteagayaldunate.cl` con copia a
-`defensapenalprotegida@gmail.com`.
+El destinatario no cambia: `abogados@arteagayaldunate.cl`.
 
 ## SEO
 
