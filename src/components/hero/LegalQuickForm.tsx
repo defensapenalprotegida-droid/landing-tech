@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { submitLead } from "@/lib/leadApi";
+import { getRecaptchaToken, RECAPTCHA_ACTIONS } from "@/lib/recaptcha";
 import { useToast } from "@/hooks/use-toast";
 
 type FormData = {
@@ -50,8 +51,11 @@ const LegalQuickForm = () => {
     }
 
     setSubmitting(true);
+    const recaptchaToken = await getRecaptchaToken(RECAPTCHA_ACTIONS.heroLegal);
     const res = await submitLead({
       servicio: "legal",
+      recaptchaToken,
+      recaptchaAction: RECAPTCHA_ACTIONS.heroLegal,
       name: formData.name.trim(),
       email: formData.email.trim(),
       phone: formData.phone.trim(),

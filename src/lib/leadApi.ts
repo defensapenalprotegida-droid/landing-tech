@@ -13,6 +13,9 @@ export type LeadPayload = Partial<LeadFormValues> &
     email: string;
     message: string;
     servicio?: Servicio;
+    /** Token de reCAPTCHA Enterprise. Ausente si el script no cargó. */
+    recaptchaToken?: string;
+    recaptchaAction?: string;
   };
 
 export async function submitLead(

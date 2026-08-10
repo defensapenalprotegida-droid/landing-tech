@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Send, Loader2, Home } from "lucide-react";
 import { submitLead } from "@/lib/leadApi";
+import { getRecaptchaToken, RECAPTCHA_ACTIONS } from "@/lib/recaptcha";
 import { useToast } from "@/hooks/use-toast";
 import {
   brokerageSchema,
@@ -53,8 +54,13 @@ const BrokerageQuickForm = () => {
     }
 
     setSubmitting(true);
+    const recaptchaToken = await getRecaptchaToken(
+      RECAPTCHA_ACTIONS.heroCorretaje
+    );
     const res = await submitLead({
       servicio: "corretaje",
+      recaptchaToken,
+      recaptchaAction: RECAPTCHA_ACTIONS.heroCorretaje,
       name: parsed.data.name,
       email: parsed.data.email,
       phone: parsed.data.phone,

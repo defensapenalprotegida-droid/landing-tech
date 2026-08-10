@@ -13,6 +13,7 @@ import {
 } from "@/lib/leadSchema";
 import { submitLead } from "@/lib/leadApi";
 import { onPrefillArea } from "@/lib/leadPrefill";
+import { getRecaptchaToken, RECAPTCHA_ACTIONS } from "@/lib/recaptcha";
 
 const selectCls =
   "w-full h-11 rounded-md border border-border bg-background px-3 text-sm focus:border-legal-primary focus:outline-none";
@@ -35,7 +36,13 @@ const ContactForm = () => {
 
   const onSubmit = async (values: LeadFormValues) => {
     if (values.website) return; // honeypot
-    const res = await submitLead(values);
+    const recaptchaToken = await getRecaptchaToken(RECAPTCHA_ACTIONS.contacto);
+    const res = await submitLead({
+      ...values,
+      servicio: "legal",
+      recaptchaToken,
+      recaptchaAction: RECAPTCHA_ACTIONS.contacto,
+    });
     if (res.ok) {
       toast({ title: "Consulta enviada",
         description: "Gracias por contactarnos. Te responderemos a la brevedad." });
