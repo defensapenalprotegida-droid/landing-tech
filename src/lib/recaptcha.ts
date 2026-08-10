@@ -5,7 +5,7 @@
  * La clave de sitio es pública por diseño — viaja en el HTML —, así que vivir
  * en el bundle no es una filtración. Lo secreto es la credencial del servidor.
  */
-const SITE_KEY = "6LfqyG8tAAAAANsROQtvfBmlSCQEouAkBEgcVv7c";
+const SITE_KEY = "6Lcr_X0tAAAAAHwVugJ_3FfKkFFQoFl_znVgRP4U";
 
 /** Acción declarada por formulario, para poder distinguirlos en las métricas. */
 export const RECAPTCHA_ACTIONS = {
