@@ -17,3 +17,13 @@ class IntersectionObserverDoble implements IntersectionObserver {
 
 globalThis.IntersectionObserver =
   IntersectionObserverDoble as unknown as typeof IntersectionObserver;
+
+// ResizeObserver es necesario para radix-ui components en tests
+class ResizeObserverDoble implements ResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
+globalThis.ResizeObserver =
+  ResizeObserverDoble as unknown as typeof ResizeObserver;
