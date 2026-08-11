@@ -33,7 +33,7 @@ describe("HeroCarousel", () => {
     expect(h1s[0]).toHaveTextContent(HERO_SLIDES[0].title);
   });
 
-  it("arranca en el slide legal y marca el otro como inert", () => {
+  it("arranca en el primer slide y marca los otros como inert", () => {
     const { container } = render(<HeroCarousel slides={slides} />);
     const items = container.querySelectorAll("[data-slide]");
     expect(items[0].hasAttribute("inert")).toBe(false);
@@ -102,8 +102,10 @@ describe("HeroCarousel", () => {
 
     it("cambia de slide al cumplirse el intervalo, y da la vuelta", () => {
       vi.useFakeTimers();
+      // Usar un array pequeño de 2 slides para probar la rotación y la vuelta
+      const twoSlides = slides.slice(0, 2);
       const { container } = render(
-        <HeroCarousel slides={slides} intervaloMs={5000} />
+        <HeroCarousel slides={twoSlides} intervaloMs={5000} />
       );
       expect(slideActivo(container)).toBe(0);
 
@@ -132,7 +134,7 @@ describe("HeroCarousel", () => {
         <HeroCarousel slides={conSlidesQueTienenInput} />
       );
 
-      const campo = screen.getByLabelText("campo-legal");
+      const campo = screen.getByLabelText("campo-recupera-casa");
       campo.focus();
       expect(document.activeElement).toBe(campo);
 

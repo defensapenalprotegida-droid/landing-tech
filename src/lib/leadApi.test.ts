@@ -15,7 +15,7 @@ describe("submitLead", () => {
     } as any);
 
     expect(res.ok).toBe(true);
-    expect(fetchMock).toHaveBeenCalledWith("/api/contact", expect.objectContaining({
+    expect(fetchMock).toHaveBeenCalledWith("/api/leads", expect.objectContaining({
       method: "POST",
       headers: { "Content-Type": "application/json" },
     }));

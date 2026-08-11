@@ -20,7 +20,7 @@ const hayCampoEnfocado = (contenedor: HTMLElement | null) => {
 };
 
 const HeroCarousel = ({ slides, intervaloMs = 8000 }: Props) => {
-  // Arranca siempre en el slide legal: es el que Google indexa.
+  // Arranca siempre en el primer slide: es el que Google indexa.
   const [activo, setActivo] = useState(0);
   const total = slides.length;
   const ir = (i: number) => setActivo((i + total) % total);
