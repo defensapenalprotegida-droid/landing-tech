@@ -10,9 +10,9 @@ import {
 } from "@/lib/productosJuridicos";
 
 describe("productosJuridicos", () => {
-  it("debe exportar exactamente 12 productos", () => {
-    expect(PRODUCTOS_LIST).toHaveLength(12);
-    expect(Object.keys(PRODUCTOS_JURIDICOS)).toHaveLength(12);
+  it("debe exportar exactamente 7 productos", () => {
+    expect(PRODUCTOS_LIST).toHaveLength(7);
+    expect(Object.keys(PRODUCTOS_JURIDICOS)).toHaveLength(7);
   });
 
   it("getProducto debe retornar el producto correcto", () => {
@@ -27,9 +27,9 @@ describe("productosJuridicos", () => {
     expect(producto).toBeUndefined();
   });
 
-  it("getAllProductos debe retornar array de 12 productos", () => {
+  it("getAllProductos debe retornar array de 7 productos", () => {
     const productos = getAllProductos();
-    expect(productos).toHaveLength(12);
+    expect(productos).toHaveLength(7);
     expect(productos.every((p) => p.id && p.nombre && p.emoji)).toBe(true);
   });
 
@@ -80,11 +80,4 @@ describe("productosJuridicos", () => {
     expect(campoNames).toContain("direccionPropiedad");
   });
 
-  it("cobra-deuda debe tener campos específicos", () => {
-    const cobraDeuda = getProducto("cobra-deuda");
-    const campoNames = cobraDeuda?.campos.map((c) => c.name);
-    expect(campoNames).toContain("tipoDocumento");
-    expect(campoNames).toContain("montoDeuda");
-    expect(campoNames).toContain("nombreDeudor");
-  });
 });

@@ -2,31 +2,21 @@ import type { Area } from "@/lib/leadSchema";
 
 export type Producto =
   | "recupera-casa"
-  | "recupera-propiedad"
-  | "recupera-pie"
-  | "defiende-despido"
   | "cotizaciones-impagas"
-  | "cobra-deuda"
-  | "cobra-facturas"
+  | "defiende-despido"
+  | "recupera-pie"
   | "cobra-pension"
-  | "condominio"
   | "divorcio-express"
-  | "autodespido"
-  | "derechos-consumidor";
+  | "autodespido";
 
 export const PRODUCTOS_LIST: Producto[] = [
   "recupera-casa",
-  "recupera-propiedad",
-  "recupera-pie",
-  "defiende-despido",
   "cotizaciones-impagas",
-  "cobra-deuda",
-  "cobra-facturas",
+  "defiende-despido",
+  "recupera-pie",
   "cobra-pension",
-  "condominio",
   "divorcio-express",
   "autodespido",
-  "derechos-consumidor",
 ] as const;
 
 export const PRODUCTOS = PRODUCTOS_LIST;
@@ -58,17 +48,12 @@ export interface ProductoJuridico {
 
 export const PRODUCTO_TO_AREA: Record<Producto, Area> = {
   "recupera-casa": "inmobiliario",
-  "recupera-propiedad": "inmobiliario",
   "recupera-pie": "inmobiliario",
   "defiende-despido": "laboral",
   "cotizaciones-impagas": "laboral",
-  "cobra-deuda": "civil",
-  "cobra-facturas": "civil",
   "cobra-pension": "familia",
-  "condominio": "inmobiliario",
   "divorcio-express": "familia",
   "autodespido": "laboral",
-  "derechos-consumidor": "civil",
 };
 
 export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
@@ -143,82 +128,6 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     placeholder: "Cuéntanos: ¿desde cuándo no paga?, ¿hay consumos o gastos comunes también?",
     cta: "Evaluar mi caso",
     whatsappMessage: "Hola, necesito recuperar mi propiedad por arrendatario moroso.",
-  },
-  "recupera-propiedad": {
-    id: "recupera-propiedad",
-    nombre: "Recupera tu Propiedad",
-    emoji: "🏚️",
-    eyebrow: "Precario / comodato",
-    title: "Alguien ocupa tu propiedad sin pagar. Te ayudamos a recuperarla.",
-    description: "Procedimiento monitorio para acción de precario y comodato precario.",
-    image: "/src/assets/hero-recupera-propiedad.jpg",
-    backendArea: "inmobiliario",
-    campos: [
-      {
-        name: "existeContrato",
-        type: "select",
-        label: "¿Existe contrato de arriendo u otro título?",
-        required: true,
-        options: [
-          { value: "si", label: "Sí" },
-          { value: "no", label: "No" },
-          { value: "no_se", label: "No lo sé" },
-        ],
-      },
-      {
-        name: "tipoOcupacion",
-        type: "select",
-        label: "¿Qué tipo de ocupación es?",
-        required: true,
-        options: [
-          { value: "comodato", label: "Comodato (préstamo)" },
-          { value: "precario", label: "Precario (sin título)" },
-          { value: "herencia", label: "Cuestión hereditaria" },
-          { value: "otro", label: "Otro" },
-        ],
-      },
-      {
-        name: "tiempoOcupacion",
-        type: "select",
-        label: "¿Cuánto tiempo lleva ocupando?",
-        required: true,
-        options: [
-          { value: "menos_1", label: "Menos de 1 año" },
-          { value: "1_2", label: "1-2 años" },
-          { value: "mas_2", label: "Más de 2 años" },
-        ],
-      },
-      {
-        name: "tieneInscripcion",
-        type: "radio",
-        label: "¿Tienes inscripción de dominio?",
-        required: true,
-        options: [
-          { value: "si", label: "Sí" },
-          { value: "no", label: "No" },
-        ],
-      },
-      {
-        name: "ocupanteAfirmaDerechos",
-        type: "radio",
-        label: "¿El ocupante afirma tener derechos hereditarios, promesa o aportes?",
-        required: false,
-        options: [
-          { value: "si", label: "Sí" },
-          { value: "no", label: "No" },
-        ],
-      },
-      {
-        name: "direccionPropiedad",
-        type: "text",
-        label: "Dirección de la propiedad",
-        required: true,
-        placeholder: "Calle, número, ciudad",
-      },
-    ],
-    placeholder: "¿Cuánto tiempo lleva ocupando la propiedad?, ¿hay documentos que justifiquen la ocupación?",
-    cta: "Evaluar mi caso",
-    whatsappMessage: "Hola, tengo un problema con alguien que ocupa mi propiedad sin pagar.",
   },
   "recupera-pie": {
     id: "recupera-pie",
@@ -408,135 +317,6 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     cta: "Evaluar mi caso",
     whatsappMessage: "Hola, me despidieron y creo que tenía cotizaciones impagas.",
   },
-  "cobra-deuda": {
-    id: "cobra-deuda",
-    nombre: "Cobra tu Deuda",
-    emoji: "💰",
-    eyebrow: "Pagaré, cheque o deuda",
-    title: "¿Te deben dinero? Evaluamos si puedes cobrarlo judicialmente.",
-    description: "Juicio ejecutivo para recuperar deudas respaldadas por documentos.",
-    image: "/src/assets/hero-cobra-deuda.jpg",
-    backendArea: "civil",
-    campos: [
-      {
-        name: "tipoDocumento",
-        type: "select",
-        label: "¿Qué tipo de documento tienes?",
-        required: true,
-        options: [
-          { value: "pagare", label: "Pagaré" },
-          { value: "cheque", label: "Cheque" },
-          { value: "reconocimiento", label: "Reconocimiento de deuda" },
-          { value: "contrato", label: "Contrato" },
-          { value: "factura", label: "Factura" },
-          { value: "otro", label: "Otro documento" },
-        ],
-      },
-      {
-        name: "montoDeuda",
-        type: "number",
-        label: "¿Cuánto dinero es la deuda?",
-        required: true,
-        placeholder: "En pesos",
-      },
-      {
-        name: "nombreDeudor",
-        type: "text",
-        label: "Nombre o razón social del deudor",
-        required: true,
-      },
-      {
-        name: "tieneDocumentoOriginal",
-        type: "radio",
-        label: "¿Tienes el documento original?",
-        required: true,
-        options: [
-          { value: "si", label: "Sí" },
-          { value: "no", label: "No" },
-        ],
-      },
-      {
-        name: "deudorEsEmpresa",
-        type: "radio",
-        label: "¿El deudor es una empresa o persona?",
-        required: false,
-        options: [
-          { value: "empresa", label: "Empresa" },
-          { value: "persona", label: "Persona" },
-        ],
-      },
-      {
-        name: "fechaDeuda",
-        type: "date",
-        label: "¿Cuándo se contrajo la deuda?",
-        required: false,
-      },
-    ],
-    placeholder: "¿Tienes el documento original?, ¿el deudor reconoce la deuda?",
-    cta: "Evaluar mi caso",
-    whatsappMessage: "Hola, me deben dinero y quiero cobrar judicialmente.",
-  },
-  "cobra-facturas": {
-    id: "cobra-facturas",
-    nombre: "Cobra tu Factura",
-    emoji: "🧾",
-    eyebrow: "B2B - Cobranza empresarial",
-    title: "¿Clientes que no pagan? Automatiza la cobranza.",
-    description: "Procedimiento ejecutivo para empresas y proveedores.",
-    image: "/src/assets/hero-cobra-facturas.jpg",
-    backendArea: "civil",
-    campos: [
-      {
-        name: "montoFactura",
-        type: "number",
-        label: "Monto de la factura",
-        required: true,
-        placeholder: "En pesos",
-      },
-      {
-        name: "numeroFactura",
-        type: "text",
-        label: "Número de factura",
-        required: false,
-      },
-      {
-        name: "nombreProveedor",
-        type: "text",
-        label: "¿A quién le facturaste los servicios/productos?",
-        required: true,
-      },
-      {
-        name: "diasMorosidad",
-        type: "number",
-        label: "¿Cuántos días vencida está la factura?",
-        required: true,
-        placeholder: "Ej: 30, 60, 90",
-      },
-      {
-        name: "esClienteRecurrente",
-        type: "radio",
-        label: "¿Es cliente habitual?",
-        required: false,
-        options: [
-          { value: "si", label: "Sí" },
-          { value: "no", label: "No" },
-        ],
-      },
-      {
-        name: "tieneContrato",
-        type: "radio",
-        label: "¿Hay contrato de servicios?",
-        required: false,
-        options: [
-          { value: "si", label: "Sí" },
-          { value: "no", label: "No" },
-        ],
-      },
-    ],
-    placeholder: "¿Hay contrato de servicios?, ¿es cliente habitual?",
-    cta: "Evaluar mi caso",
-    whatsappMessage: "Hola, tengo facturas impagas y quiero cobrar.",
-  },
   "cobra-pension": {
     id: "cobra-pension",
     nombre: "Cobra tu Pensión",
@@ -596,66 +376,6 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     placeholder: "¿Tienes la sentencia de alimentos?, ¿sabes dónde trabaja?",
     cta: "Evaluar mi caso",
     whatsappMessage: "Hola, me deben pensión de alimentos.",
-  },
-  "condominio": {
-    id: "condominio",
-    nombre: "Condominio sin Morosos",
-    emoji: "🏢",
-    eyebrow: "Gastos comunes adeudados",
-    title: "¿Vecinos con mora? Cobranza judicial para condominios.",
-    description: "Procedimiento ejecutivo para administradores de comunidades.",
-    image: "/src/assets/hero-condominio.jpg",
-    backendArea: "inmobiliario",
-    campos: [
-      {
-        name: "tuRol",
-        type: "select",
-        label: "¿Cuál es tu rol?",
-        required: true,
-        options: [
-          { value: "administrador", label: "Administrador del condominio" },
-          { value: "propietario_deuda", label: "Propietario con deuda" },
-          { value: "propietario_querellante", label: "Propietario querellante" },
-        ],
-      },
-      {
-        name: "mesesMora",
-        type: "number",
-        label: "¿Cuántos meses en mora los deudores?",
-        required: true,
-        placeholder: "Ej: 3, 6, 12",
-      },
-      {
-        name: "numeroDeudores",
-        type: "number",
-        label: "¿Cuántas unidades/propietarios con mora?",
-        required: true,
-        placeholder: "Ej: 1, 2, 5",
-      },
-      {
-        name: "montoEstimado",
-        type: "number",
-        label: "Monto total adeudado (aproximado)",
-        required: false,
-        placeholder: "En pesos",
-      },
-      {
-        name: "tipoCondominio",
-        type: "select",
-        label: "¿Tipo de condominio?",
-        required: false,
-        options: [
-          { value: "departamentos", label: "Departamentos" },
-          { value: "casa_condominio", label: "Casa en condominio" },
-          { value: "oficinas", label: "Oficinas" },
-          { value: "comercios", label: "Comercios" },
-          { value: "mixto", label: "Mixto" },
-        ],
-      },
-    ],
-    placeholder: "¿Hay conflicto entre propietarios?, ¿tienes los avisos de cobro formales?",
-    cta: "Evaluar mi caso",
-    whatsappMessage: "Hola, tengo propietarios con mora en gastos comunes.",
   },
   "divorcio-express": {
     id: "divorcio-express",
@@ -788,68 +508,6 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     placeholder: "¿Tienes evidencia del incumplimiento? (correos, mensajes, testigos)",
     cta: "Evaluar mi caso",
     whatsappMessage: "Hola, me retiraré del trabajo por incumplimiento del empleador.",
-  },
-  "derechos-consumidor": {
-    id: "derechos-consumidor",
-    nombre: "Derechos de Consumidor",
-    emoji: "🛒",
-    eyebrow: "SERNAC - Protección del consumidor",
-    title: "¿Producto defectuoso o servicio incumplido? Defiende tus derechos.",
-    description: "Demanda indemnizatoria ante Juzgado de Policía Local.",
-    image: "/src/assets/hero-derechos-consumidor.jpg",
-    backendArea: "civil",
-    campos: [
-      {
-        name: "tipoProblema",
-        type: "select",
-        label: "¿Qué tipo de problema tienes?",
-        required: true,
-        options: [
-          { value: "no_entregado", label: "Producto no entregado" },
-          { value: "garantia_negada", label: "Garantía negada" },
-          { value: "servicio_no_prestado", label: "Servicio pagado y no prestado" },
-          { value: "cobro_indebido", label: "Cobro indebido" },
-          { value: "danio_perdida", label: "Daño o pérdida" },
-          { value: "incumplimiento", label: "Incumplimiento de contrato" },
-        ],
-      },
-      {
-        name: "montoAfectado",
-        type: "number",
-        label: "¿Cuánto dinero estás perdiendo?",
-        required: true,
-        placeholder: "En pesos",
-      },
-      {
-        name: "nombreProveedor",
-        type: "text",
-        label: "Nombre de la empresa o proveedor",
-        required: true,
-      },
-      {
-        name: "tieneDocumentacion",
-        type: "radio",
-        label: "¿Tienes comprobante de pago?",
-        required: true,
-        options: [
-          { value: "si", label: "Sí" },
-          { value: "no", label: "No" },
-        ],
-      },
-      {
-        name: "yaReclamaste",
-        type: "radio",
-        label: "¿Ya reclamaste ante el proveedor?",
-        required: false,
-        options: [
-          { value: "si", label: "Sí" },
-          { value: "no", label: "No" },
-        ],
-      },
-    ],
-    placeholder: "¿Ya contactaste al proveedor?, ¿tienes evidencia del problema?",
-    cta: "Evaluar mi caso",
-    whatsappMessage: "Hola, tengo un problema como consumidor y quiero reclamar.",
   },
 };
 
