@@ -1,4 +1,11 @@
 import type { Area } from "@/lib/leadSchema";
+import heroRecuperaCasa from "@/assets/hero-recupera-casa.jpg";
+import heroRecuperaPie from "@/assets/hero-recupera-pie.jpg";
+import heroDefiendeDeспido from "@/assets/hero-defiende-despido.jpg";
+import heroCotizacionesImpagas from "@/assets/hero-cotizaciones-impagas.jpg";
+import heroCobraPension from "@/assets/hero-cobra-pension.jpg";
+import heroDivorcioExpress from "@/assets/hero-divorcio-express.jpg";
+import heroAutodespido from "@/assets/hero-autodespido.jpg";
 
 export type Producto =
   | "recupera-casa"
@@ -64,7 +71,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     eyebrow: "Arrendatario moroso",
     title: "¿Tu arrendatario no paga? Recupera tu propiedad en tribunales.",
     description: "Procedimiento monitorio para cobrar rentas y obtener la restitución del inmueble.",
-    image: "/src/assets/hero-recupera-casa.jpg",
+    image: heroRecuperaCasa,
     backendArea: "inmobiliario",
     campos: [
       {
@@ -136,7 +143,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     eyebrow: "Inmobiliaria retiene pie",
     title: "¿La inmobiliaria se quedó con tu pie? Recupera tu dinero.",
     description: "Defensa de derechos del consumidor y acción de restitución.",
-    image: "/src/assets/hero-recupera-pie.jpg",
+    image: heroRecuperaPie,
     backendArea: "inmobiliario",
     campos: [
       {
@@ -204,7 +211,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     eyebrow: "Despido injustificado",
     title: "¿Te despidieron injustamente? Calcula cuánto podrías reclamar.",
     description: "Evaluamos si tu despido cumple con los requisitos legales.",
-    image: "/src/assets/hero-defiende-despido.jpg",
+    image: heroDefiendeDeспido,
     backendArea: "laboral",
     campos: [
       {
@@ -269,7 +276,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     eyebrow: "Nulidad del despido",
     title: "¿Te despidieron sin cotiizar? Anula el despido.",
     description: "Si tu empleador omitió cotizaciones, el despido es nulo.",
-    image: "/src/assets/hero-cotizaciones-impagas.jpg",
+    image: heroCotizacionesImpagas,
     backendArea: "laboral",
     campos: [
       {
@@ -324,7 +331,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     eyebrow: "Alimentos adeudados",
     title: "¿Te deben pensión de alimentos? Ejecuta el cobro.",
     description: "Procedimiento especial para pensiones adeudadas con mérito ejecutivo.",
-    image: "/src/assets/hero-cobra-pension.jpg",
+    image: heroCobraPension,
     backendArea: "familia",
     campos: [
       {
@@ -384,7 +391,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     eyebrow: "Mutuo acuerdo",
     title: "¿Te quieres divorciar de mutuo acuerdo? Rápido y sin conflicto.",
     description: "Divorcio notarial o judicial con acuerdo total.",
-    image: "/src/assets/hero-divorcio-express.jpg",
+    image: heroDivorcioExpress,
     backendArea: "familia",
     campos: [
       {
@@ -462,7 +469,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     eyebrow: "Incumplimiento del empleador",
     title: "¿Tu empleador incumplió gravemente? Pide indemnización.",
     description: "Autodespido por incumplimiento grave de obligaciones laborales.",
-    image: "/src/assets/hero-autodespido.jpg",
+    image: heroAutodespido,
     backendArea: "laboral",
     campos: [
       {

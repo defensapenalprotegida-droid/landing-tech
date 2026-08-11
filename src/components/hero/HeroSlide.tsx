@@ -24,7 +24,7 @@ const HeroSlide = ({ slide, isFirst, children }: Props) => {
     <div className="relative min-h-screen flex items-center overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <img src={slide.image} alt="" aria-hidden className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/92 to-white/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent" />
       </div>
 
       {/* Círculos decorativos */}
