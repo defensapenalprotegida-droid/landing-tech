@@ -1,4 +1,7 @@
 import { z } from "zod";
+import { PRODUCTOS, PRODUCTO_TO_AREA, type Producto } from "@/lib/productosJuridicos";
+
+export type { Producto } from "@/lib/productosJuridicos";
 
 export const AREAS = [
   "penal", "civil", "laboral", "familia",
@@ -88,9 +91,10 @@ export const laboralAplica = (a: Area) => a === "laboral";
 export const leadSchema = z
   .object({
     name: z.string().trim().min(3, "Ingresa tu nombre completo"),
-    phone: z.string().trim().min(8, "Ingresa un teléfono válido"),
+    phone: z.string().trim().min(8, "Ingresa un teléfono válido").optional(),
     email: z.string().trim().email("Ingresa un correo válido"),
-    area: z.enum(AREAS, { required_error: "Selecciona un área" }),
+    producto: z.enum(PRODUCTOS).optional(),
+    area: z.enum(AREAS, { required_error: "Selecciona un área" }).optional(),
     urgencia: z.enum(URGENCIAS, { required_error: "Selecciona la urgencia" }),
     horario: z.enum(HORARIOS).default("cualquiera"),
     message: z.string().trim().min(5, "Cuéntanos brevemente tu caso (mín. 5 caracteres)"),
@@ -100,19 +104,89 @@ export const leadSchema = z
     materiaFamilia: z.enum(FAMILIA_MATERIA_VALUES).optional(),
     laboralParte: z.enum(LABORAL_PARTE_VALUES).optional(),
     laboralSituacion: z.enum(LABORAL_SITUACION_VALUES).optional(),
+    // campos dinámicos de productos
+    tieneContrato: z.string().optional(),
+    mesesMora: z.number().optional(),
+    montoTotal: z.number().optional(),
+    nombreArrendatario: z.string().optional(),
+    direccionPropiedad: z.string().optional(),
+    hayConsumos: z.string().optional(),
+    hayGastosComunes: z.string().optional(),
+    existeContrato: z.string().optional(),
+    tipoOcupacion: z.string().optional(),
+    tiempoOcupacion: z.string().optional(),
+    tieneInscripcion: z.string().optional(),
+    ocupanteAfirmaDerechos: z.string().optional(),
+    montoPie: z.number().optional(),
+    motivoRechazo: z.string().optional(),
+    tienePromesa: z.string().optional(),
+    montoRetenido: z.number().optional(),
+    inmobiliaria: z.string().optional(),
+    etapaProyecto: z.string().optional(),
+    fechaDespido: z.string().optional(),
+    sueldoMensual: z.number().optional(),
+    causalEnCarta: z.string().optional(),
+    recibisteLiquidacion: z.string().optional(),
+    vacacionesImpagas: z.string().optional(),
+    cotizacionesAlDia: z.string().optional(),
+    mesesSinCotizar: z.number().optional(),
+    tieneCartaDespido: z.string().optional(),
+    tieneComprobanteCotizaciones: z.string().optional(),
+    sueldo: z.number().optional(),
+    tipoDocumento: z.string().optional(),
+    montoDeuda: z.number().optional(),
+    nombreDeudor: z.string().optional(),
+    tieneDocumentoOriginal: z.string().optional(),
+    deudorEsEmpresa: z.string().optional(),
+    fechaDeuda: z.string().optional(),
+    montoFactura: z.number().optional(),
+    numeroFactura: z.string().optional(),
+    nombreProveedor: z.string().optional(),
+    diasMorosidad: z.number().optional(),
+    esClienteRecurrente: z.string().optional(),
+    montoPension: z.number().optional(),
+    mesesAtrasados: z.number().optional(),
+    haySentencia: z.string().optional(),
+    deudorEsIdentificado: z.string().optional(),
+    deudorTieneTrabajo: z.string().optional(),
+    tuRol: z.string().optional(),
+    numeroDeudores: z.number().optional(),
+    montoEstimado: z.number().optional(),
+    tipoCondominio: z.string().optional(),
+    mutuoAcuerdo: z.string().optional(),
+    hayHijos: z.string().optional(),
+    tiempoSeparacion: z.string().optional(),
+    acuerdoCompletamente: z.string().optional(),
+    acuerdoAlimentos: z.string().optional(),
+    acuerdoCustodiaVisitas: z.string().optional(),
+    fechaAutodespido: z.string().optional(),
+    motivoIncumplimiento: z.string().optional(),
+    tieneDocumentacion: z.string().optional(),
+    enviastiCarta: z.string().optional(),
+    tipoProblema: z.string().optional(),
+    montoAfectado: z.number().optional(),
+    yaReclamaste: z.string().optional(),
     // honeypot anti-spam (debe ir vacío)
     website: z.string().max(0).optional().default(""),
   })
   .superRefine((data, ctx) => {
-    if (situacionPenalAplica(data.area) && !data.situacionPenal) {
+    // Mapear producto → area si no viene area
+    if (data.producto && !data.area) {
+      const area = PRODUCTO_TO_AREA[data.producto as Producto];
+      if (area) {
+        (data as any).area = area;
+      }
+    }
+
+    if (data.area && situacionPenalAplica(data.area) && !data.situacionPenal) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["situacionPenal"],
         message: "Selecciona tu situación actual" });
     }
-    if (materiaFamiliaAplica(data.area) && !data.materiaFamilia) {
+    if (data.area && materiaFamiliaAplica(data.area) && !data.materiaFamilia) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["materiaFamilia"],
         message: "Selecciona la materia" });
     }
-    if (laboralAplica(data.area)) {
+    if (data.area && laboralAplica(data.area)) {
       if (!data.laboralParte)
         ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["laboralParte"],
           message: "Indica si eres trabajador o empresa" });

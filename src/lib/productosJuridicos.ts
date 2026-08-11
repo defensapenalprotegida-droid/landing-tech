@@ -27,7 +27,9 @@ export const PRODUCTOS_LIST: Producto[] = [
   "divorcio-express",
   "autodespido",
   "derechos-consumidor",
-];
+] as const;
+
+export const PRODUCTOS = PRODUCTOS_LIST;
 
 export interface Campo {
   name: string;
