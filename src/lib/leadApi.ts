@@ -1,5 +1,6 @@
 import type { LeadFormValues } from "./leadSchema";
 import type { BrokerageFormValues } from "./brokerageSchema";
+import { PRODUCTO_TO_AREA, type Producto } from "@/lib/productosJuridicos";
 
 export type Servicio = "legal" | "corretaje";
 
@@ -18,21 +19,44 @@ export type LeadPayload = Partial<LeadFormValues> &
     recaptchaAction?: string;
   };
 
+export interface SubmitLeadPayload {
+  servicio: string;
+  producto?: Producto;
+  recaptchaToken: string;
+  recaptchaAction: string;
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+  urgencia?: string;
+  horario?: string;
+  [key: string]: unknown;
+}
+
 export async function submitLead(
-  payload: LeadPayload
-): Promise<{ ok: boolean; message?: string }> {
+  payload: SubmitLeadPayload
+): Promise<{ ok: boolean; message: string }> {
   try {
-    const res = await fetch("/api/contact", {
+    // Mapear producto → area si no viene area
+    let body: any = { ...payload };
+    if (payload.producto && !payload.area) {
+      body.area = PRODUCTO_TO_AREA[payload.producto];
+    }
+
+    const response = await fetch("/api/leads", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(body),
     });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok || !data.ok) {
-      return { ok: false, message: data.message || "No se pudo enviar tu consulta." };
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      return { ok: false, message: error.message || "Error al enviar el formulario" };
     }
-    return { ok: true };
-  } catch {
-    return { ok: false, message: "Error de conexión. Intenta nuevamente." };
+
+    return { ok: true, message: "Lead enviado correctamente" };
+  } catch (error) {
+    console.error("Error en submitLead:", error);
+    return { ok: false, message: "Error de conexión. Intenta de nuevo." };
   }
 }
