@@ -42,7 +42,7 @@ const HeroSlide = ({ slide, isFirst, children }: Props) => {
               transition={{ duration: 0.7 }}
             >
               <p className="text-primary/70 font-semibold text-sm md:text-base tracking-widest uppercase mb-4">
-                {slide.eyebrow}
+                {slide.emoji} {slide.eyebrow}
               </p>
 
               <Titular className="font-heading text-4xl md:text-6xl font-bold text-foreground leading-tight mb-6">
