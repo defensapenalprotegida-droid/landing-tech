@@ -1,4 +1,16 @@
 import type { Area } from "@/lib/leadSchema";
+import {
+  faScaleBalanced,
+  faHouse,
+  faHouseUser,
+  faKey,
+  faBriefcase,
+  faChartColumn,
+  faDollarSign,
+  faHeartBroken,
+  faExclamationTriangle,
+  type IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
 import heroRecuperaCasa from "@/assets/hero-recupera-casa.jpg";
 import heroRecuperaPie from "@/assets/hero-recupera-pie.jpg";
 import heroDefiendeDeспido from "@/assets/hero-defiende-despido.jpg";
@@ -51,6 +63,7 @@ export interface ProductoJuridico {
   placeholder: string;
   cta: string;
   whatsappMessage: string;
+  icon: IconDefinition;
 }
 
 export const PRODUCTO_TO_AREA: Record<Producto, Area> = {
@@ -73,6 +86,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     description: "Procedimiento monitorio para cobrar rentas y obtener la restitución del inmueble.",
     image: heroRecuperaCasa,
     backendArea: "inmobiliario",
+    icon: faHouseUser,
     campos: [
       {
         name: "tieneContrato",
@@ -145,6 +159,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     description: "Defensa de derechos del consumidor y acción de restitución.",
     image: heroRecuperaPie,
     backendArea: "inmobiliario",
+    icon: faKey,
     campos: [
       {
         name: "montoPie",
@@ -213,6 +228,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     description: "Evaluamos si tu despido cumple con los requisitos legales.",
     image: heroDefiendeDeспido,
     backendArea: "laboral",
+    icon: faBriefcase,
     campos: [
       {
         name: "fechaDespido",
@@ -278,6 +294,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     description: "Si tu empleador omitió cotizaciones, el despido es nulo.",
     image: heroCotizacionesImpagas,
     backendArea: "laboral",
+    icon: faChartColumn,
     campos: [
       {
         name: "fechaDespido",
@@ -333,6 +350,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     description: "Procedimiento especial para pensiones adeudadas con mérito ejecutivo.",
     image: heroCobraPension,
     backendArea: "familia",
+    icon: faDollarSign,
     campos: [
       {
         name: "montoPension",
@@ -393,6 +411,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     description: "Divorcio notarial o judicial con acuerdo total.",
     image: heroDivorcioExpress,
     backendArea: "familia",
+    icon: faHeartBroken,
     campos: [
       {
         name: "mutuoAcuerdo",
@@ -471,6 +490,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     description: "Autodespido por incumplimiento grave de obligaciones laborales.",
     image: heroAutodespido,
     backendArea: "laboral",
+    icon: faExclamationTriangle,
     campos: [
       {
         name: "fechaAutodespido",

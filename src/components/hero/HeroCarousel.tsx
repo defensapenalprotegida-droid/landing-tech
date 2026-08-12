@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import HeroSlide from "./HeroSlide";
+import { useHeroCarousel } from "@/contexts/HeroCarouselContext";
 import type { HeroSlideData } from "@/lib/heroSlides";
 
 interface Props {
@@ -19,13 +20,23 @@ const hayCampoEnfocado = (contenedor: HTMLElement | null) => {
   return contenedor?.contains(foco) ?? false;
 };
 
-const HeroCarousel = ({ slides, intervaloMs = 8000 }: Props) => {
+const HeroCarousel = ({ slides, intervaloMs = 0 }: Props) => {
   // Arranca siempre en el primer slide: es el que Google indexa.
   const [activo, setActivo] = useState(0);
+  const { activeSlide, setActiveSlide } = useHeroCarousel();
   const total = slides.length;
-  const ir = (i: number) => setActivo((i + total) % total);
+  const ir = (i: number) => {
+    const nuevoIndice = (i + total) % total;
+    setActivo(nuevoIndice);
+    setActiveSlide(nuevoIndice);
+  };
 
   const seccionRef = useRef<HTMLElement>(null);
+
+  // Sincronizar con el contexto cuando se navega desde el Header
+  useEffect(() => {
+    setActivo(activeSlide);
+  }, [activeSlide]);
 
   useEffect(() => {
     if (!intervaloMs || total < 2) return;
@@ -42,11 +53,15 @@ const HeroCarousel = ({ slides, intervaloMs = 8000 }: Props) => {
       // cortar la rotación: cambiar de slide mientras alguien escribe le
       // arrebataría el formulario a medio llenar.
       if (hayCampoEnfocado(seccionRef.current)) return;
-      setActivo((i) => (i + 1) % total);
+      setActivo((i) => {
+        const nuevoIndice = (i + 1) % total;
+        setActiveSlide(nuevoIndice);
+        return nuevoIndice;
+      });
     }, intervaloMs);
 
     return () => window.clearInterval(id);
-  }, [intervaloMs, total]);
+  }, [intervaloMs, total, setActiveSlide]);
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
@@ -126,32 +141,40 @@ const HeroCarousel = ({ slides, intervaloMs = 8000 }: Props) => {
         type="button"
         onClick={() => ir(activo - 1)}
         aria-label="Servicio anterior"
-        className="hidden md:block absolute left-3 top-1/2 -translate-y-1/2 z-20 rounded-full bg-white/90 border border-border p-2 shadow-soft hover:bg-white"
+        className="hidden md:block absolute left-3 top-1/2 -translate-y-1/2 z-20 rounded-full bg-white/90 border border-border p-2.5 shadow-soft hover:bg-white transition-all hover:shadow-md active:scale-95"
       >
-        <ChevronLeft className="w-5 h-5" />
+        <ChevronLeft className="w-6 h-6 text-foreground" />
       </button>
       <button
         type="button"
         onClick={() => ir(activo + 1)}
         aria-label="Servicio siguiente"
-        className="hidden md:block absolute right-3 top-1/2 -translate-y-1/2 z-20 rounded-full bg-white/90 border border-border p-2 shadow-soft hover:bg-white"
+        className="hidden md:block absolute right-3 top-1/2 -translate-y-1/2 z-20 rounded-full bg-white/90 border border-border p-2.5 shadow-soft hover:bg-white transition-all hover:shadow-md active:scale-95"
       >
-        <ChevronRight className="w-5 h-5" />
+        <ChevronRight className="w-6 h-6 text-foreground" />
       </button>
 
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-        {slides.map(({ data }, i) => (
-          <button
-            key={data.id}
-            type="button"
-            onClick={() => ir(i)}
-            aria-label={`Ver ${data.eyebrow}`}
-            aria-current={i === activo}
-            className={`h-2 rounded-full transition-all ${
-              i === activo ? "w-8 bg-primary" : "w-2 bg-primary/30"
-            }`}
-          />
-        ))}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-4">
+        {/* Indicador numérico */}
+        <span className="text-sm font-medium text-foreground/60 tabular-nums">
+          {activo + 1}/{total}
+        </span>
+
+        {/* Puntos indicadores */}
+        <div className="flex gap-2">
+          {slides.map(({ data }, i) => (
+            <button
+              key={data.id}
+              type="button"
+              onClick={() => ir(i)}
+              aria-label={`Ver ${data.eyebrow}`}
+              aria-current={i === activo}
+              className={`h-2 rounded-full transition-all ${
+                i === activo ? "w-8 bg-primary" : "w-2 bg-primary/30"
+              }`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

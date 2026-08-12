@@ -1,4 +1,9 @@
 import { getAllProductos, type Producto } from "@/lib/productosJuridicos";
+import {
+  faScaleBalanced,
+  faHouse,
+  type IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
 import heroLegal from "@/assets/hero-legal.jpg";
 import heroCorretaje from "@/assets/hero-corretaje.jpg";
 
@@ -14,6 +19,7 @@ export interface HeroSlideData {
   ctaLabel: string;
   ctaTarget: string;
   whatsappMessage: string;
+  icon: IconDefinition;
 }
 
 // Slides originales (2)
@@ -28,6 +34,7 @@ const ORIGINAL_SLIDES: HeroSlideData[] = [
     ctaLabel: "Asesoría legal",
     ctaTarget: "formulario",
     whatsappMessage: "Hola, quiero consultar mi caso con un abogado.",
+    icon: faScaleBalanced,
   },
   {
     id: "corretaje",
@@ -39,6 +46,7 @@ const ORIGINAL_SLIDES: HeroSlideData[] = [
     ctaLabel: "Consultar propiedad",
     ctaTarget: "formulario",
     whatsappMessage: "Hola, quiero asesoría sobre mi propiedad.",
+    icon: faHouse,
   },
 ];
 
@@ -53,6 +61,7 @@ const PRODUCTO_SLIDES: HeroSlideData[] = getAllProductos().map((producto) => ({
   ctaLabel: producto.cta,
   ctaTarget: "formulario",
   whatsappMessage: producto.whatsappMessage,
+  icon: producto.icon,
 }));
 
 // Combinar: 2 originales + 7 productos = 9 slides totales

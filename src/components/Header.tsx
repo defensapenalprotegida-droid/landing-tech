@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSectionNav } from "@/hooks/use-section-nav";
 import { focusArea } from "@/lib/areaFocus";
+import { useHeroCarousel } from "@/contexts/HeroCarouselContext";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -11,19 +12,31 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { AREAS, AREA_LABELS } from "@/lib/leadSchema";
-import { Menu, X, Phone } from "lucide-react";
+import { HERO_SLIDES } from "@/lib/heroSlides";
+import { Menu, X, Phone, ChevronDown } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const WHATSAPP_URL =
   "https://wa.me/56995336140?text=Hola,%20necesito%20hablar%20con%20un%20abogado.";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCaseDropdownOpen, setIsCaseDropdownOpen] = useState(false);
 
   const goToSection = useSectionNav();
+  const { setActiveSlide, scrollToHero } = useHeroCarousel();
 
   // Funciona igual desde el home que desde /blog o las páginas legales.
   const scrollTo = (id: string) => {
     goToSection(id);
+    setIsMenuOpen(false);
+  };
+
+  // Navegar a un slide específico del hero
+  const goToSlide = (slideIndex: number) => {
+    setActiveSlide(slideIndex);
+    scrollToHero();
+    setIsCaseDropdownOpen(false);
     setIsMenuOpen(false);
   };
 
@@ -58,6 +71,36 @@ const Header = () => {
             >
               INICIO
             </button>
+
+            {/* Case Dropdown */}
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="font-body text-sm font-medium">
+                    ¿Cuál es tu caso?
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[630px] grid-cols-3 gap-1 p-3">
+                      {HERO_SLIDES.map((slide, idx) => (
+                        <li key={slide.id}>
+                          <button
+                            onClick={() => goToSlide(idx)}
+                            className="block w-full text-left rounded-md px-3 py-2 text-sm hover:bg-legal-primary/5 hover:text-legal-primary transition-colors flex items-center gap-2"
+                          >
+                            <FontAwesomeIcon
+                              icon={slide.icon}
+                              className="w-4 h-4 text-legal-primary"
+                            />
+                            <span className="font-body text-sm">{slide.eyebrow}</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+
             <button
               onClick={() => scrollTo("nosotros")}
               className="font-body text-sm font-medium hover:text-legal-primary"
@@ -142,6 +185,37 @@ const Header = () => {
               >
                 Inicio
               </button>
+
+              {/* Mobile Case Dropdown */}
+              <div>
+                <button
+                  onClick={() => setIsCaseDropdownOpen(!isCaseDropdownOpen)}
+                  className="block w-full text-left px-4 py-3 font-body text-base text-foreground hover:text-legal-primary hover:bg-gray-50 transition-colors duration-200 flex items-center justify-between"
+                >
+                  ¿Cuál es tu caso?
+                  <ChevronDown className={`w-4 h-4 transition-transform ${
+                    isCaseDropdownOpen ? "rotate-180" : ""
+                  }`} />
+                </button>
+                {isCaseDropdownOpen && (
+                  <div className="bg-gray-50 border-t border-border">
+                    {HERO_SLIDES.map((slide, idx) => (
+                      <button
+                        key={slide.id}
+                        onClick={() => goToSlide(idx)}
+                        className="block w-full text-left px-8 py-2.5 font-body text-sm text-foreground hover:text-legal-primary hover:bg-gray-100 transition-colors flex items-center gap-2"
+                      >
+                        <FontAwesomeIcon
+                          icon={slide.icon}
+                          className="w-4 h-4 text-legal-primary"
+                        />
+                        <span>{slide.eyebrow}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               <button
                 onClick={() => scrollTo("nosotros")}
                 className="block w-full text-left px-4 py-3 font-body text-base text-foreground hover:text-legal-primary hover:bg-gray-50 transition-colors duration-200"
