@@ -1,11 +1,14 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { CalendarDays, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
-import { getPostBySlug, formatPostDate } from "@/lib/blog";
+import { getPostBySlug } from "@/lib/blog";
+import ArticleByline from "@/components/blog/ArticleByline";
+import ArticleSchema from "@/components/blog/ArticleSchema";
+import RelatedPosts from "@/components/blog/RelatedPosts";
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -14,6 +17,7 @@ const BlogPost = () => {
 
   return (
     <div className="min-h-screen">
+      <ArticleSchema post={post} />
       <Seo
         title={post.title}
         description={post.description}
@@ -34,14 +38,17 @@ const BlogPost = () => {
         <h1 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-4 leading-tight">
           {post.title}
         </h1>
-        <div className="flex items-center gap-2 text-muted-foreground text-sm mb-10">
-          <CalendarDays className="w-4 h-4" />
-          <span>{formatPostDate(post.date)}</span>
-          {post.author && <span>· {post.author}</span>}
-        </div>
+        <ArticleByline
+          author={post.author}
+          reviewer={post.reviewer}
+          date={post.date}
+          updated={post.updated}
+        />
         <article className="prose prose-lg max-w-none prose-headings:font-heading prose-a:text-primary">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
         </article>
+
+        <RelatedPosts slug={post.slug} />
       </main>
       <Footer />
     </div>
