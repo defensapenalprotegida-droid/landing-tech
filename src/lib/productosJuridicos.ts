@@ -91,7 +91,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
       {
         name: "tieneContrato",
         type: "radio",
-        label: "¿Tienes contrato de arriendo?",
+        label: "Contrato de arriendo",
         required: true,
         options: [
           { value: "si", label: "Sí" },
@@ -101,44 +101,28 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
       {
         name: "mesesMora",
         type: "number",
-        label: "¿Cuántos meses de mora?",
+        label: "Meses de mora",
         required: true,
         placeholder: "Ej: 3",
       },
       {
         name: "montoTotal",
         type: "number",
-        label: "Monto total adeudado (aprox.)",
+        label: "Monto adeudado",
         required: true,
-        placeholder: "En pesos chilenos",
-      },
-      {
-        name: "nombreArrendatario",
-        type: "text",
-        label: "Nombre del arrendatario",
-        required: false,
+        placeholder: "Pesos",
       },
       {
         name: "direccionPropiedad",
         type: "text",
-        label: "Dirección de la propiedad",
+        label: "Dirección propiedad",
         required: true,
         placeholder: "Calle, número, ciudad",
       },
       {
         name: "hayConsumos",
         type: "radio",
-        label: "¿Hay consumos de servicios (agua, luz, gas)?",
-        required: false,
-        options: [
-          { value: "si", label: "Sí" },
-          { value: "no", label: "No" },
-        ],
-      },
-      {
-        name: "hayGastosComunes",
-        type: "radio",
-        label: "¿Hay gastos comunes adeudados?",
+        label: "Consumos (agua, luz, gas)",
         required: false,
         options: [
           { value: "si", label: "Sí" },
@@ -164,26 +148,26 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
       {
         name: "montoPie",
         type: "number",
-        label: "Monto pagado como pie",
+        label: "Monto pagado",
         required: true,
-        placeholder: "En pesos",
+        placeholder: "Pesos",
       },
       {
         name: "motivoRechazo",
         type: "select",
-        label: "¿Cuál fue el motivo del rechazo?",
+        label: "Motivo rechazo",
         required: true,
         options: [
-          { value: "hipotecario", label: "Rechazo de crédito hipotecario" },
+          { value: "hipotecario", label: "Rechazo de crédito" },
           { value: "requisitos", label: "Falta de requisitos" },
-          { value: "cambio_planes", label: "Cambio de planes propios" },
+          { value: "cambio_planes", label: "Cambio de planes" },
           { value: "otro", label: "Otro" },
         ],
       },
       {
         name: "tienePromesa",
         type: "radio",
-        label: "¿Tienes copia de la promesa de compraventa?",
+        label: "Promesa compraventa",
         required: true,
         options: [
           { value: "si", label: "Sí" },
@@ -193,26 +177,15 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
       {
         name: "montoRetenido",
         type: "number",
-        label: "¿Cuánto retiene la inmobiliaria?",
+        label: "Monto retenido",
         required: true,
-        placeholder: "En pesos",
+        placeholder: "Pesos",
       },
       {
         name: "inmobiliaria",
         type: "text",
-        label: "Nombre de la inmobiliaria",
+        label: "Inmobiliaria",
         required: false,
-      },
-      {
-        name: "etapaProyecto",
-        type: "select",
-        label: "¿En qué etapa estaba el proyecto?",
-        required: false,
-        options: [
-          { value: "aprobado", label: "Proyecto aprobado" },
-          { value: "construccion", label: "En construcción" },
-          { value: "verde", label: "Proyecto en verde" },
-        ],
       },
     ],
     placeholder: "¿Cuándo te rechazaron el crédito?, ¿la inmobiliaria se niega a devolver el dinero?",
@@ -233,47 +206,27 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
       {
         name: "fechaDespido",
         type: "date",
-        label: "¿Cuándo te despidieron?",
+        label: "Fecha despido",
         required: true,
       },
       {
         name: "sueldoMensual",
         type: "number",
-        label: "¿Cuál era tu sueldo mensual?",
+        label: "Sueldo mensual",
         required: true,
-        placeholder: "En pesos",
+        placeholder: "Pesos",
       },
       {
         name: "causalEnCarta",
         type: "text",
-        label: "¿Qué causal escribieron en la carta de despido?",
+        label: "Causal en carta",
         required: true,
-        placeholder: "Ej: desahucio, incumplimiento de funciones, etc.",
+        placeholder: "Ej: desahucio, incumplimiento",
       },
       {
         name: "recibisteLiquidacion",
         type: "radio",
-        label: "¿Recibiste liquidación de prestaciones?",
-        required: false,
-        options: [
-          { value: "si", label: "Sí" },
-          { value: "no", label: "No" },
-        ],
-      },
-      {
-        name: "vacacionesImpagas",
-        type: "radio",
-        label: "¿Tienes vacaciones impagas?",
-        required: false,
-        options: [
-          { value: "si", label: "Sí" },
-          { value: "no", label: "No" },
-        ],
-      },
-      {
-        name: "cotizacionesAlDia",
-        type: "radio",
-        label: "¿Tus cotizaciones estaban al día?",
+        label: "Recibiste liquidación",
         required: false,
         options: [
           { value: "si", label: "Sí" },
@@ -299,13 +252,13 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
       {
         name: "fechaDespido",
         type: "date",
-        label: "¿Cuándo te despidieron?",
+        label: "Fecha despido",
         required: true,
       },
       {
         name: "tieneCartaDespido",
         type: "radio",
-        label: "¿Tienes copia de la carta de despido?",
+        label: "Carta de despido",
         required: true,
         options: [
           { value: "si", label: "Sí" },
@@ -315,26 +268,19 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
       {
         name: "mesesSinCotizar",
         type: "number",
-        label: "¿Cuántos meses sin cotizar (antes del despido)?",
+        label: "Meses sin cotizar",
         required: true,
         placeholder: "Ej: 2, 3, 6",
       },
       {
         name: "tieneComprobanteCotizaciones",
         type: "radio",
-        label: "¿Puedes acceder a tu historial AFP/Fonasa?",
+        label: "Acceso historial AFP/Fonasa",
         required: true,
         options: [
           { value: "si", label: "Sí" },
           { value: "no", label: "No" },
         ],
-      },
-      {
-        name: "sueldo",
-        type: "number",
-        label: "¿Cuál era tu sueldo mensual?",
-        required: false,
-        placeholder: "En pesos",
       },
     ],
     placeholder: "¿Puedes acceder a tu historial de AFP o Fonasa para verificar las cotizaciones?",
@@ -355,21 +301,21 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
       {
         name: "montoPension",
         type: "number",
-        label: "¿Cuánto es la pensión mensual?",
+        label: "Pensión mensual",
         required: true,
-        placeholder: "En pesos",
+        placeholder: "Pesos",
       },
       {
         name: "mesesAtrasados",
         type: "number",
-        label: "¿Cuántos meses adeudados?",
+        label: "Meses adeudados",
         required: true,
         placeholder: "Ej: 3, 6, 12",
       },
       {
         name: "haySentencia",
         type: "radio",
-        label: "¿Hay sentencia vigente de pensión?",
+        label: "Sentencia vigente",
         required: true,
         options: [
           { value: "si", label: "Sí" },
@@ -379,22 +325,11 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
       {
         name: "deudorEsIdentificado",
         type: "radio",
-        label: "¿Sabes dónde vive o trabaja?",
+        label: "Ubicación deudor",
         required: false,
         options: [
           { value: "si", label: "Sí" },
           { value: "no", label: "No" },
-        ],
-      },
-      {
-        name: "deudorTieneTrabajo",
-        type: "select",
-        label: "¿El deudor tiene trabajo?",
-        required: false,
-        options: [
-          { value: "si", label: "Sí" },
-          { value: "no", label: "No" },
-          { value: "no_se", label: "No lo sé" },
         ],
       },
     ],
@@ -416,7 +351,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
       {
         name: "mutuoAcuerdo",
         type: "radio",
-        label: "¿Es de mutuo acuerdo?",
+        label: "Mutuo acuerdo",
         required: true,
         options: [
           { value: "si", label: "Sí" },
@@ -426,7 +361,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
       {
         name: "hayHijos",
         type: "radio",
-        label: "¿Hay hijos menores?",
+        label: "Hijos menores",
         required: true,
         options: [
           { value: "si", label: "Sí" },
@@ -436,7 +371,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
       {
         name: "tiempoSeparacion",
         type: "select",
-        label: "¿Cuánto tiempo llevan separados?",
+        label: "Tiempo separados",
         required: true,
         options: [
           { value: "menos_1", label: "Menos de 1 año" },
@@ -447,33 +382,11 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
       {
         name: "acuerdoCompletamente",
         type: "radio",
-        label: "¿Ya tienen acuerdo completamente?",
+        label: "Acuerdo completo",
         required: true,
         options: [
           { value: "si", label: "Sí, en todo" },
-          { value: "no", label: "No, hay temas pendientes" },
-        ],
-      },
-      {
-        name: "acuerdoAlimentos",
-        type: "radio",
-        label: "¿Hay acuerdo sobre alimentos (si aplica)?",
-        required: false,
-        options: [
-          { value: "si", label: "Sí" },
-          { value: "no", label: "No" },
-          { value: "no_aplica", label: "No aplica" },
-        ],
-      },
-      {
-        name: "acuerdoCustodiaVisitas",
-        type: "radio",
-        label: "¿Hay acuerdo sobre cuidado personal y visitas?",
-        required: false,
-        options: [
-          { value: "si", label: "Sí" },
-          { value: "no", label: "No" },
-          { value: "no_aplica", label: "No aplica" },
+          { value: "no", label: "No, hay pendientes" },
         ],
       },
     ],
@@ -495,37 +408,27 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
       {
         name: "fechaAutodespido",
         type: "date",
-        label: "¿Cuándo comunicaste tu retiro?",
+        label: "Fecha retiro",
         required: true,
       },
       {
         name: "motivoIncumplimiento",
         type: "select",
-        label: "¿Cuál fue el incumplimiento grave del empleador?",
+        label: "Incumplimiento empleador",
         required: true,
         options: [
           { value: "falta_pago", label: "No paga sueldos" },
-          { value: "ambiente_hostil", label: "Ambiente hostil o acoso" },
-          { value: "cambio_terminos", label: "Cambio unilateral de términos" },
-          { value: "falta_seguridad", label: "Falta de medidas de seguridad" },
-          { value: "otro", label: "Otro incumplimiento" },
+          { value: "ambiente_hostil", label: "Ambiente hostil" },
+          { value: "cambio_terminos", label: "Cambio de términos" },
+          { value: "falta_seguridad", label: "Falta de seguridad" },
+          { value: "otro", label: "Otro" },
         ],
       },
       {
         name: "tieneDocumentacion",
         type: "radio",
-        label: "¿Tienes documentación del incumplimiento?",
+        label: "Documentación incumplimiento",
         required: true,
-        options: [
-          { value: "si", label: "Sí (correos, mensajes, etc.)" },
-          { value: "no", label: "No tengo documentación" },
-        ],
-      },
-      {
-        name: "enviastiCarta",
-        type: "radio",
-        label: "¿Enviaste carta de aviso previo al empleador?",
-        required: false,
         options: [
           { value: "si", label: "Sí" },
           { value: "no", label: "No" },

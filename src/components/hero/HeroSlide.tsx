@@ -34,8 +34,8 @@ const HeroSlide = ({ slide, isFirst, children }: Props) => {
         <div className="absolute -bottom-60 -left-40 w-[500px] h-[500px] rounded-full bg-primary/[0.02]" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-20 md:py-28 w-full">
-        <div className="grid lg:grid-cols-2 gap-12 items-center lg:items-start">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24 w-full">
+        <div className="grid lg:grid-cols-2 gap-8 items-center lg:items-start">
           <div>
             <motion.div
               initial={{ opacity: 0, y: 30 }}

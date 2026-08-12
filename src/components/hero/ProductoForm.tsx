@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import AddressSearchInput, { AddressResult } from "@/components/AddressSearchInput";
 import { submitLead } from "@/lib/leadApi";
 import { getRecaptchaToken, RECAPTCHA_ACTIONS } from "@/lib/recaptcha";
 import { useToast } from "@/hooks/use-toast";
@@ -32,16 +33,14 @@ interface FormData {
   message: string;
   urgencia: "inmediata" | "semana" | "sin_apuro";
   horario: "manana" | "tarde" | "cualquiera";
-  [key: string]: string | number | boolean;
+  address?: string;
+  latitude?: number;
+  longitude?: number;
+  [key: string]: string | number | boolean | undefined;
 }
 
 const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
   const { toast } = useToast();
-  const producto = getProducto(productoId);
-
-  if (!producto) {
-    return <div className="text-red-500">Producto no encontrado</div>;
-  }
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -50,10 +49,17 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
     message: "",
     urgencia: "sin_apuro",
     horario: "cualquiera",
+    address: "",
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
+
+  const producto = getProducto(productoId);
+
+  if (!producto) {
+    return <div className="text-red-500">Producto no encontrado</div>;
+  }
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -70,6 +76,15 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
+  };
+
+  const handleAddressSelect = (result: AddressResult) => {
+    setFormData((prev) => ({
+      ...prev,
+      address: result.address,
+      latitude: result.latitude,
+      longitude: result.longitude,
+    }));
   };
 
   const validateForm = (): boolean => {
@@ -131,6 +146,9 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
         message: formData.message.trim(),
         urgencia: formData.urgencia,
         horario: formData.horario,
+        address: formData.address?.trim() || "",
+        latitude: formData.latitude,
+        longitude: formData.longitude,
       };
 
       // Agregar campos dinámicos
@@ -155,6 +173,7 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
           message: "",
           urgencia: "sin_apuro",
           horario: "cualquiera",
+          address: "",
         });
         setErrors({});
       } else {
@@ -175,30 +194,30 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
   };
 
   return (
-    <Card className="p-8 shadow-card-soft border border-border bg-background/80 backdrop-blur rounded-2xl">
-      <form onSubmit={handleSubmit} className="space-y-6">
+    <Card className="p-6 shadow-card-soft border border-border bg-background/80 backdrop-blur rounded-2xl max-h-[600px] overflow-y-auto">
+      <form onSubmit={handleSubmit} className="space-y-4">
         {/* Título del producto */}
-        <div>
-          <h3 className="font-heading text-2xl font-bold text-foreground mb-2 flex items-center gap-2">
-            <FontAwesomeIcon icon={producto.icon} className="w-6 h-6 text-legal-primary" />
+        <div className="mb-2">
+          <h3 className="font-heading text-xl font-bold text-foreground mb-1 flex items-center gap-2">
+            <FontAwesomeIcon icon={producto.icon} className="w-5 h-5 text-legal-primary" />
             {producto.nombre}
           </h3>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-muted-foreground text-xs">
             Completa el formulario y evaluaremos tu caso gratuitamente.
           </p>
         </div>
 
         {/* CAMPOS DINÁMICOS DEL PRODUCTO */}
         {producto.campos.length > 0 && (
-          <div className="bg-primary/5 p-4 rounded-lg border border-primary/10 space-y-4">
-            <h4 className="font-semibold text-foreground">Información específica</h4>
+          <div className="bg-primary/5 p-3 rounded-lg border border-primary/10 space-y-3">
+            <h4 className="font-semibold text-foreground text-sm">Información específica</h4>
 
             {producto.campos.map((campo) => (
               <div key={campo.name}>
                 {/* Radio buttons */}
                 {campo.type === "radio" && (
                   <div>
-                    <label className="text-sm font-medium text-foreground mb-2 block">
+                    <label className="text-xs font-semibold text-foreground mb-1.5 block uppercase tracking-wide">
                       {campo.label}
                       {campo.required && <span className="text-red-500"> *</span>}
                     </label>
@@ -207,12 +226,12 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
                       onValueChange={(value) => handleRadioChange(campo.name, value)}
                     >
                       {campo.options?.map((option) => (
-                        <div key={option.value} className="flex items-center gap-2 mb-2">
+                        <div key={option.value} className="flex items-center gap-2 py-1">
                           <RadioGroupItem
                             value={option.value}
                             id={`${campo.name}-${option.value}`}
                           />
-                          <Label htmlFor={`${campo.name}-${option.value}`} className="font-normal">
+                          <Label htmlFor={`${campo.name}-${option.value}`} className="font-normal text-sm cursor-pointer">
                             {option.label}
                           </Label>
                         </div>
@@ -227,7 +246,7 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
                 {/* Select dropdown */}
                 {campo.type === "select" && (
                   <div>
-                    <label className="text-sm font-medium text-foreground mb-2 block">
+                    <label className="text-xs font-semibold text-foreground mb-1.5 block uppercase tracking-wide">
                       {campo.label}
                       {campo.required && <span className="text-red-500"> *</span>}
                     </label>
@@ -235,7 +254,7 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
                       value={formData[campo.name]?.toString() || ""}
                       onValueChange={(value) => handleRadioChange(campo.name, value)}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="text-sm">
                         <SelectValue placeholder="Selecciona..." />
                       </SelectTrigger>
                       <SelectContent>
@@ -255,7 +274,7 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
                 {/* Text, email, tel, number, date inputs */}
                 {["text", "email", "tel", "number", "date"].includes(campo.type) && (
                   <div>
-                    <label className="text-sm font-medium text-foreground mb-2 block">
+                    <label className="text-xs font-semibold text-foreground mb-1.5 block uppercase tracking-wide">
                       {campo.label}
                       {campo.required && <span className="text-red-500"> *</span>}
                     </label>
@@ -265,6 +284,7 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
                       value={formData[campo.name] || ""}
                       onChange={handleChange}
                       placeholder={campo.placeholder}
+                      className="text-sm"
                     />
                     {errors[campo.name] && (
                       <p className="text-red-500 text-xs mt-1">{errors[campo.name]}</p>
@@ -277,12 +297,12 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
         )}
 
         {/* CAMPOS BASE: Contacto */}
-        <div className="border-t border-border pt-6 space-y-4">
-          <h4 className="font-semibold text-foreground">Tus datos de contacto</h4>
+        <div className="border-t border-border pt-4 space-y-3">
+          <h4 className="font-semibold text-foreground text-sm">Tus datos de contacto</h4>
 
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-3">
             <div>
-              <label className="text-sm font-medium text-foreground mb-2 block">
+              <label className="text-xs font-semibold text-foreground mb-1.5 block uppercase tracking-wide">
                 Nombre completo *
               </label>
               <Input
@@ -291,12 +311,13 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Tu nombre completo"
+                className="text-sm"
               />
-              {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+              {errors.name && <p className="text-red-500 text-xs mt-0.5">{errors.name}</p>}
             </div>
 
             <div>
-              <label className="text-sm font-medium text-foreground mb-2 block">
+              <label className="text-xs font-semibold text-foreground mb-1.5 block uppercase tracking-wide">
                 Teléfono
               </label>
               <Input
@@ -305,12 +326,13 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="+56 9 XXXX XXXX"
+                className="text-sm"
               />
             </div>
           </div>
 
           <div>
-            <label className="text-sm font-medium text-foreground mb-2 block">
+            <label className="text-xs font-semibold text-foreground mb-1.5 block uppercase tracking-wide">
               Correo electrónico *
             </label>
             <Input
@@ -319,23 +341,35 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
               value={formData.email}
               onChange={handleChange}
               placeholder="tu@email.com"
+              className="text-sm"
             />
-            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+            {errors.email && <p className="text-red-500 text-xs mt-0.5">{errors.email}</p>}
           </div>
         </div>
 
+        {/* DIRECCIÓN (OPCIONAL) */}
+        <div className="border-t border-border pt-4">
+          <AddressSearchInput
+            value={formData.address || ""}
+            onChange={handleAddressSelect}
+            label="Ubicación (opcional)"
+            placeholder="Busca una dirección en Chile..."
+            required={false}
+          />
+        </div>
+
         {/* URGENCIA Y HORARIO */}
-        <div className="grid md:grid-cols-2 gap-4 border-t border-border pt-6">
+        <div className="grid md:grid-cols-2 gap-3 border-t border-border pt-4">
           <div>
-            <label className="text-sm font-medium text-foreground mb-2 block">
-              ¿Cuán urgente es tu caso?
+            <label className="text-xs font-semibold text-foreground mb-1.5 block uppercase tracking-wide">
+              Urgencia
             </label>
             <Select value={formData.urgencia} onValueChange={(value) => handleRadioChange("urgencia", value)}>
-              <SelectTrigger>
+              <SelectTrigger className="text-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="inmediata">Inmediata (detenido/citado)</SelectItem>
+                <SelectItem value="inmediata">Inmediata (detenido)</SelectItem>
                 <SelectItem value="semana">Esta semana</SelectItem>
                 <SelectItem value="sin_apuro">Sin apuro</SelectItem>
               </SelectContent>
@@ -343,11 +377,11 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-foreground mb-2 block">
-              ¿Cuándo podemos llamarte?
+            <label className="text-xs font-semibold text-foreground mb-1.5 block uppercase tracking-wide">
+              ¿Cuándo contactarte?
             </label>
             <Select value={formData.horario} onValueChange={(value) => handleRadioChange("horario", value)}>
-              <SelectTrigger>
+              <SelectTrigger className="text-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -361,7 +395,7 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
 
         {/* MENSAJE GENERAL */}
         <div>
-          <label className="text-sm font-medium text-foreground mb-2 block">
+          <label className="text-xs font-semibold text-foreground mb-1.5 block uppercase tracking-wide">
             Cuéntanos más *
           </label>
           <Textarea
@@ -369,19 +403,18 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
             value={formData.message}
             onChange={handleChange}
             placeholder={producto.placeholder}
-            rows={5}
-            className="resize-none"
+            rows={4}
+            className="resize-none text-sm"
           />
-          {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
+          {errors.message && <p className="text-red-500 text-xs mt-0.5">{errors.message}</p>}
         </div>
 
         {/* CONFIDENCIALIDAD */}
-        <div className="bg-primary/5 p-4 rounded-lg border border-primary/10">
+        <div className="bg-primary/5 p-3 rounded-lg border border-primary/10">
           <div className="flex items-start gap-2">
-            <Mail className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-            <p className="text-sm text-muted-foreground">
-              <strong className="text-foreground">Confidencialidad garantizada:</strong> Toda la
-              información está protegida por el secreto profesional del abogado.
+            <Mail className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+            <p className="text-xs text-muted-foreground">
+              <strong className="text-foreground">Confidencialidad garantizada:</strong> Tu información está protegida por secreto profesional.
             </p>
           </div>
         </div>
@@ -389,8 +422,8 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
         {/* SUBMIT BUTTON */}
         <Button
           type="submit"
-          size="lg"
-          className="w-full gap-2 group"
+          size="md"
+          className="w-full gap-2 group text-sm"
           disabled={submitting}
         >
           {submitting ? (
