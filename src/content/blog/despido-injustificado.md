@@ -5,7 +5,9 @@ date: "2026-06-22"
 category: "Derecho Laboral"
 excerpt: "Cuándo un despido es injustificado, qué indemnizaciones puedes reclamar y qué plazos existen para demandar."
 description: "Todo sobre el despido injustificado en Chile: causales, indemnizaciones, recargos y el plazo de 60 días hábiles para demandar ante el Juzgado del Trabajo."
-author: "Arteaga & Aldunate"
+author: "Patricio Aldunate C."
+reviewer: "Ignacio Arteaga C."
+updated: "2026-08-12"
 ---
 
 Si te despidieron y crees que no correspondía, la ley te protege. Conoce tus derechos antes de que venzan los plazos.
