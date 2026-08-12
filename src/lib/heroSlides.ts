@@ -1,4 +1,6 @@
 import { getAllProductos, type Producto } from "@/lib/productosJuridicos";
+import heroLegal from "@/assets/hero-legal.jpg";
+import heroCorretaje from "@/assets/hero-corretaje.jpg";
 
 export type SlideId = "legal" | "corretaje" | Producto;
 
@@ -22,7 +24,7 @@ const ORIGINAL_SLIDES: HeroSlideData[] = [
     eyebrow: "Asesoría legal",
     title: "Consulta tu caso con nuestros abogados",
     description: "Evaluación gratuita de tu situación legal con profesionales especializados.",
-    image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23f0f4f8' width='400' height='300'/%3E%3C/svg%3E",
+    image: heroLegal,
     ctaLabel: "Asesoría legal",
     ctaTarget: "formulario",
     whatsappMessage: "Hola, quiero consultar mi caso con un abogado.",
@@ -33,7 +35,7 @@ const ORIGINAL_SLIDES: HeroSlideData[] = [
     eyebrow: "Corretaje inmobiliario",
     title: "Vende o arrienda tu propiedad con seguridad legal",
     description: "Servicio integral de corretaje con respaldo jurídico completo.",
-    image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23f8f4f0' width='400' height='300'/%3E%3C/svg%3E",
+    image: heroCorretaje,
     ctaLabel: "Consultar propiedad",
     ctaTarget: "formulario",
     whatsappMessage: "Hola, quiero asesoría sobre mi propiedad.",
