@@ -42,4 +42,17 @@ export const ACCEPTED_MIME_TYPES: Record<AcceptedFileExtension, AcceptedMimeType
   ".txt": "text/plain",
 };
 
+export const DEFAULT_ACCEPTED_TYPES: AcceptedFileExtension[] = [
+  ".pdf",
+  ".docx",
+  ".xlsx",
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".mp4",
+  ".mov",
+  ".webm",
+  ".txt",
+];
+
 export const ACCEPT_STRING = Object.values(ACCEPTED_MIME_TYPES).join(",");

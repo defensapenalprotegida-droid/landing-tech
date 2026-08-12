@@ -469,16 +469,36 @@ describe("FileUploadField", () => {
     });
   });
 
-  describe("Progress Tracking", () => {
-    it("displays progress bar when upload is in progress", () => {
-      render(
+  describe("Controlled Component", () => {
+    it("syncs file list from value prop changes", () => {
+      const { rerender } = render(
+        <FileUploadField value={["initial.pdf"]} onChange={mockOnChange} />
+      );
+
+      expect(screen.getByText("initial.pdf")).toBeInTheDocument();
+
+      // Update value prop to simulate form reset or external change
+      rerender(
+        <FileUploadField value={["replaced.pdf"]} onChange={mockOnChange} />
+      );
+
+      expect(screen.queryByText("initial.pdf")).not.toBeInTheDocument();
+      expect(screen.getByText("replaced.pdf")).toBeInTheDocument();
+    });
+
+    it("clears file list when value becomes empty", () => {
+      const { rerender } = render(
         <FileUploadField value={["test.pdf"]} onChange={mockOnChange} />
       );
 
-      const fileElement = screen.getByText((content, element) => {
-        return element?.textContent === "test.pdf";
-      });
-      expect(fileElement).toBeInTheDocument();
+      expect(screen.getByText("test.pdf")).toBeInTheDocument();
+
+      rerender(
+        <FileUploadField value={[]} onChange={mockOnChange} />
+      );
+
+      expect(screen.queryByText("test.pdf")).not.toBeInTheDocument();
+      expect(screen.queryByText(/Archivos seleccionados/)).not.toBeInTheDocument();
     });
   });
 

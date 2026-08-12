@@ -1,6 +1,12 @@
-import React, { useState, useRef, useCallback } from "react";
-import { Upload, X, AlertCircle, CheckCircle, File } from "lucide-react";
-import { ACCEPTED_MIME_TYPES, AcceptedMimeType, AcceptedFileExtension, FileInfo } from "@/lib/fileUploadTypes";
+import React, { useState, useRef, useCallback, useEffect } from "react";
+import { Upload, X, AlertCircle, File } from "lucide-react";
+import {
+  ACCEPTED_MIME_TYPES,
+  AcceptedMimeType,
+  AcceptedFileExtension,
+  FileInfo,
+  DEFAULT_ACCEPTED_TYPES,
+} from "@/lib/fileUploadTypes";
 
 interface FileUploadFieldProps {
   value: string[];
@@ -17,7 +23,6 @@ interface FileUploadFieldProps {
 const DEFAULT_MAX_FILES = 5;
 const DEFAULT_MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
 const DEFAULT_MAX_TOTAL_SIZE = 500 * 1024 * 1024; // 500MB
-const DEFAULT_ACCEPTED_TYPES: AcceptedFileExtension[] = [".pdf", ".docx", ".xlsx", ".jpg", ".jpeg", ".png", ".mp4", ".mov", ".webm", ".txt"];
 
 const formatFileSize = (bytes: number): string => {
   if (bytes === 0) return "0 B";
@@ -30,11 +35,12 @@ const formatFileSize = (bytes: number): string => {
 const validateFile = (
   file: File,
   acceptedMimeTypes: AcceptedMimeType[],
-  maxFileSize: number
+  maxFileSize: number,
+  acceptedTypesList: AcceptedFileExtension[]
 ): { isValid: boolean; error?: string } => {
   // Check MIME type
   if (!acceptedMimeTypes.includes(file.type as AcceptedMimeType)) {
-    const acceptedExts = DEFAULT_ACCEPTED_TYPES.join(", ");
+    const acceptedExts = acceptedTypesList.join(", ");
     return { isValid: false, error: `Tipo de archivo no permitido. Acepta: ${acceptedExts}` };
   }
 
@@ -58,6 +64,7 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
   acceptedTypes = DEFAULT_ACCEPTED_TYPES,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const inputId = useRef(`file-input-${Math.random().toString(36).slice(2, 9)}`);
   const [fileInfoList, setFileInfoList] = useState<FileInfo[]>(
     value.map((name) => ({
       name,
@@ -67,8 +74,19 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
     }))
   );
   const [dragActive, setDragActive] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState<Record<string, number>>({});
   const [localError, setLocalError] = useState<string>("");
+
+  // Sync fileInfoList when value prop changes (controlled component)
+  useEffect(() => {
+    setFileInfoList(
+      value.map((name) => ({
+        name,
+        size: 0,
+        type: "",
+        lastModified: 0,
+      }))
+    );
+  }, [value]);
 
   // Get accepted MIME types from acceptedTypes
   const acceptedMimeTypes: AcceptedMimeType[] = acceptedTypes
@@ -102,7 +120,7 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
         }
 
         // Validate file
-        const validation = validateFile(file, acceptedMimeTypes, maxFileSize);
+        const validation = validateFile(file, acceptedMimeTypes, maxFileSize, acceptedTypes);
         if (!validation.isValid) {
           errors.push(`${file.name}: ${validation.error}`);
           continue;
@@ -177,7 +195,7 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
   return (
     <div className="space-y-4">
       {label && (
-        <label className="text-sm font-medium text-foreground block">
+        <label htmlFor={inputId.current} className="text-sm font-medium text-foreground block">
           {label}
         </label>
       )}
@@ -201,6 +219,7 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
       >
         <input
           ref={fileInputRef}
+          id={inputId.current}
           type="file"
           multiple
           accept={acceptedTypes.join(",")}
@@ -271,20 +290,6 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
                     </p>
                   </div>
                 </div>
-
-                {/* Progress bar */}
-                {uploadProgress[file.name] !== undefined && uploadProgress[file.name] < 100 && (
-                  <div className="w-16 h-1 bg-muted rounded-full overflow-hidden flex-shrink-0">
-                    <div
-                      className="h-full bg-primary transition-all duration-300"
-                      style={{ width: `${uploadProgress[file.name]}%` }}
-                    />
-                  </div>
-                )}
-
-                {uploadProgress[file.name] === 100 && (
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                )}
 
                 {/* Remove button */}
                 <button
