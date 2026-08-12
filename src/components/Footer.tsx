@@ -41,8 +41,10 @@ const Footer = () => {
             </div>
             
             <p className="font-body text-gray-300 leading-relaxed mb-6 max-w-md">
-              Estudio jurídico especializado en derecho penal chileno. Protegemos tu libertad 
-              y derechos con profesionalismo, ética y experiencia comprobada.
+              Estudio jurídico de servicios legales integrales, con sede en Santiago y
+              atención en todo Chile. Asesoramos y representamos a personas y empresas
+              en materias penales, civiles, laborales, familiares, inmobiliarias,
+              corporativas y tributarias.
             </p>
             
             <div className="flex flex-col space-y-3">
