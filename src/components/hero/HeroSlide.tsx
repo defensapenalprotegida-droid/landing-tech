@@ -22,7 +22,7 @@ const HeroSlide = ({ slide, isFirst, children }: Props) => {
   const Titular = isFirst ? "h1" : "h2";
 
   return (
-    <div className="relative min-h-screen flex items-center overflow-hidden">
+    <div className="relative min-h-screen lg:min-h-[950px] flex items-center overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <img src={slide.image} alt="" aria-hidden className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent" />
@@ -34,8 +34,8 @@ const HeroSlide = ({ slide, isFirst, children }: Props) => {
         <div className="absolute -bottom-60 -left-40 w-[500px] h-[500px] rounded-full bg-primary/[0.02]" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-28 md:py-36 w-full">
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-20 md:py-28 w-full">
+        <div className="grid lg:grid-cols-2 gap-12 items-center lg:items-start">
           <div>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
