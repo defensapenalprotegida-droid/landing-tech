@@ -2,27 +2,73 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://arteagayaldunate.cl/</loc>
-    <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://arteagayaldunate.cl/blog</loc>
-    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://arteagayaldunate.cl/blog/autodespido-chile</loc>
+    <lastmod>2026-08-12</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://arteagayaldunate.cl/blog/citado-a-declarar</loc>
-    <lastmod>2026-07-10</lastmod>
+    <lastmod>2026-08-12</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://arteagayaldunate.cl/blog/cobrar-pension-alimentos-impaga</loc>
+    <lastmod>2026-08-12</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://arteagayaldunate.cl/blog/denuncia-vs-querella-chile</loc>
+    <lastmod>2026-08-12</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://arteagayaldunate.cl/blog/despido-injustificado</loc>
-    <lastmod>2026-06-22</lastmod>
+    <lastmod>2026-08-12</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://arteagayaldunate.cl/blog/finiquito-reserva-derechos</loc>
+    <lastmod>2026-08-12</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://arteagayaldunate.cl/blog/herencia-casa-hermanos-no-quiere-vender</loc>
+    <lastmod>2026-08-12</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://arteagayaldunate.cl/blog/ley-devuelveme-mi-casa</loc>
+    <lastmod>2026-08-12</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://arteagayaldunate.cl/blog/pension-de-alimentos</loc>
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-08-12</lastmod>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://arteagayaldunate.cl/blog/posesion-efectiva-chile</loc>
+    <lastmod>2026-08-12</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://arteagayaldunate.cl/blog/recuperar-pie-inmobiliaria</loc>
+    <lastmod>2026-08-12</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://arteagayaldunate.cl/privacidad</loc>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://arteagayaldunate.cl/terminos</loc>
+    <priority>0.3</priority>
   </url>
 </urlset>

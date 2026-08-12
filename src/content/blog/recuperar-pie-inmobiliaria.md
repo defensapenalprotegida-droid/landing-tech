@@ -8,7 +8,7 @@ excerpt: "El banco rechazó tu crédito, la entrega se atrasó o la inmobiliaria
 description: "Qué hacer si la inmobiliaria no devuelve el pie o la reserva: rechazo del crédito hipotecario, atraso en la entrega, cláusulas abusivas, y la diferencia entre reclamar en SERNAC o demandar."
 author: "Ignacio Arteaga C."
 reviewer: "Patricio Aldunate C."
-draft: true
+draft: false
 ---
 
 Pagaste una reserva o un pie por una propiedad en verde o en blanco, algo salió mal y la inmobiliaria se niega a devolverte el dinero. Es una de las situaciones más frecuentes y también una de las que más se resuelve mal, porque mucha gente asume que "el contrato lo dice" y da el dinero por perdido.

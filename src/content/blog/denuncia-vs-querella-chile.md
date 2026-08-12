@@ -8,7 +8,7 @@ excerpt: "Denunciar pone los hechos en conocimiento de la autoridad. Querellarse
 description: "Diferencia entre denuncia y querella en Chile: qué facultades da cada una a la víctima, cuándo conviene querellarse, qué se necesita y en qué plazo."
 author: "Ignacio Arteaga C."
 reviewer: "Patricio Aldunate C."
-draft: true
+draft: false
 ---
 
 Muchas víctimas denuncian, esperan meses y después se enteran de que la causa fue archivada sin que nadie les avisara mayormente. La sensación de haber quedado fuera del proceso tiene una explicación concreta: **denunciar no te convierte en parte**.

@@ -8,7 +8,7 @@ excerpt: "Firmar el finiquito sin reserva puede cerrarte la puerta a reclamar de
 description: "Qué es la reserva de derechos en un finiquito laboral, cómo se redacta, qué pasa si firmas sin ella y si el empleador puede negarse a aceptarla."
 author: "Patricio Aldunate C."
 reviewer: "Ignacio Arteaga C."
-draft: true
+draft: false
 ---
 
 Te despidieron, te citan a firmar el finiquito y te pagan una cifra. La pregunta que casi todos se hacen en ese momento es la correcta: **si firmo, ¿pierdo el derecho a reclamar?**

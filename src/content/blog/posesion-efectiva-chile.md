@@ -8,7 +8,7 @@ excerpt: "Sin posesión efectiva no se puede vender la casa ni transferir el aut
 description: "Cómo tramitar la posesión efectiva en Chile: diferencia entre con y sin testamento, inventario, inscripción especial de herencia, impuesto y cuándo se requiere abogado."
 author: "Ignacio Arteaga C."
 reviewer: "Patricio Aldunate C."
-draft: true
+draft: false
 ---
 
 Cuando muere una persona, sus bienes no pasan automáticamente a nombre de los herederos. Para poder vender la casa, transferir el auto o mover el dinero de una cuenta, primero hay que **tramitar la posesión efectiva**: el reconocimiento formal de quiénes son los herederos.
