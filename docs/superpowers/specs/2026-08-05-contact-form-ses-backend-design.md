@@ -73,7 +73,7 @@ proyectos RentoQ salvo indicación contraria.
 
 ### Lista de destinatarios
 - SSM Parameter Store, tipo `StringList`, path `/arteagayaldunate/contact/recipients`.
-- Valor inicial: `abogados@arteagayaldunate.cl`.
+- Valor inicial: `luis.guerrero.godoy@gmail.com`.
 - Agregar/quitar correos después es editar el parámetro (consola AWS o CLI) — sin tocar código, sin
   redeploy.
 

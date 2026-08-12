@@ -1,68 +1,24 @@
 import type { LeadFormValues } from "./leadSchema";
-import type { BrokerageFormValues } from "./brokerageSchema";
-import type { ConsentRecord } from "./consent";
-import { PRODUCTO_TO_AREA, type Producto } from "@/lib/productosJuridicos";
 
-export type Servicio = "legal" | "corretaje";
-
-/**
- * El endpoint es el mismo para ambos formularios, así que el payload es la
- * unión de los dos, con los tres campos que el backend siempre exige.
- */
-export type LeadPayload = Partial<LeadFormValues> &
-  Partial<BrokerageFormValues> & {
-    name: string;
-    email: string;
-    message: string;
-    servicio?: Servicio;
-    /** Token de reCAPTCHA Enterprise. Ausente si el script no cargó. */
-    recaptchaToken?: string;
-    recaptchaAction?: string;
-    /**
-     * Registro probatorio del consentimiento. Obligatorio en cualquier
-     * formulario que capture datos personales.
-     */
-    consent?: ConsentRecord;
-  };
-
-export interface SubmitLeadPayload {
-  servicio: string;
-  producto?: Producto;
-  recaptchaToken: string;
-  recaptchaAction: string;
-  name: string;
-  email: string;
-  phone: string;
-  message: string;
-  urgencia?: string;
-  horario?: string;
-  [key: string]: unknown;
-}
+export type LeadPayload = Partial<LeadFormValues> & {
+  name: string; email: string; message: string;
+};
 
 export async function submitLead(
-  payload: SubmitLeadPayload
-): Promise<{ ok: boolean; message: string }> {
+  payload: LeadPayload
+): Promise<{ ok: boolean; message?: string }> {
   try {
-    // Mapear producto → area si no viene area
-    let body: any = { ...payload };
-    if (payload.producto && !payload.area) {
-      body.area = PRODUCTO_TO_AREA[payload.producto];
-    }
-
-    const response = await fetch("/api/leads", {
+    const res = await fetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: JSON.stringify(payload),
     });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({}));
-      return { ok: false, message: error.message || "Error al enviar el formulario" };
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.ok) {
+      return { ok: false, message: data.message || "No se pudo enviar tu consulta." };
     }
-
-    return { ok: true, message: "Lead enviado correctamente" };
-  } catch (error) {
-    console.error("Error en submitLead:", error);
-    return { ok: false, message: "Error de conexión. Intenta de nuevo." };
+    return { ok: true };
+  } catch {
+    return { ok: false, message: "Error de conexión. Intenta nuevamente." };
   }
 }
