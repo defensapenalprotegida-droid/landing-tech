@@ -1,5 +1,6 @@
 import type { LeadFormValues } from "./leadSchema";
 import type { BrokerageFormValues } from "./brokerageSchema";
+import type { ConsentRecord } from "./consent";
 import { PRODUCTO_TO_AREA, type Producto } from "@/lib/productosJuridicos";
 
 export type Servicio = "legal" | "corretaje";
@@ -17,6 +18,11 @@ export type LeadPayload = Partial<LeadFormValues> &
     /** Token de reCAPTCHA Enterprise. Ausente si el script no cargó. */
     recaptchaToken?: string;
     recaptchaAction?: string;
+    /**
+     * Registro probatorio del consentimiento. Obligatorio en cualquier
+     * formulario que capture datos personales.
+     */
+    consent?: ConsentRecord;
   };
 
 export interface SubmitLeadPayload {
