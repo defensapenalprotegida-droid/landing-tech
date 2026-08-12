@@ -77,7 +77,7 @@ const Header = () => {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="font-body text-sm font-medium">
-                    ¿Cuál es tu caso?
+                    ¿CUÁL ES TU CASO?
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[630px] grid-cols-3 gap-1 p-3">
@@ -192,7 +192,7 @@ const Header = () => {
                   onClick={() => setIsCaseDropdownOpen(!isCaseDropdownOpen)}
                   className="block w-full text-left px-4 py-3 font-body text-base text-foreground hover:text-legal-primary hover:bg-gray-50 transition-colors duration-200 flex items-center justify-between"
                 >
-                  ¿Cuál es tu caso?
+                  ¿CUÁL ES TU CASO?
                   <ChevronDown className={`w-4 h-4 transition-transform ${
                     isCaseDropdownOpen ? "rotate-180" : ""
                   }`} />

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Mail, Send, Loader2 } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -178,7 +179,8 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Título del producto */}
         <div>
-          <h3 className="font-heading text-2xl font-bold text-foreground mb-2">
+          <h3 className="font-heading text-2xl font-bold text-foreground mb-2 flex items-center gap-2">
+            <FontAwesomeIcon icon={producto.icon} className="w-6 h-6 text-legal-primary" />
             {producto.nombre}
           </h3>
           <p className="text-muted-foreground text-sm">
