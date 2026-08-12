@@ -13,9 +13,9 @@ import { PRIVACY_POLICY_VERSION } from "@/lib/consent";
  * - El canal de derechos es abogados@arteagayaldunate.cl, que ya es público.
  *   No se crea un buzón nuevo que después nadie revisa.
  *
- * Quedan dos [POR DEFINIR] que BLOQUEAN la publicación:
- * 1. La razón social real, si el nombre comercial es solo marca.
- * 2. Los plazos de conservación.
+ * Queda un [POR DEFINIR] que BLOQUEA la publicación: los plazos de
+ * conservación. La razón social ya está confirmada: el nombre comercial es
+ * también la entidad responsable.
  *
  * Al modificar este texto hay que subir PRIVACY_POLICY_VERSION en
  * src/lib/consent.ts: esa versión queda registrada en cada lead y es lo que
@@ -47,8 +47,7 @@ const Privacidad = () => (
       <p>
         El responsable del tratamiento de los datos personales recopilados a
         través de este sitio es{" "}
-        <em>[POR DEFINIR: razón social]</em>, que opera comercialmente bajo el
-        nombre <strong>Arteaga &amp; Aldunate Abogados y Asociados</strong>.
+        <strong>Arteaga &amp; Aldunate Abogados y Asociados</strong>.
       </p>
       <p>
         <strong>Domicilio para estos efectos:</strong> Bombero Salas N° 1369,
