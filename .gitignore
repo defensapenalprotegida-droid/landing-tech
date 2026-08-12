@@ -30,3 +30,6 @@ pnpm-debug.log*
 
 # vercel
 .vercel
+
+# worktrees locales de desarrollo
+.worktrees/
