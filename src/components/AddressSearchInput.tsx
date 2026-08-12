@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import { MapPin, Search, AlertCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { loadGoogleMapsScript } from "@/lib/googleMapsLoader";
+import { normalizarRegionGoogle } from "@/lib/normalizar-region";
 
 export interface AddressResult {
   address: string;
@@ -50,23 +52,49 @@ const AddressSearchInput: React.FC<AddressSearchInputProps> = ({
 
   // Initialize Google Places API
   useEffect(() => {
-    if (!window.google || !window.google.maps) {
-      setApiError("Google Maps API no está disponible");
-      return;
-    }
+    let isMounted = true;
 
-    try {
-      autocompleteRef.current = new google.maps.places.AutocompleteService();
-      sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
-      geocoderRef.current = new google.maps.Geocoder();
+    const initializeGoogleMaps = async () => {
+      try {
+        // Cargar script de Google Maps
+        await loadGoogleMapsScript();
 
-      // Create a dummy div for PlacesService (required)
-      const dummyDiv = document.createElement("div");
-      placesServiceRef.current = new google.maps.places.PlacesService(dummyDiv);
-    } catch (err) {
-      setApiError("Error al inicializar Google Maps API");
-      console.error("Error initializing Places API:", err);
-    }
+        if (!isMounted) return;
+
+        if (!window.google || !window.google.maps) {
+          setApiError("Google Maps API no está disponible");
+          console.error("Google Maps API still not available after loading script");
+          return;
+        }
+
+        try {
+          autocompleteRef.current = new google.maps.places.AutocompleteService();
+          sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
+          geocoderRef.current = new google.maps.Geocoder();
+
+          // Create a dummy div for PlacesService (required)
+          const dummyDiv = document.createElement("div");
+          placesServiceRef.current = new google.maps.places.PlacesService(dummyDiv);
+
+          console.log("Google Places API initialized successfully");
+        } catch (err) {
+          setApiError("Error al inicializar Google Maps API");
+          console.error("Error initializing Places API:", err);
+        }
+      } catch (err) {
+        if (!isMounted) return;
+
+        const errorMessage = err instanceof Error ? err.message : "Error desconocido";
+        setApiError(`No se pudo cargar Google Maps: ${errorMessage}`);
+        console.error("Error loading Google Maps script:", err);
+      }
+    };
+
+    initializeGoogleMaps();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Handle input change and fetch predictions
@@ -169,6 +197,9 @@ const AddressSearchInput: React.FC<AddressSearchInputProps> = ({
             country = component.long_name;
           }
         });
+
+        // Normalize region name to Chilean standard (same as RentoQ)
+        region = normalizarRegionGoogle(region);
 
         const fullAddress = result.formatted_address;
         setInputValue(fullAddress);
@@ -291,9 +322,16 @@ const AddressSearchInput: React.FC<AddressSearchInputProps> = ({
         )}
 
         {apiError && (
-          <div className="flex items-center gap-1 mt-1 text-yellow-600 text-xs">
-            <AlertCircle className="w-3 h-3" />
-            {apiError}
+          <div className="flex items-center gap-1 mt-1 text-yellow-600 dark:text-yellow-500 text-xs">
+            <AlertCircle className="w-3 h-3 flex-shrink-0" />
+            <div className="flex flex-col gap-0.5">
+              <span>{apiError}</span>
+              {apiError.includes("key") && (
+                <span className="text-yellow-700 dark:text-yellow-400">
+                  Ver docs/GOOGLE_MAPS_SETUP.md para configurar
+                </span>
+              )}
+            </div>
           </div>
         )}
       </div>
