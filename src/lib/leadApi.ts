@@ -46,7 +46,7 @@ export async function uploadToS3(
           const s3Url = presignedUrl.split('?')[0];
           resolve({ ok: true, s3Url });
         } else {
-          resolve({ ok: false, error: `Upload failed: ${xhr.status}` });
+          resolve({ ok: false, error: `Error en la carga: ${xhr.status}` });
         }
       };
 
