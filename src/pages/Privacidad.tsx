@@ -6,11 +6,20 @@ import { PRIVACY_POLICY_VERSION } from "@/lib/consent";
 /**
  * BORRADOR SUJETO A REVISIÓN DEL ESTUDIO.
  *
- * Los bloques marcados con [POR DEFINIR] requieren datos que solo el estudio
- * puede aportar (RUT, domicilio, plazos de conservación). Al modificar este
- * texto hay que subir PRIVACY_POLICY_VERSION en src/lib/consent.ts: esa
- * versión queda registrada en cada lead y es lo que permite acreditar qué
- * aceptó cada persona.
+ * Decisiones tomadas y a respetar:
+ * - NO se publica RUT, datos bancarios, teléfonos ni domicilios particulares
+ *   de los socios. La ley exige individualizar al responsable y ofrecer un
+ *   medio de contacto, no exponer esos antecedentes.
+ * - El canal de derechos es abogados@arteagayaldunate.cl, que ya es público.
+ *   No se crea un buzón nuevo que después nadie revisa.
+ *
+ * Quedan dos [POR DEFINIR] que BLOQUEAN la publicación:
+ * 1. La razón social real, si el nombre comercial es solo marca.
+ * 2. Los plazos de conservación.
+ *
+ * Al modificar este texto hay que subir PRIVACY_POLICY_VERSION en
+ * src/lib/consent.ts: esa versión queda registrada en cada lead y es lo que
+ * permite acreditar qué aceptó cada persona.
  */
 const Privacidad = () => (
   <div className="min-h-screen">
@@ -36,16 +45,20 @@ const Privacidad = () => (
 
       <h2>1. Quién es responsable de tus datos</h2>
       <p>
-        Arteaga &amp; Aldunate Abogados y Asociados, con domicilio en Bombero
-        Salas N° 1369, oficina 701, Santiago de Chile.{" "}
-        <em>[POR DEFINIR: razón social y RUT.]</em>
+        El responsable del tratamiento de los datos personales recopilados a
+        través de este sitio es{" "}
+        <em>[POR DEFINIR: razón social]</em>, que opera comercialmente bajo el
+        nombre <strong>Arteaga &amp; Aldunate Abogados y Asociados</strong>.
       </p>
       <p>
-        Para cualquier asunto relativo a tus datos personales:{" "}
+        <strong>Domicilio para estos efectos:</strong> Bombero Salas N° 1369,
+        oficina 701, Santiago, Chile.
+      </p>
+      <p>
+        <strong>Contacto para consultas y ejercicio de derechos:</strong>{" "}
         <a href="mailto:abogados@arteagayaldunate.cl">
           abogados@arteagayaldunate.cl
         </a>
-        .
       </p>
 
       <h2>2. Qué datos recopilamos</h2>
@@ -87,7 +100,13 @@ const Privacidad = () => (
         novedades del estudio. Esa autorización es separable: no marcarla no
         afecta la respuesta a tu consulta.
       </p>
-      <p>No vendemos ni cedemos tus datos a terceros con fines comerciales.</p>
+      <p>
+        No vendemos tus datos ni los cedemos a terceros para que los usen con
+        fines propios. Esto es distinto de los proveedores que trabajan{" "}
+        <strong>por encargo nuestro y siguiendo nuestras instrucciones</strong>,
+        que sí acceden a ellos para que el sitio y el correo funcionen. Están
+        detallados más abajo.
+      </p>
 
       <h2>4. Con qué fundamento los tratamos</h2>
       <p>
@@ -107,10 +126,12 @@ const Privacidad = () => (
         </em>
       </p>
 
-      <h2>6. Quién más accede a tus datos</h2>
+      <h2>6. Encargados del tratamiento</h2>
       <p>
-        Para operar el sitio y el correo utilizamos proveedores que actúan por
-        nuestra cuenta:
+        Para operar el sitio y el correo recurrimos a proveedores tecnológicos
+        que tratan tus datos <strong>por encargo nuestro</strong>. No deciden
+        sobre ellos ni pueden usarlos para fines propios: nosotros seguimos
+        siendo responsables frente a ti.
       </p>
       <ul>
         <li>
@@ -177,8 +198,8 @@ const Privacidad = () => (
         <a href="mailto:abogados@arteagayaldunate.cl">
           abogados@arteagayaldunate.cl
         </a>{" "}
-        indicando qué derecho deseas ejercer.{" "}
-        <em>[POR DEFINIR: plazo de respuesta comprometido.]</em>
+        indicando qué derecho deseas ejercer. Responderemos dentro del plazo
+        que fija la ley.
       </p>
 
       <h2>10. Seguridad</h2>

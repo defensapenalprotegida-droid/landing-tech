@@ -18,6 +18,15 @@
  */
 export const PRIVACY_POLICY_VERSION = "2026-08-10";
 
+/**
+ * Estado de la política.
+ *
+ * Mientras sea "borrador", el texto puede tener marcadores [POR DEFINIR].
+ * Al pasarlo a "vigente" se activa una prueba que falla si queda alguno: es
+ * lo que impide publicar una política con huecos a la vista de los clientes.
+ */
+export const POLICY_STATUS: "borrador" | "vigente" = "borrador";
+
 /** Formulario desde el que se otorgó el consentimiento. */
 export const CONSENT_SOURCES = [
   "hero_legal",
