@@ -102,6 +102,9 @@ export const leadSchema = z
     laboralSituacion: z.enum(LABORAL_SITUACION_VALUES).optional(),
     // honeypot anti-spam (debe ir vacío)
     website: z.string().max(0).optional().default(""),
+    // file attachments
+    attachmentUrls: z.array(z.string().url()).optional()
+      .describe("Array of S3 URLs for uploaded attachments"),
   })
   .superRefine((data, ctx) => {
     if (situacionPenalAplica(data.area) && !data.situacionPenal) {
