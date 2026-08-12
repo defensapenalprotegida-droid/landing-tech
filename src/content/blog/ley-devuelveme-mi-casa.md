@@ -8,7 +8,7 @@ excerpt: "Qué hacer cuando el arrendatario dejó de pagar o no quiere entregar 
 description: "Guía práctica sobre la Ley Devuélveme mi Casa: cómo recuperar una propiedad arrendada en Chile cuando hay rentas impagas, qué documentos se necesitan y cuánto demora el procedimiento."
 author: "Ignacio Arteaga C."
 reviewer: "Patricio Aldunate C."
-draft: true
+draft: false
 ---
 
 Si arrendaste tu propiedad y el arrendatario dejó de pagar o se niega a entregarla, la vía es judicial. No puedes cambiar la cerradura, cortar los servicios ni sacar sus cosas: además de no funcionar, esas conductas pueden dejarte a ti expuesto.

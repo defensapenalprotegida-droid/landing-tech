@@ -8,7 +8,7 @@ excerpt: "Liquidación de la deuda, Registro Nacional de Deudores, retención de
 description: "Cómo cobrar una pensión de alimentos impaga en Chile: liquidación, Registro Nacional de Deudores de Pensiones de Alimentos, retenciones y el procedimiento especial de pago con fondos del deudor."
 author: "Patricio Aldunate C."
 reviewer: "Ignacio Arteaga C."
-draft: true
+draft: false
 ---
 
 Tener una pensión fijada por el tribunal y no recibirla es una de las situaciones más frustrantes del derecho de familia, entre otras cosas porque quien la sufre suele estar sosteniendo sola o solo los gastos de un niño.

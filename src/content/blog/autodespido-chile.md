@@ -8,7 +8,7 @@ excerpt: "Cuando es el empleador quien incumple, el trabajador puede poner térm
 description: "Guía sobre el autodespido o despido indirecto en Chile: causales, cómo se comunica, plazo para demandar, indemnizaciones que se pueden cobrar y los errores más frecuentes."
 author: "Patricio Aldunate C."
 reviewer: "Ignacio Arteaga C."
-draft: true
+draft: false
 ---
 
 El autodespido —o despido indirecto— es el mecanismo por el cual **es el trabajador quien pone término al contrato**, pero imputando la responsabilidad al empleador porque fue este quien incumplió gravemente sus obligaciones.

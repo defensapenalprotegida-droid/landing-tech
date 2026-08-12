@@ -8,7 +8,7 @@ excerpt: "Nadie está obligado a permanecer en una comunidad. Qué opciones exis
 description: "Qué hacer cuando se hereda una casa entre hermanos y uno no quiere vender: comunidad hereditaria, cesión de derechos hereditarios, juicio de partición, adjudicación y remate."
 author: "Ignacio Arteaga C."
 reviewer: "Patricio Aldunate C."
-draft: true
+draft: false
 ---
 
 Es una de las consultas más frecuentes y una de las que más deteriora relaciones familiares: murió el padre o la madre, quedó la casa, son tres o cuatro hermanos, y uno no quiere vender. A veces porque vive ahí. A veces porque no está de acuerdo con el precio. A veces sin explicar por qué.
