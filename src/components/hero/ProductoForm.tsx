@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import AddressSearchInput, { AddressResult } from "@/components/AddressSearchInput";
+import FileUploadField from "./FileUploadField";
 import { submitLead } from "@/lib/leadApi";
 import { getRecaptchaToken, RECAPTCHA_ACTIONS } from "@/lib/recaptcha";
 import { useToast } from "@/hooks/use-toast";
@@ -54,6 +55,7 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
+  const [attachmentUrls, setAttachmentUrls] = useState<string[]>([]);
 
   const producto = getProducto(productoId);
 
@@ -149,6 +151,7 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
         address: formData.address?.trim() || "",
         latitude: formData.latitude,
         longitude: formData.longitude,
+        attachmentUrls: attachmentUrls.length > 0 ? attachmentUrls : undefined,
       };
 
       // Agregar campos dinámicos
@@ -175,6 +178,7 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
           horario: "cualquiera",
           address: "",
         });
+        setAttachmentUrls([]);
         setErrors({});
       } else {
         toast({
@@ -407,6 +411,22 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
             className="resize-none text-sm"
           />
           {errors.message && <p className="text-red-500 text-xs mt-0.5">{errors.message}</p>}
+        </div>
+
+        {/* FILE UPLOADS */}
+        <div className="border-t border-border pt-4">
+          <FileUploadField
+            value={attachmentUrls}
+            onChange={(urls) => {
+              setAttachmentUrls(urls);
+              setFormData(prev => ({ ...prev, attachmentUrls: urls }));
+            }}
+            label="Documentos adjuntos (opcional)"
+            disabled={submitting}
+            maxFiles={5}
+            maxFileSize={100 * 1024 * 1024}
+            maxTotalSize={500 * 1024 * 1024}
+          />
         </div>
 
         {/* CONFIDENCIALIDAD */}
