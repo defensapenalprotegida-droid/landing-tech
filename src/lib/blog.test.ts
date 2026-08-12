@@ -11,7 +11,7 @@ describe("blog loader", () => {
   });
   it("obtiene un post por slug con contenido", () => {
     const post = getPostBySlug("citado-a-declarar");
-    expect(post?.title).toContain("citan a declarar");
+    expect(post?.title).toContain("Diferencias entre ser testigo");
     expect(post?.content.length).toBeGreaterThan(0);
     expect(post?.category).toBe("Derecho Penal");
   });
