@@ -33,3 +33,6 @@ pnpm-debug.log*
 
 # worktrees locales de desarrollo
 .worktrees/
+
+# temporal del prerender
+.vite-react-ssg-temp
