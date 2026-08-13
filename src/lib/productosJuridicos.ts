@@ -13,7 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import heroRecuperaCasa from "@/assets/hero-recupera-casa.jpg";
 import heroRecuperaPie from "@/assets/hero-recupera-pie.jpg";
-import heroDefiendeDeспido from "@/assets/hero-defiende-despido.jpg";
+import heroDefiendeDespido from "@/assets/hero-defiende-despido.jpg";
 import heroCotizacionesImpagas from "@/assets/hero-cotizaciones-impagas.jpg";
 import heroCobraPension from "@/assets/hero-cobra-pension.jpg";
 import heroDivorcioExpress from "@/assets/hero-divorcio-express.jpg";
@@ -230,7 +230,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
     eyebrow: "Despido injustificado",
     title: "¿Te despidieron injustamente? Calcula cuánto podrías reclamar.",
     description: "Evaluamos si tu despido cumple con los requisitos legales.",
-    image: heroDefiendeDeспido,
+    image: heroDefiendeDespido,
     backendArea: "laboral",
     icon: faBriefcase,
     campos: [

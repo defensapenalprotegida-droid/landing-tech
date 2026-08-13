@@ -1,5 +1,9 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import {
+  getAllProductos,
+  getProductosPublicados,
+} from "@/lib/productosJuridicos";
 
 /**
  * Estas pruebas leen dist/ y exigen un build previo.
@@ -59,6 +63,51 @@ suite("datos estructurados en el HTML estático", () => {
     for (const ruta of ["index.html", "servicios/cobra-tu-pension.html"]) {
       expect(html(ruta)).toContain('rel="canonical"');
       expect(html(ruta)).not.toContain("www.arteagayaldunate.cl");
+    }
+  });
+
+  it("las páginas indexables emiten robots index, follow", () => {
+    // No hay página con noIndex en el build prerenderizado: el único uso de
+    // noIndex es el branch 404 de Servicio.tsx, que no genera archivo propio
+    // en dist/ (ver hallazgo Minor 5). Esta prueba cubre lo verificable: que
+    // el robots directive normal sí llega al HTML estático.
+    for (const ruta of ["index.html", "servicios/cobra-tu-pension.html"]) {
+      expect(html(ruta)).toContain(
+        'name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"'
+      );
+    }
+  });
+
+  it("solo los productos publicados llegan al build", () => {
+    // La puerta de publicación (getProductosPublicados) se prueba a nivel
+    // unitario aparte; esto verifica que efectivamente se respeta en el
+    // build real, no solo en la función que la calcula.
+    const todos = getAllProductos();
+    const publicados = getProductosPublicados();
+    const publicadosSlugs = new Set(publicados.map((p) => p.seo!.slug));
+    const noPublicados = todos.filter((p) => !publicadosSlugs.has(p.seo?.slug ?? ""));
+
+    const sitemap = html("sitemap.xml");
+    const llms = html("llms.txt");
+
+    for (const producto of noPublicados) {
+      if (producto.seo?.slug) {
+        expect(sitemap).not.toContain(`/servicios/${producto.seo.slug}`);
+        expect(llms).not.toContain(`/servicios/${producto.seo.slug}`);
+      }
+    }
+
+    for (const producto of publicados) {
+      expect(sitemap).toContain(`/servicios/${producto.seo!.slug}`);
+      expect(llms).toContain(`/servicios/${producto.seo!.slug}`);
+    }
+
+    const archivosServicios = readdirSync("dist/servicios").filter((f) =>
+      f.endsWith(".html")
+    );
+    expect(archivosServicios).toHaveLength(publicados.length);
+    for (const producto of publicados) {
+      expect(archivosServicios).toContain(`${producto.seo!.slug}.html`);
     }
   });
 

@@ -6,9 +6,9 @@ User-agent: Bingbot
 Allow: /
 
 # Rastreadores de IA.
-# `User-agent: *` ya los cubriria, pero se declaran uno a uno para que la
-# autorizacion sea explicita y no dependa del comportamiento por defecto de
-# cada motor. Google-Extended es el que gobierna la inclusion en AI Overviews.
+# `User-agent: *` ya los cubriría, pero se declaran uno a uno para que la
+# autorización sea explícita y no dependa del comportamiento por defecto de
+# cada motor. Google-Extended es el que gobierna la inclusión en AI Overviews.
 User-agent: Google-Extended
 Allow: /
 
@@ -43,4 +43,7 @@ Allow: /
 User-agent: *
 Allow: /
 
+# También existe https://arteagayaldunate.cl/llms.txt para agentes de IA.
+# No hay un campo ratificado de robots.txt para esto, así que queda como
+# comentario en vez de inventar una directiva no estándar.
 Sitemap: https://arteagayaldunate.cl/sitemap.xml

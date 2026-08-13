@@ -32,7 +32,7 @@ const Servicio = () => {
         <Seo
           title="Página no encontrada"
           description="La página que buscas no existe."
-          path="/servicios"
+          path="/"
           noIndex
         />
         <Header />

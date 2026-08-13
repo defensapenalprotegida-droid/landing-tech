@@ -1,7 +1,6 @@
 import { Head } from "vite-react-ssg";
 import type { BlogPost } from "@/lib/blog";
-
-const SITE = "https://arteagayaldunate.cl";
+import { ESTUDIO_ID, SITE } from "@/lib/seo/estudio";
 
 /**
  * Datos estructurados BlogPosting.
@@ -30,12 +29,7 @@ const ArticleSchema = ({ post }: { post: BlogPost }) => {
     ...(post.reviewer
       ? { reviewedBy: { "@type": "Person", name: post.reviewer } }
       : {}),
-    publisher: {
-      "@type": "Organization",
-      name: "Arteaga & Aldunate Abogados y Asociados",
-      url: SITE,
-      logo: { "@type": "ImageObject", url: `${SITE}/logo.png` },
-    },
+    publisher: { "@id": ESTUDIO_ID },
   };
 
   return (

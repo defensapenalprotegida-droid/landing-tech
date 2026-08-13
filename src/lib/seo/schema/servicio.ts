@@ -1,4 +1,4 @@
-import { ESTUDIO_ID, SITE } from "../estudio";
+import { ESTUDIO, ESTUDIO_ID, SITE } from "../estudio";
 import type { ProductoJuridico } from "@/lib/productosJuridicos";
 
 /** Un servicio concreto, siempre atribuido a la entidad del estudio. */
@@ -15,6 +15,6 @@ export function servicioSchema(producto: ProductoJuridico) {
     serviceType: seo.h1,
     inLanguage: "es-CL",
     provider: { "@id": ESTUDIO_ID },
-    areaServed: "Chile",
+    areaServed: ESTUDIO.areaServida,
   };
 }

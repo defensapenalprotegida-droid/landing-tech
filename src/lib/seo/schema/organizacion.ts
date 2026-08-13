@@ -46,6 +46,7 @@ export function legalServiceSchema() {
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
+          "@id": `${SITE}/servicios/${producto.seo!.slug}#servicio`,
           name: producto.seo!.h1,
           url: `${SITE}/servicios/${producto.seo!.slug}`,
         },
