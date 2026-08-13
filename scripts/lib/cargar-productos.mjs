@@ -7,11 +7,16 @@ import { mkdirSync, mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
-export async function cargarProductosPublicados() {
+export async function cargarProductosPublicados(
+  entryPoint = "src/lib/productosJuridicos.ts"
+) {
   // El archivo temporal se crea dentro de node_modules/.cache (y no en el
   // tmpdir del sistema) para que, al marcar @fortawesome/* como externo, la
   // resolución de módulos de Node encuentre node_modules subiendo desde ahí.
   // Fuera del proyecto esa resolución falla.
+  // Asume que node_modules es escribible. En un CI con instalación
+  // --production o de solo lectura, mkdirSync fallará aquí; es un
+  // trade-off conocido, no un descuido.
   const base = join("node_modules", ".cache");
   mkdirSync(base, { recursive: true });
   const temporal = mkdtempSync(join(base, "aya-productos-"));
@@ -19,7 +24,7 @@ export async function cargarProductosPublicados() {
 
   try {
     await build({
-      entryPoints: ["src/lib/productosJuridicos.ts"],
+      entryPoints: [entryPoint],
       outfile: salida,
       bundle: true,
       format: "esm",
@@ -51,7 +56,25 @@ export async function cargarProductosPublicados() {
     });
 
     const modulo = await import(pathToFileURL(salida).href);
-    return modulo.getProductosPublicados().map((producto) => ({
+    const productos = modulo.getProductosPublicados();
+
+    // Un resultado vacío no es un build exitoso: significa que sitemap.xml y
+    // llms.txt se generarían sin ninguna página de servicio, deindexando el
+    // sitio en silencio (el único rastro sería un console.log fácil de
+    // ignorar en CI). Si algún día "cero productos publicados" es un estado
+    // legítimo, quien lo necesite debe quitar este guard a propósito.
+    if (productos.length === 0) {
+      throw new Error(
+        "cargarProductosPublicados() devolvió 0 productos publicados. " +
+          "Esto detendría el build silenciosamente generando sitemap.xml y " +
+          "llms.txt sin ninguna página /servicios/*. Revisa " +
+          "getProductosPublicados() en src/lib/productosJuridicos.ts: " +
+          "¿algún producto perdió su bloque `seo` o su flag de publicación " +
+          "por error?"
+      );
+    }
+
+    return productos.map((producto) => ({
       slug: producto.seo.slug,
       h1: producto.seo.h1,
       metaDescription: producto.seo.metaDescription,
