@@ -1,9 +1,39 @@
+# Buscadores tradicionales
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
 Allow: /
 
+# Rastreadores de IA.
+# `User-agent: *` ya los cubriria, pero se declaran uno a uno para que la
+# autorizacion sea explicita y no dependa del comportamiento por defecto de
+# cada motor. Google-Extended es el que gobierna la inclusion en AI Overviews.
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Previsualizaciones al compartir enlaces
 User-agent: Twitterbot
 Allow: /
 
