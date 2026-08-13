@@ -6,6 +6,7 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Privacidad from "./pages/Privacidad";
 import Terminos from "./pages/Terminos";
+import Cookies from "./pages/Cookies";
 import NotFound from "./pages/NotFound";
 
 export const routes: RouteRecord[] = [
@@ -23,6 +24,7 @@ export const routes: RouteRecord[] = [
       },
       { path: "privacidad", element: <Privacidad /> },
       { path: "terminos", element: <Terminos /> },
+      { path: "cookies", element: <Cookies /> },
       // ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE
       { path: "*", element: <NotFound /> },
     ],

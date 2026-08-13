@@ -9,6 +9,7 @@ import {
   Facebook,
 } from "lucide-react";
 import { useSectionNav } from "@/hooks/use-section-nav";
+import { openCookiePreferences } from "@/lib/cookies/preferencesBus";
 
 // TODO: reemplazar por las URLs reales de las redes del estudio.
 const SOCIALS = [
@@ -136,7 +137,9 @@ const Footer = () => {
               © {currentYear} Arteaga y Aldunate | Abogados & Asociados. Todos los derechos reservados.
             </div>
             
-            <div className="flex items-center space-x-6 font-body text-sm text-gray-400">
+            {/* flex-wrap: con cuatro enlaces ya no caben en una línea en
+                móvil y sin esto se salían del contenedor. */}
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-body text-sm text-gray-400">
               <Link
                 to="/privacidad"
                 className="hover:text-legal-primary transition-colors"
@@ -149,6 +152,21 @@ const Footer = () => {
               >
                 Términos de Servicio
               </Link>
+              <Link
+                to="/cookies"
+                className="hover:text-legal-primary transition-colors"
+              >
+                Política de Cookies
+              </Link>
+              {/* Obligatorio poder cambiar de opinión: sin esta puerta, quien
+                  rechazó o aceptó queda atrapado en su decisión. */}
+              <button
+                type="button"
+                onClick={openCookiePreferences}
+                className="rounded-sm hover:text-legal-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-legal-primary"
+              >
+                Preferencias de cookies
+              </button>
             </div>
           </div>
           

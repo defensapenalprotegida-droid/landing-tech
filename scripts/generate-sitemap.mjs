@@ -33,6 +33,7 @@ ${url(`${SITE}/blog`, undefined, "0.8")}
 ${posts.map((p) => url(`${SITE}/blog/${p.slug}`, p.lastmod, "0.7")).join("\n")}
 ${url(`${SITE}/privacidad`, undefined, "0.3")}
 ${url(`${SITE}/terminos`, undefined, "0.3")}
+${url(`${SITE}/cookies`, undefined, "0.3")}
 </urlset>
 `;
 

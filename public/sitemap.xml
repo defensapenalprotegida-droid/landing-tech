@@ -71,4 +71,8 @@
     <loc>https://arteagayaldunate.cl/terminos</loc>
     <priority>0.3</priority>
   </url>
+  <url>
+    <loc>https://arteagayaldunate.cl/cookies</loc>
+    <priority>0.3</priority>
+  </url>
 </urlset>
