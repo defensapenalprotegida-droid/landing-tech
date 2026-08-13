@@ -2,9 +2,12 @@
 // Antes se mantenía a mano y quedó desactualizado apenas crecieron los posts.
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { cargarProductosPublicados } from "./lib/cargar-productos.mjs";
 
 const SITE = "https://arteagayaldunate.cl";
 const DIR = "src/content/blog";
+
+const productos = await cargarProductosPublicados();
 
 const posts = readdirSync(DIR)
   .filter((f) => f.endsWith(".md"))
@@ -31,6 +34,7 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>
 ${url(`${SITE}/`, undefined, "1.0")}
 ${url(`${SITE}/blog`, undefined, "0.8")}
 ${posts.map((p) => url(`${SITE}/blog/${p.slug}`, p.lastmod, "0.7")).join("\n")}
+${productos.map((p) => url(`${SITE}/servicios/${p.slug}`, undefined, "0.9")).join("\n")}
 ${url(`${SITE}/privacidad`, undefined, "0.3")}
 ${url(`${SITE}/terminos`, undefined, "0.3")}
 ${url(`${SITE}/cookies`, undefined, "0.3")}
