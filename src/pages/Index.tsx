@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
 import PracticeAreas from "@/components/PracticeAreas";
+import ServiciosDestacados from "@/components/ServiciosDestacados";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import TeamSection from "@/components/TeamSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
@@ -19,13 +20,14 @@ const Index = () => {
     <div className="min-h-screen">
       <Seo
         title="Abogados en Chile"
-        description="Estudio jurídico chileno con defensa penal, laboral, civil, de familia, corporativa y tributaria. Asesoría clara y estrategia desde la primera reunión."
+        description="Estudio jurídico en Santiago con atención en derecho penal, civil, laboral, de familia, corporativo, inmobiliario y tributario. Evaluamos tu caso sin costo."
         path="/"
       />
       <Header />
       <main>
         <HeroSection />
         <PracticeAreas />
+        <ServiciosDestacados />
         <AboutSection />
         <TeamSection />
         <WhyChooseUs />
