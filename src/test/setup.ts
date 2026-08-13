@@ -27,3 +27,21 @@ class ResizeObserverDoble implements ResizeObserver {
 
 globalThis.ResizeObserver =
   ResizeObserverDoble as unknown as typeof ResizeObserver;
+
+// jsdom no implementa matchMedia, y Sonner (el Toaster que monta Layout) lo
+// consulta al montarse para decidir el tema. Sin este doble, cualquier
+// prueba que renderice Layout revienta antes de llegar a lo que se quiere
+// verificar.
+Object.defineProperty(window, "matchMedia", {
+  writable: true,
+  value: (query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => false,
+  }),
+});
