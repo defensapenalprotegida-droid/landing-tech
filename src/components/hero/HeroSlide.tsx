@@ -6,7 +6,7 @@ import type { HeroSlideData } from "@/lib/heroSlides";
 const WHATSAPP_PHONE = "56995336140";
 
 const STATS = [
-  { num: "15+", label: "Años de experiencia" },
+  { num: "32+", label: "Años de experiencia" },
   { num: "2.000+", label: "Casos resueltos" },
   { num: "98%", label: "Satisfacción" },
 ];
