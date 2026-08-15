@@ -1,7 +1,7 @@
 // src/components/hero/ProductoForm.tsx
 
-import React, { useState, useRef, useEffect } from "react";
-import { Mail, Send, Loader2, MapPin } from "lucide-react";
+import React, { useState } from "react";
+import { Mail, Send, Loader2 } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -16,13 +16,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import AddressSearchInput, { AddressResult } from "@/components/AddressSearchInput";
+import AddressSearchInput from "@/components/AddressSearchInput";
 import FileUploadField from "./FileUploadField";
 import { submitLead } from "@/lib/leadApi";
 import { getRecaptchaToken, RECAPTCHA_ACTIONS } from "@/lib/recaptcha";
 import { useToast } from "@/hooks/use-toast";
 import { getProducto, type Producto } from "@/lib/productosJuridicos";
-import { loadGoogleMapsScript } from "@/lib/googleMapsLoader";
 
 interface ProductoFormProps {
   productoId: Producto;
@@ -43,9 +42,6 @@ interface FormData {
 
 const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
   const { toast } = useToast();
-  const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<google.maps.Map | null>(null);
-  const markerRef = useRef<google.maps.Marker | null>(null);
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -60,7 +56,6 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [attachmentUrls, setAttachmentUrls] = useState<string[]>([]);
-  const [mapsLoaded, setMapsLoaded] = useState(false);
 
   const producto = getProducto(productoId);
 
@@ -68,74 +63,6 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
     return <div className="text-red-500">Producto no encontrado</div>;
   }
 
-  // Initialize Google Map
-  useEffect(() => {
-    let isMounted = true;
-
-    const initializeMap = async () => {
-      try {
-        await loadGoogleMapsScript();
-
-        if (!isMounted) return;
-        if (!window.google?.maps) {
-          console.error("Google Maps API not available");
-          return;
-        }
-
-        if (mapRef.current && !mapInstanceRef.current) {
-          // Default center: Santiago, Chile
-          const defaultCenter = { lat: -33.8688, lng: -70.8891 };
-
-          let Map: any;
-          let Marker: any;
-
-          // Use new importLibrary system if available
-          if (typeof window.google.maps.importLibrary === 'function') {
-            const coreLib = await window.google.maps.importLibrary('core') as any;
-            Map = coreLib.Map;
-            Marker = coreLib.Marker;
-          } else {
-            // Fallback to old API
-            Map = google.maps.Map;
-            Marker = google.maps.Marker;
-          }
-
-          mapInstanceRef.current = new Map(mapRef.current, {
-            zoom: 13,
-            center: defaultCenter,
-            mapTypeControl: false,
-            fullscreenControl: false,
-            streetViewControl: false,
-          });
-
-          // Update map if address already has coordinates
-          if (formData.latitude && formData.longitude) {
-            const location = { lat: formData.latitude, lng: formData.longitude };
-            mapInstanceRef.current.setCenter(location);
-
-            if (markerRef.current) {
-              markerRef.current.setMap(null);
-            }
-            markerRef.current = new Marker({
-              position: location,
-              map: mapInstanceRef.current,
-              title: formData.address,
-            });
-          }
-
-          setMapsLoaded(true);
-        }
-      } catch (err) {
-        console.error("Error initializing map:", err);
-      }
-    };
-
-    initializeMap();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -154,44 +81,6 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
     }
   };
 
-  const handleAddressSelect = async (result: AddressResult) => {
-    setFormData((prev) => ({
-      ...prev,
-      address: result.address,
-      latitude: result.latitude,
-      longitude: result.longitude,
-    }));
-
-    // Update map if loaded
-    if (mapInstanceRef.current && mapsLoaded && window.google?.maps) {
-      const location = { lat: result.latitude, lng: result.longitude };
-      mapInstanceRef.current.setCenter(location);
-      mapInstanceRef.current.setZoom(15);
-
-      // Remove old marker and add new one
-      if (markerRef.current) {
-        markerRef.current.setMap(null);
-      }
-
-      try {
-        let Marker: any;
-        if (typeof window.google.maps.importLibrary === 'function') {
-          const coreLib = await window.google.maps.importLibrary('core') as any;
-          Marker = coreLib.Marker;
-        } else {
-          Marker = google.maps.Marker;
-        }
-
-        markerRef.current = new Marker({
-          position: location,
-          map: mapInstanceRef.current,
-          title: result.address,
-        });
-      } catch (err) {
-        console.error("Error creating marker:", err);
-      }
-    }
-  };
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -379,8 +268,27 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
                   </div>
                 )}
 
-                {/* Text, email, tel, number, date inputs */}
-                {["text", "email", "tel", "number", "date"].includes(campo.type) && (
+                {/* Address search input for dirección propiedad */}
+                {campo.type === "text" && campo.name.includes("direccion") && (
+                  <div>
+                    <AddressSearchInput
+                      value={formData[campo.name] as string || ""}
+                      onChange={(result) => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          [campo.name]: result.address,
+                        }));
+                      }}
+                      label={campo.label}
+                      placeholder={campo.placeholder}
+                      required={campo.required}
+                      error={errors[campo.name]}
+                    />
+                  </div>
+                )}
+
+                {/* Text, email, tel, number, date inputs (excluding dirección fields) */}
+                {["text", "email", "tel", "number", "date"].includes(campo.type) && !campo.name.includes("direccion") && (
                   <div>
                     <label className="text-xs font-semibold text-foreground mb-1.5 block uppercase tracking-wide">
                       {campo.label}
@@ -455,31 +363,6 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
           </div>
         </div>
 
-        {/* DIRECCIÓN CON MAPA (OPCIONAL) */}
-        <div className="border-t border-border pt-4 space-y-3">
-          <div>
-            <label className="text-xs font-semibold text-foreground mb-2 flex items-center gap-2">
-              <MapPin className="w-4 h-4" />
-              Ubicación de la propiedad (opcional)
-            </label>
-            <AddressSearchInput
-              value={formData.address || ""}
-              onChange={handleAddressSelect}
-              label=""
-              placeholder="Busca una dirección en Chile..."
-              required={false}
-            />
-          </div>
-
-          {/* Google Map */}
-          {mapsLoaded && (
-            <div
-              ref={mapRef}
-              className="w-full h-64 rounded-lg border border-border overflow-hidden"
-              style={{ minHeight: "250px" }}
-            />
-          )}
-        </div>
 
         {/* URGENCIA Y HORARIO */}
         <div className="grid md:grid-cols-2 gap-3 border-t border-border pt-4">

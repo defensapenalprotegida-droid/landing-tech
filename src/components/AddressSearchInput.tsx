@@ -302,7 +302,10 @@ const AddressSearchInput: React.FC<AddressSearchInputProps> = ({
               <button
                 key={`${prediction.place_id}-${index}`}
                 type="button"
-                onClick={() => handleSelectSuggestion(prediction)}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  handleSelectSuggestion(prediction);
+                }}
                 className="w-full text-left px-4 py-2 hover:bg-accent hover:text-accent-foreground transition-colors border-b border-border last:border-b-0"
               >
                 <div className="flex items-start gap-2">
