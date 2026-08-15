@@ -137,6 +137,11 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
       const payload: Record<string, any> = {
         servicio: "legal",
         producto: productoId,
+        // Cada producto declara su especialidad en `backendArea`; el dato ya
+        // existía y simplemente no viajaba, así que el correo llegaba como
+        // "SIN ÁREA" pese a saberse perfectamente que esto es inmobiliario,
+        // laboral o familia.
+        area: producto.backendArea,
         recaptchaToken,
         recaptchaAction: RECAPTCHA_ACTIONS.heroLegal,
         name: formData.name.trim(),

@@ -59,6 +59,8 @@ const BrokerageQuickForm = () => {
     );
     const res = await submitLead({
       servicio: "corretaje",
+      // El corretaje es inmobiliario por definición.
+      area: "inmobiliario",
       recaptchaToken,
       recaptchaAction: RECAPTCHA_ACTIONS.heroCorretaje,
       name: parsed.data.name,

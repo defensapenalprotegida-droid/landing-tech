@@ -6,6 +6,19 @@ export const AREAS = [
 ] as const;
 export type Area = (typeof AREAS)[number];
 
+/**
+ * Área que acompaña a toda consulta enviada, incluidas las del formulario
+ * corto del hero, que no pregunta especialidad.
+ *
+ * Antes esas consultas viajaban sin área y el asunto del correo salía como
+ * "SIN ÁREA", que se lee como un fallo del sistema en vez de como lo que es:
+ * alguien que todavía no dijo de qué se trata su caso.
+ */
+export const AREA_GENERAL = "general" as const;
+
+/** Lo que puede llevar el campo `area` de un lead. */
+export type AreaLead = Area | typeof AREA_GENERAL;
+
 export const AREA_LABELS: Record<Area, string> = {
   penal: "Derecho Penal",
   civil: "Derecho Civil",

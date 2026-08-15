@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { submitLead } from "@/lib/leadApi";
 import { getRecaptchaToken, RECAPTCHA_ACTIONS } from "@/lib/recaptcha";
+import { AREA_GENERAL } from "@/lib/leadSchema";
 import { useToast } from "@/hooks/use-toast";
 
 type FormData = {
@@ -54,6 +55,9 @@ const LegalQuickForm = () => {
     const recaptchaToken = await getRecaptchaToken(RECAPTCHA_ACTIONS.heroLegal);
     const res = await submitLead({
       servicio: "legal",
+      // Este formulario no pregunta especialidad, así que la consulta se
+      // clasifica como general en lugar de llegar sin área.
+      area: AREA_GENERAL,
       recaptchaToken,
       recaptchaAction: RECAPTCHA_ACTIONS.heroLegal,
       name: formData.name.trim(),
