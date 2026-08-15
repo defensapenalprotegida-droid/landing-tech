@@ -22,6 +22,7 @@ import { submitLead } from "@/lib/leadApi";
 import { getRecaptchaToken, RECAPTCHA_ACTIONS } from "@/lib/recaptcha";
 import { useToast } from "@/hooks/use-toast";
 import { getProducto, type Producto } from "@/lib/productosJuridicos";
+import { construirCamposProducto } from "@/lib/camposProducto";
 
 interface ProductoFormProps {
   productoId: Producto;
@@ -147,12 +148,15 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
         attachmentUrls: attachmentUrls.length > 0 ? attachmentUrls : undefined,
       };
 
-      // Agregar campos dinámicos
-      producto.campos.forEach((campo) => {
-        if (formData[campo.name]) {
-          payload[campo.name] = formData[campo.name];
-        }
-      });
+      // Las respuestas del caso viajan como pares etiqueta-valor y no como
+      // claves sueltas: así el backend las muestra sin conocer los productos.
+      // Antes se enviaban planas (`mesesMora: "6"`) y, como el backend no las
+      // declaraba, se descartaban en silencio: el detalle del caso nunca
+      // llegaba al correo.
+      const camposProducto = construirCamposProducto(producto.campos, formData);
+      if (camposProducto.length > 0) {
+        payload.camposProducto = camposProducto;
+      }
 
       const res = await submitLead(payload);
       setSubmitting(false);
