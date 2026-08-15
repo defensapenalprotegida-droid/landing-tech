@@ -161,14 +161,14 @@ const Header = () => {
           </nav>
 
           {/* Contact Button & Mobile Menu Toggle */}
-          <div className="flex items-center space-x-3 lg:space-x-4">
+          <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 ml-2 sm:ml-4">
             <a
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-2 bg-legal-primary text-white px-6 lg:px-7 py-3 lg:py-3.5 rounded-lg text-sm lg:text-base font-semibold hover:bg-legal-primary/90 transition whitespace-nowrap"
+              className="hidden sm:inline-flex items-center gap-2.5 bg-legal-primary text-white px-5 sm:px-6 lg:px-8 py-2.5 sm:py-3 lg:py-3.5 rounded-full text-sm lg:text-base font-semibold hover:bg-legal-primary/90 transition whitespace-nowrap shadow-md hover:shadow-lg"
             >
-              <Phone className="w-4 h-4" /> Habla con un abogado
+              <Phone className="w-4 h-4 sm:w-5 sm:h-5" /> Habla con un abogado
             </a>
 
             {/* Mobile menu button */}
