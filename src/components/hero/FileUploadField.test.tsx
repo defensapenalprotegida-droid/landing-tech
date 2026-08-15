@@ -1,7 +1,24 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import FileUploadField from "./FileUploadField";
+
+/**
+ * La subida real se prueba en `src/lib/uploadAdjuntos.test.ts`. Aquí se
+ * sustituye por un doble para poder comprobar lo que le toca al componente:
+ * que emite hacia arriba las URLs de S3 y no los nombres de archivo.
+ *
+ * Esa distincion es justo el fallo que estas pruebas dejaban pasar: afirmaban
+ * que `onChange` recibia ["test.pdf"], que era el sintoma del bug, no el
+ * comportamiento correcto.
+ */
+const URL_BASE =
+  "https://arteagayaldunate-contact-attachments-prod.s3.us-east-1.amazonaws.com/k";
+
+vi.mock("@/lib/uploadAdjuntos", () => ({
+  subirAdjuntos: vi.fn(async (files: File[]) => ({
+    urls: files.map((f) => `${URL_BASE}/${f.name}`),
+  })),
+}));
 
 describe("FileUploadField", () => {
   const mockOnChange = vi.fn();
@@ -66,7 +83,7 @@ describe("FileUploadField", () => {
       fireEvent.change(input, { target: { files: [file] } });
 
       await waitFor(() => {
-        expect(mockOnChange).toHaveBeenCalledWith(["test.pdf"]);
+        expect(mockOnChange).toHaveBeenCalledWith([`${URL_BASE}/test.pdf`]);
       });
 
       expect(screen.getByText("test.pdf")).toBeInTheDocument();
@@ -85,7 +102,7 @@ describe("FileUploadField", () => {
       fireEvent.change(input, { target: { files: [file1, file2] } });
 
       await waitFor(() => {
-        expect(mockOnChange).toHaveBeenCalledWith(["test1.pdf", "test2.docx"]);
+        expect(mockOnChange).toHaveBeenCalledWith([`${URL_BASE}/test1.pdf`, `${URL_BASE}/test2.docx`]);
       });
 
       expect(screen.getByText(/Archivos seleccionados \(2\/5\)/)).toBeInTheDocument();
@@ -133,7 +150,7 @@ describe("FileUploadField", () => {
       fireEvent.drop(dropZone, { dataTransfer: { files: [file] } });
 
       await waitFor(() => {
-        expect(mockOnChange).toHaveBeenCalledWith(["dropped.pdf"]);
+        expect(mockOnChange).toHaveBeenCalledWith([`${URL_BASE}/dropped.pdf`]);
       });
     });
 
@@ -215,7 +232,7 @@ describe("FileUploadField", () => {
       fireEvent.change(input, { target: { files: [file1] } });
 
       await waitFor(() => {
-        expect(mockOnChange).toHaveBeenCalledWith(["file1.pdf"]);
+        expect(mockOnChange).toHaveBeenCalledWith([`${URL_BASE}/file1.pdf`]);
       });
 
       // Try to add second file (1024 + 1024 = 2048 > 1536, should exceed total)
@@ -250,7 +267,7 @@ describe("FileUploadField", () => {
         expect(screen.getByText(/Máximo de 2 archivos/)).toBeInTheDocument();
       });
 
-      expect(mockOnChange).toHaveBeenCalledWith(["file1.pdf", "file2.pdf"]);
+      expect(mockOnChange).toHaveBeenCalledWith([`${URL_BASE}/file1.pdf`, `${URL_BASE}/file2.pdf`]);
     });
 
     it("respects custom acceptedTypes", () => {
@@ -356,7 +373,7 @@ describe("FileUploadField", () => {
       fireEvent.change(input, { target: { files: [file] } });
 
       await waitFor(() => {
-        expect(mockOnChange).toHaveBeenCalledWith(["test.pdf"]);
+        expect(mockOnChange).toHaveBeenCalledWith([`${URL_BASE}/test.pdf`]);
       });
 
       const removeButton = screen.getByLabelText(/Remove test.pdf/);
@@ -370,18 +387,24 @@ describe("FileUploadField", () => {
     });
 
     it("disables remove button when component is disabled", async () => {
-      render(
-        <FileUploadField
-          value={["test.pdf"]}
-          onChange={mockOnChange}
-          disabled={true}
-        />
+      // La lista ya no se deriva de `value`: se llena subiendo archivos, que
+      // es lo unico que produce una URL real de S3.
+      const { rerender } = render(
+        <FileUploadField value={[]} onChange={mockOnChange} />
       );
 
-      const removeButton = screen.getByLabelText(
-        "Remove test.pdf"
-      ) as HTMLButtonElement;
-      expect(removeButton).toBeDisabled();
+      const file = new File(["test"], "test.pdf", { type: "application/pdf" });
+      fireEvent.change(
+        screen.getByLabelText("File upload input") as HTMLInputElement,
+        { target: { files: [file] } }
+      );
+      await screen.findByText("test.pdf");
+
+      rerender(
+        <FileUploadField value={[]} onChange={mockOnChange} disabled={true} />
+      );
+
+      expect(screen.getByLabelText("Remove test.pdf")).toBeDisabled();
     });
   });
 
@@ -470,35 +493,39 @@ describe("FileUploadField", () => {
   });
 
   describe("Controlled Component", () => {
-    it("syncs file list from value prop changes", () => {
+    it("limpia la lista cuando el formulario se vacia tras enviar", async () => {
+      // ProductoForm vacia `attachmentUrls` al enviar con exito. Sin esto, los
+      // archivos del envio anterior seguirian a la vista como si fueran del
+      // siguiente.
       const { rerender } = render(
-        <FileUploadField value={["initial.pdf"]} onChange={mockOnChange} />
-      );
-
-      expect(screen.getByText("initial.pdf")).toBeInTheDocument();
-
-      // Update value prop to simulate form reset or external change
-      rerender(
-        <FileUploadField value={["replaced.pdf"]} onChange={mockOnChange} />
-      );
-
-      expect(screen.queryByText("initial.pdf")).not.toBeInTheDocument();
-      expect(screen.getByText("replaced.pdf")).toBeInTheDocument();
-    });
-
-    it("clears file list when value becomes empty", () => {
-      const { rerender } = render(
-        <FileUploadField value={["test.pdf"]} onChange={mockOnChange} />
-      );
-
-      expect(screen.getByText("test.pdf")).toBeInTheDocument();
-
-      rerender(
         <FileUploadField value={[]} onChange={mockOnChange} />
       );
 
-      expect(screen.queryByText("test.pdf")).not.toBeInTheDocument();
-      expect(screen.queryByText(/Archivos seleccionados/)).not.toBeInTheDocument();
+      const file = new File(["test"], "test.pdf", { type: "application/pdf" });
+      fireEvent.change(
+        screen.getByLabelText("File upload input") as HTMLInputElement,
+        { target: { files: [file] } }
+      );
+      await screen.findByText("test.pdf");
+
+      // Simula el estado tras subir: el padre ya tiene la URL...
+      rerender(
+        <FileUploadField
+          value={[`${URL_BASE}/test.pdf`]}
+          onChange={mockOnChange}
+        />
+      );
+      expect(screen.getByText("test.pdf")).toBeInTheDocument();
+
+      // ...y despues del envio la vacia.
+      rerender(<FileUploadField value={[]} onChange={mockOnChange} />);
+
+      await waitFor(() => {
+        expect(screen.queryByText("test.pdf")).not.toBeInTheDocument();
+      });
+      expect(
+        screen.queryByText(/Archivos seleccionados/)
+      ).not.toBeInTheDocument();
     });
   });
 

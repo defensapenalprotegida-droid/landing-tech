@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { Upload, X, AlertCircle, File } from "lucide-react";
+import { subirAdjuntos } from "@/lib/uploadAdjuntos";
 import {
   ACCEPTED_MIME_TYPES,
   AcceptedMimeType,
@@ -9,8 +10,11 @@ import {
 } from "@/lib/fileUploadTypes";
 
 interface FileUploadFieldProps {
+  /** URLs de los documentos ya confirmados en S3. */
   value: string[];
-  onChange: (files: string[]) => void;
+  onChange: (urls: string[]) => void;
+  /** Permite al formulario bloquear el envío mientras haya subidas en curso. */
+  onSubiendoChange?: (subiendo: boolean) => void;
   label?: string;
   error?: string;
   disabled?: boolean;
@@ -55,6 +59,7 @@ const validateFile = (
 const FileUploadField: React.FC<FileUploadFieldProps> = ({
   value,
   onChange,
+  onSubiendoChange,
   label = "Documentos adjuntos",
   error,
   disabled = false,
@@ -65,28 +70,43 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const inputId = useRef(`file-input-${Math.random().toString(36).slice(2, 9)}`);
-  const [fileInfoList, setFileInfoList] = useState<FileInfo[]>(
-    value.map((name) => ({
-      name,
-      size: 0,
-      type: "",
-      lastModified: 0,
-    }))
-  );
+  // La lista local es la fuente de verdad porque guarda algo que `value` no
+  // puede representar: en qué estado va la subida de cada archivo. `value`
+  // contiene solo las URLs ya confirmadas en S3.
+  const [fileInfoList, setFileInfoList] = useState<FileInfo[]>([]);
   const [dragActive, setDragActive] = useState(false);
   const [localError, setLocalError] = useState<string>("");
 
-  // Sync fileInfoList when value prop changes (controlled component)
+  // El formulario vacía `value` al enviar con éxito, y esa es la señal para
+  // limpiar la lista. Solo se reacciona a la transición de "había archivos" a
+  // "ya no": si se limpiara cada vez que `value` está vacío, un archivo que
+  // falló al subir desaparecería junto con su mensaje de error, porque un
+  // archivo fallido tampoco aporta URL.
+  const urlsPrevias = useRef(value.length);
   useEffect(() => {
-    setFileInfoList(
-      value.map((name) => ({
-        name,
-        size: 0,
-        type: "",
-        lastModified: 0,
-      }))
-    );
+    if (urlsPrevias.current > 0 && value.length === 0) {
+      setFileInfoList([]);
+    }
+    urlsPrevias.current = value.length;
   }, [value]);
+
+  const subiendo = fileInfoList.some((f) => f.estado === "subiendo");
+
+  useEffect(() => {
+    onSubiendoChange?.(subiendo);
+  }, [subiendo, onSubiendoChange]);
+
+  /** Publica hacia arriba solo los archivos que de verdad llegaron a S3. */
+  const publicarUrls = useCallback(
+    (lista: FileInfo[]) => {
+      onChange(
+        lista
+          .filter((f) => f.estado === "listo" && f.url)
+          .map((f) => f.url as string)
+      );
+    },
+    [onChange]
+  );
 
   // Get accepted MIME types from acceptedTypes
   const acceptedMimeTypes: AcceptedMimeType[] = acceptedTypes
@@ -101,10 +121,14 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
   };
 
   const handleFileSelect = useCallback(
-    (files: FileList | null) => {
+    async (files: FileList | null) => {
       if (!files || disabled) return;
 
       const newFiles: FileInfo[] = [];
+      // Los `File` reales, que son los que se suben. Antes solo se guardaban
+      // sus nombres, y era el nombre lo que acababa viajando como si fuera la
+      // URL del documento en S3.
+      const seleccionados: File[] = [];
       const errors: string[] = [];
 
       // Calculate current total size
@@ -139,6 +163,7 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
           type: file.type,
           lastModified: file.lastModified,
         });
+        seleccionados.push(file);
       }
 
       if (errors.length > 0) {
@@ -147,14 +172,47 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
         setLocalError("");
       }
 
-      // Update file list and onChange callback only if files were added
-      if (newFiles.length > 0) {
-        const updatedFileList = [...fileInfoList, ...newFiles];
-        setFileInfoList(updatedFileList);
-        onChange(updatedFileList.map((f) => f.name));
-      }
+      if (newFiles.length === 0) return;
+
+      // Se sube al elegir y no al enviar: con archivos de hasta 100 MB,
+      // hacerlo al pulsar "Enviar" deja el formulario colgado sin explicación.
+      const aSubir = newFiles.map((f) => ({ ...f, estado: "subiendo" as const }));
+      setFileInfoList((previa) => [...previa, ...aSubir]);
+
+      const resultado = await subirAdjuntos(seleccionados);
+
+      setFileInfoList((previa) => {
+        const actualizada = previa.map((info) => {
+          if (!aSubir.some((f) => f.name === info.name)) return info;
+
+          if ("error" in resultado) {
+            return { ...info, estado: "error" as const };
+          }
+
+          const indice = seleccionados.findIndex((a) => a.name === info.name);
+          return {
+            ...info,
+            estado: "listo" as const,
+            url: resultado.urls[indice],
+          };
+        });
+
+        publicarUrls(actualizada);
+        return actualizada;
+      });
+
+      if ("error" in resultado) setLocalError(resultado.error);
     },
-    [fileInfoList, disabled, maxFiles, maxFileSize, maxTotalSize, acceptedMimeTypes, onChange]
+    [
+      fileInfoList,
+      disabled,
+      maxFiles,
+      maxFileSize,
+      maxTotalSize,
+      acceptedMimeTypes,
+      acceptedTypes,
+      publicarUrls,
+    ]
   );
 
   const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
@@ -179,7 +237,10 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
   const handleRemoveFile = (index: number) => {
     const updatedFileList = fileInfoList.filter((_, i) => i !== index);
     setFileInfoList(updatedFileList);
-    onChange(updatedFileList.map((f) => f.name));
+    // El objeto queda en S3: la URL firmada solo servía para subir. Borrarlo
+    // exigiría un endpoint propio; mientras tanto lo recoge la regla de ciclo
+    // de vida del bucket.
+    publicarUrls(updatedFileList);
     setLocalError("");
   };
 
@@ -287,7 +348,16 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {formatFileSize(file.size)}
+                      {/* El estado es lo que distingue un archivo elegido de
+                          uno realmente recibido por el estudio. */}
+                      {file.estado === "subiendo" && " · subiendo…"}
+                      {file.estado === "listo" && " · listo"}
                     </p>
+                    {file.estado === "error" && (
+                      <p className="text-xs text-destructive">
+                        No se pudo subir. Quítalo y vuelve a intentarlo.
+                      </p>
+                    )}
                   </div>
                 </div>
 

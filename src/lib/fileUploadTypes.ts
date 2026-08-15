@@ -21,6 +21,11 @@ export interface FileInfo {
   type: string;
   lastModified: number;
   error?: string;
+  /** Dónde va la subida a S3. Sin esto no se puede distinguir un archivo
+   *  elegido de uno realmente enviado. */
+  estado?: "subiendo" | "listo" | "error";
+  /** URL del objeto en S3, disponible solo cuando `estado` es "listo". */
+  url?: string;
 }
 
 export interface PresignedUrlResponse {

@@ -57,6 +57,9 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [attachmentUrls, setAttachmentUrls] = useState<string[]>([]);
+  // Enviar mientras un documento sube dejaría la consulta sin el adjunto,
+  // y la persona creería que llegó.
+  const [subiendoAdjuntos, setSubiendoAdjuntos] = useState(false);
 
   const producto = getProducto(productoId);
 
@@ -427,6 +430,7 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
               setAttachmentUrls(urls);
               setFormData(prev => ({ ...prev, attachmentUrls: urls }));
             }}
+            onSubiendoChange={setSubiendoAdjuntos}
             label="Documentos adjuntos (opcional)"
             disabled={submitting}
             maxFiles={5}
@@ -450,7 +454,7 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
           type="submit"
           size="md"
           className="w-full gap-2 group text-sm"
-          disabled={submitting}
+          disabled={submitting || subiendoAdjuntos}
         >
           {submitting ? (
             <>
