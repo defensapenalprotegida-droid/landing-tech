@@ -251,7 +251,13 @@ const AddressSearchInput: React.FC<AddressSearchInputProps> = ({
           value={inputValue}
           onChange={handleInputChange}
           placeholder={placeholder}
-          disabled={disabled || isLoading}
+          // Solo `disabled`, nunca `isLoading`: la consulta a Google se
+          // dispara con cada tecla, y deshabilitar un input hace que el
+          // navegador le quite el foco. Al rehabilitarlo el foco no vuelve, así
+          // que el cursor desaparecía y se perdía lo que se siguiera
+          // escribiendo. El estado de carga se comunica con el indicador de la
+          // derecha, que no interrumpe la escritura.
+          disabled={disabled}
           autoComplete="off"
           className="w-full px-9 py-2.5 text-sm border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-all"
         />
