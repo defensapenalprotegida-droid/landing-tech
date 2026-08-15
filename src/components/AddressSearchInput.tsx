@@ -247,14 +247,15 @@ const AddressSearchInput: React.FC<AddressSearchInputProps> = ({
     [onChange]
   );
 
-  // Close suggestions when clicking outside
+  // Close suggestions when clicking outside (but preserve focus)
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
       if (
         suggestionsRef.current &&
-        !suggestionsRef.current.contains(event.target as Node) &&
+        !suggestionsRef.current.contains(target) &&
         inputRef.current &&
-        !inputRef.current.contains(event.target as Node)
+        !inputRef.current.contains(target)
       ) {
         setShowSuggestions(false);
       }
@@ -284,6 +285,12 @@ const AddressSearchInput: React.FC<AddressSearchInputProps> = ({
             className="pl-9"
             autoComplete="off"
             onFocus={() => inputValue && suggestions.length > 0 && setShowSuggestions(true)}
+            onKeyDown={(e) => {
+              // Keep suggestions visible when typing
+              if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+                e.preventDefault();
+              }
+            }}
           />
           {isLoading && (
             <div className="absolute right-3 top-1/2 -translate-y-1/2">
@@ -304,11 +311,16 @@ const AddressSearchInput: React.FC<AddressSearchInputProps> = ({
                 type="button"
                 onMouseDown={(e) => {
                   e.preventDefault();
+                  e.stopPropagation();
                   handleSelectSuggestion(prediction);
                 }}
-                className="w-full text-left px-4 py-2 hover:bg-accent hover:text-accent-foreground transition-colors border-b border-border last:border-b-0"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+                className="w-full text-left px-4 py-2 hover:bg-accent hover:text-accent-foreground transition-colors border-b border-border last:border-b-0 focus:outline-none"
               >
-                <div className="flex items-start gap-2">
+                <div className="flex items-start gap-2 pointer-events-none">
                   <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 text-muted-foreground" />
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-sm truncate">
