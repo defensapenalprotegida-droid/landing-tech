@@ -47,19 +47,25 @@ const Header = () => {
           {/* Logo */}
          <img
   src="/logo.png"
-  alt="Arteaga & Aldunate "
+  alt="Arteaga & Aldunate"
   className="
     h-12
-    sm:h-16
-    md:h-24
-    lg:h-40
-    xl:h-48
-    2xl:h-56
+    sm:h-14
+    md:h-16
+    lg:h-20
+    max-w-[160px]
+    sm:max-w-[200px]
+    md:max-w-[220px]
+    lg:max-w-xs
     w-auto
-    max-w-full
     object-contain
     cursor-pointer
+    transition-all duration-200
   "
+  style={{
+    maxWidth: 'clamp(80px, 20vw, 220px)',
+    height: 'auto',
+  }}
   onClick={() => scrollTo('hero')}
 />
 
@@ -155,12 +161,12 @@ const Header = () => {
           </nav>
 
           {/* Contact Button & Mobile Menu Toggle */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3 lg:space-x-4">
             <a
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-2 bg-legal-primary text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-legal-primary/90 transition"
+              className="hidden sm:inline-flex items-center gap-2 bg-legal-primary text-white px-6 lg:px-7 py-3 lg:py-3.5 rounded-lg text-sm lg:text-base font-semibold hover:bg-legal-primary/90 transition whitespace-nowrap"
             >
               <Phone className="w-4 h-4" /> Habla con un abogado
             </a>
