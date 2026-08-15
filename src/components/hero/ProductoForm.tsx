@@ -268,8 +268,8 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
                   </div>
                 )}
 
-                {/* Address search input for dirección propiedad */}
-                {campo.type === "text" && campo.name.includes("direccion") && (
+                {/* Address search input */}
+                {campo.type === "address" && (
                   <div>
                     <AddressSearchInput
                       value={formData[campo.name] as string || ""}
@@ -287,8 +287,8 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
                   </div>
                 )}
 
-                {/* Text, email, tel, number, date inputs (excluding dirección fields) */}
-                {["text", "email", "tel", "number", "date"].includes(campo.type) && !campo.name.includes("direccion") && (
+                {/* Text, email, tel, number, date inputs */}
+                {["text", "email", "tel", "number", "date"].includes(campo.type) && (
                   <div>
                     <label className="text-xs font-semibold text-foreground mb-1.5 block uppercase tracking-wide">
                       {campo.label}

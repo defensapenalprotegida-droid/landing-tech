@@ -42,7 +42,7 @@ export const PRODUCTOS = PRODUCTOS_LIST;
 
 export interface Campo {
   name: string;
-  type: "text" | "email" | "tel" | "number" | "select" | "textarea" | "radio" | "date";
+  type: "text" | "email" | "tel" | "number" | "select" | "textarea" | "radio" | "date" | "address";
   label: string;
   required: boolean;
   placeholder?: string;
@@ -142,6 +142,13 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
         label: "Monto adeudado",
         required: true,
         placeholder: "Pesos",
+      },
+      {
+        name: "direccionPropiedad",
+        type: "address",
+        label: "Dirección de la propiedad",
+        required: true,
+        placeholder: "Busca la dirección en Chile...",
       },
       {
         name: "hayConsumos",
