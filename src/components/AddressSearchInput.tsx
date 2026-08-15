@@ -242,6 +242,12 @@ const AddressSearchInput: React.FC<AddressSearchInputProps> = ({
         setApiError("Error al obtener detalles de la dirección");
       } finally {
         setIsLoading(false);
+        // Restore focus to input after operation completes
+        if (inputRef.current) {
+          setTimeout(() => {
+            inputRef.current?.focus();
+          }, 0);
+        }
       }
     },
     [onChange]
@@ -261,8 +267,9 @@ const AddressSearchInput: React.FC<AddressSearchInputProps> = ({
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    // Use capture phase to detect clicks outside
+    document.addEventListener("click", handleClickOutside, true);
+    return () => document.removeEventListener("click", handleClickOutside, true);
   }, []);
 
   return (
@@ -272,28 +279,29 @@ const AddressSearchInput: React.FC<AddressSearchInputProps> = ({
         {required && <span className="text-red-500"> *</span>}
       </label>
 
-      <div className="relative">
-        <div className="relative">
-          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
-          <Input
+      <div className="relative w-full">
+        <div className="relative w-full">
+          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none z-10" />
+          <input
             ref={inputRef}
             type="text"
             value={inputValue}
             onChange={handleInputChange}
             placeholder={placeholder}
             disabled={disabled || isLoading}
-            className="pl-9"
             autoComplete="off"
-            onFocus={() => inputValue && suggestions.length > 0 && setShowSuggestions(true)}
+            className="w-full px-9 py-2 text-sm border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+            onFocus={() => {
+              inputValue && suggestions.length > 0 && setShowSuggestions(true);
+            }}
             onKeyDown={(e) => {
-              // Keep suggestions visible when typing
               if (e.key === "ArrowDown" || e.key === "ArrowUp") {
                 e.preventDefault();
               }
             }}
           />
           {isLoading && (
-            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 z-10">
               <Search className="w-4 h-4 animate-pulse text-primary" />
             </div>
           )}
@@ -303,7 +311,7 @@ const AddressSearchInput: React.FC<AddressSearchInputProps> = ({
         {showSuggestions && suggestions.length > 0 && (
           <div
             ref={suggestionsRef}
-            className="absolute z-50 w-full mt-1 bg-background border border-input rounded-md shadow-lg max-h-60 overflow-y-auto"
+            className="absolute z-50 w-full mt-1 bg-background border border-input rounded-md shadow-lg max-h-60 overflow-y-auto top-full left-0"
           >
             {suggestions.map((prediction, index) => (
               <button
