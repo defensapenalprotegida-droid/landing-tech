@@ -61,20 +61,38 @@ const AddressSearchInput: React.FC<AddressSearchInputProps> = ({
 
         if (!isMounted) return;
 
-        if (!window.google || !window.google.maps) {
+        if (!window.google) {
           setApiError("Google Maps API no está disponible");
           console.error("Google Maps API still not available after loading script");
           return;
         }
 
         try {
-          autocompleteRef.current = new google.maps.places.AutocompleteService();
-          sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
-          geocoderRef.current = new google.maps.Geocoder();
+          // Use new importLibrary system if available
+          if (window.google.maps && typeof window.google.maps.importLibrary === 'function') {
+            const placesLib = await window.google.maps.importLibrary('places') as any;
+            autocompleteRef.current = new placesLib.AutocompleteService();
+            sessionTokenRef.current = new placesLib.AutocompleteSessionToken();
+          } else if (window.google.maps && window.google.maps.places) {
+            // Fallback to old API
+            autocompleteRef.current = new google.maps.places.AutocompleteService();
+            sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken();
+          } else {
+            throw new Error("Places library not available");
+          }
+
+          // Geocoder is in core library
+          if (window.google.maps) {
+            geocoderRef.current = new google.maps.Geocoder();
+          } else {
+            throw new Error("Geocoder not available");
+          }
 
           // Create a dummy div for PlacesService (required)
           const dummyDiv = document.createElement("div");
-          placesServiceRef.current = new google.maps.places.PlacesService(dummyDiv);
+          if (window.google.maps && window.google.maps.places) {
+            placesServiceRef.current = new google.maps.places.PlacesService(dummyDiv);
+          }
 
           console.log("Google Places API initialized successfully");
         } catch (err) {

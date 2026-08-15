@@ -86,7 +86,21 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
           // Default center: Santiago, Chile
           const defaultCenter = { lat: -33.8688, lng: -70.8891 };
 
-          mapInstanceRef.current = new google.maps.Map(mapRef.current, {
+          let Map: any;
+          let Marker: any;
+
+          // Use new importLibrary system if available
+          if (typeof window.google.maps.importLibrary === 'function') {
+            const coreLib = await window.google.maps.importLibrary('core') as any;
+            Map = coreLib.Map;
+            Marker = coreLib.Marker;
+          } else {
+            // Fallback to old API
+            Map = google.maps.Map;
+            Marker = google.maps.Marker;
+          }
+
+          mapInstanceRef.current = new Map(mapRef.current, {
             zoom: 13,
             center: defaultCenter,
             mapTypeControl: false,
@@ -102,7 +116,7 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
             if (markerRef.current) {
               markerRef.current.setMap(null);
             }
-            markerRef.current = new google.maps.Marker({
+            markerRef.current = new Marker({
               position: location,
               map: mapInstanceRef.current,
               title: formData.address,
@@ -140,7 +154,7 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
     }
   };
 
-  const handleAddressSelect = (result: AddressResult) => {
+  const handleAddressSelect = async (result: AddressResult) => {
     setFormData((prev) => ({
       ...prev,
       address: result.address,
@@ -149,7 +163,7 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
     }));
 
     // Update map if loaded
-    if (mapInstanceRef.current && mapsLoaded) {
+    if (mapInstanceRef.current && mapsLoaded && window.google?.maps) {
       const location = { lat: result.latitude, lng: result.longitude };
       mapInstanceRef.current.setCenter(location);
       mapInstanceRef.current.setZoom(15);
@@ -158,11 +172,24 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
       if (markerRef.current) {
         markerRef.current.setMap(null);
       }
-      markerRef.current = new google.maps.Marker({
-        position: location,
-        map: mapInstanceRef.current,
-        title: result.address,
-      });
+
+      try {
+        let Marker: any;
+        if (typeof window.google.maps.importLibrary === 'function') {
+          const coreLib = await window.google.maps.importLibrary('core') as any;
+          Marker = coreLib.Marker;
+        } else {
+          Marker = google.maps.Marker;
+        }
+
+        markerRef.current = new Marker({
+          position: location,
+          map: mapInstanceRef.current,
+          title: result.address,
+        });
+      } catch (err) {
+        console.error("Error creating marker:", err);
+      }
     }
   };
 
