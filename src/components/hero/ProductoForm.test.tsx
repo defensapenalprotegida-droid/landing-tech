@@ -36,8 +36,8 @@ describe("ProductoForm", () => {
   it("debe renderizar campos dinámicos del producto", () => {
     render(<ProductoForm productoId="recupera-casa" />);
     // Verificar que los campos dinámicos estén presentes en el DOM
-    expect(screen.getByText(/¿Tienes contrato de arriendo?/)).toBeInTheDocument();
-    expect(screen.getByText(/¿Cuántos meses de mora?/)).toBeInTheDocument();
+    expect(screen.getByText("Contrato de arriendo")).toBeInTheDocument();
+    expect(screen.getByText("Meses de mora")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Ej: 3")).toBeInTheDocument();
   });
 
@@ -151,8 +151,8 @@ describe("ProductoForm", () => {
   });
 
   it("debe renderizar diferentes productos", () => {
-    const { unmount } = render(<ProductoForm productoId="cobra-deuda" />);
-    expect(screen.getByText("Cobra tu Deuda")).toBeInTheDocument();
+    const { unmount } = render(<ProductoForm productoId="cobra-pension" />);
+    expect(screen.getByText("Cobra tu Pensión")).toBeInTheDocument();
 
     unmount();
 

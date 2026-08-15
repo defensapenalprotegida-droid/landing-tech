@@ -45,7 +45,10 @@ async function pedirUrlsFirmadas(
     })),
   };
 
-  const respuesta = await fetch("https://arteagayaldunate.cl/api/presigned-urls", {
+  // Ruta relativa a propósito: con la URL absoluta, probar desde `localhost`
+  // subía los archivos al S3 de producción, mezclando pruebas con documentos
+  // de clientes reales. Para desarrollo local, `vercel dev` levanta /api.
+  const respuesta = await fetch("/api/presigned-urls", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(peticion),
