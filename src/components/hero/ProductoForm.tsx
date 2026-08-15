@@ -156,7 +156,10 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
       // Antes se enviaban planas (`mesesMora: "6"`) y, como el backend no las
       // declaraba, se descartaban en silencio: el detalle del caso nunca
       // llegaba al correo.
+      console.log("DEBUG - producto.campos:", producto.campos.map(c => c.name));
+      console.log("DEBUG - formData:", formData);
       const camposProducto = construirCamposProducto(producto.campos, formData);
+      console.log("DEBUG - camposProducto:", camposProducto);
       if (camposProducto.length > 0) {
         payload.camposProducto = camposProducto;
       }
