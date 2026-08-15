@@ -144,13 +144,6 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
         placeholder: "Pesos",
       },
       {
-        name: "direccionPropiedad",
-        type: "text",
-        label: "Dirección propiedad",
-        required: true,
-        placeholder: "Calle, número, ciudad",
-      },
-      {
         name: "hayConsumos",
         type: "radio",
         label: "Consumos (agua, luz, gas)",
