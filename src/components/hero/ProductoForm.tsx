@@ -23,6 +23,7 @@ import { getRecaptchaToken, RECAPTCHA_ACTIONS } from "@/lib/recaptcha";
 import { useToast } from "@/hooks/use-toast";
 import { getProducto, type Producto } from "@/lib/productosJuridicos";
 import { construirCamposProducto } from "@/lib/camposProducto";
+import { formatearPesos, soloDigitos } from "@/lib/formatoMoneda";
 
 interface ProductoFormProps {
   productoId: Producto;
@@ -307,11 +308,31 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
                       {campo.required && <span className="text-red-500"> *</span>}
                     </label>
                     <Input
-                      type={campo.type}
+                      // Los montos van como texto y no como `number`: con
+                      // `number` el navegador rechaza los puntos de miles y
+                      // además dibuja las flechitas de incremento, que no
+                      // tienen sentido para una deuda.
+                      type={campo.moneda ? "text" : campo.type}
+                      inputMode={campo.moneda ? "numeric" : undefined}
                       name={campo.name}
-                      value={formData[campo.name] || ""}
-                      onChange={handleChange}
-                      placeholder={campo.placeholder}
+                      value={
+                        campo.moneda
+                          ? formatearPesos(formData[campo.name] ?? "")
+                          : formData[campo.name] || ""
+                      }
+                      onChange={
+                        campo.moneda
+                          ? (e) =>
+                              // Se guardan solo los dígitos: el formato es
+                              // presentación, y así nunca se envía un monto
+                              // con puntos que haya que reinterpretar.
+                              handleRadioChange(
+                                campo.name,
+                                soloDigitos(e.target.value)
+                              )
+                          : handleChange
+                      }
+                      placeholder={campo.moneda ? "$0" : campo.placeholder}
                       className="text-sm"
                     />
                     {errors[campo.name] && (

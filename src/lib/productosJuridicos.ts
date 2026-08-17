@@ -48,6 +48,12 @@ export interface Campo {
   placeholder?: string;
   options?: { value: string; label: string }[];
   description?: string;
+  /**
+   * El campo es un monto en pesos: se muestra como `$1.234.567` mientras se
+   * escribe y viaja formateado al correo. Se declara aquí y no se deduce del
+   * nombre para que un campo nuevo no herede el formato por llamarse "monto".
+   */
+  moneda?: boolean;
 }
 
 /**
@@ -142,6 +148,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
         label: "Monto adeudado",
         required: true,
         placeholder: "Pesos",
+        moneda: true,
       },
       {
         name: "direccionPropiedad",
@@ -182,6 +189,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
         label: "Monto pagado",
         required: true,
         placeholder: "Pesos",
+        moneda: true,
       },
       {
         name: "motivoRechazo",
@@ -211,6 +219,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
         label: "Monto retenido",
         required: true,
         placeholder: "Pesos",
+        moneda: true,
       },
       {
         name: "inmobiliaria",
@@ -246,6 +255,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
         label: "Sueldo mensual",
         required: true,
         placeholder: "Pesos",
+        moneda: true,
       },
       {
         name: "causalEnCarta",
@@ -335,6 +345,7 @@ export const PRODUCTOS_JURIDICOS: Record<Producto, ProductoJuridico> = {
         label: "Pensión mensual",
         required: true,
         placeholder: "Pesos",
+        moneda: true,
       },
       {
         name: "mesesAtrasados",

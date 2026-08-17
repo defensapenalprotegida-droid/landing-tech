@@ -78,3 +78,23 @@ describe("construirCamposProducto", () => {
     expect(construirCamposProducto(campos, {})).toEqual([]);
   });
 });
+
+describe("montos", () => {
+  const conMoneda: Campo[] = [
+    { name: "montoTotal", type: "number", label: "Monto adeudado", required: true, moneda: true },
+    { name: "mesesMora", type: "number", label: "Meses de mora", required: true },
+  ];
+
+  it("envía el monto formateado al correo", () => {
+    // "2400000" obliga a contar ceros; "$2.400.000" se lee de un vistazo.
+    expect(construirCamposProducto(conMoneda, { montoTotal: "2400000" })).toEqual([
+      { label: "Monto adeudado", value: "$2.400.000" },
+    ]);
+  });
+
+  it("no formatea los números que no son dinero", () => {
+    expect(construirCamposProducto(conMoneda, { mesesMora: "6" })).toEqual([
+      { label: "Meses de mora", value: "6" },
+    ]);
+  });
+});
