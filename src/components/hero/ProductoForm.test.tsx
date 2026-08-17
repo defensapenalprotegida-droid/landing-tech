@@ -160,3 +160,42 @@ describe("ProductoForm", () => {
     expect(screen.getByText("Divorcio Express")).toBeInTheDocument();
   });
 });
+
+describe("campos numéricos", () => {
+  // Se busca por placeholder y no por etiqueta: los <label> del formulario no
+  // declaran `htmlFor`, así que no hay nombre accesible que consultar. Es un
+  // defecto de accesibilidad real, anotado aparte.
+  const escribir = (placeholder: string, texto: string) => {
+    const input = screen.getByPlaceholderText(placeholder) as HTMLInputElement;
+    fireEvent.change(input, { target: { value: texto } });
+    return input;
+  };
+
+  it("muestra los montos como pesos mientras se escribe", () => {
+    render(<ProductoForm productoId="recupera-casa" />);
+    expect(escribir("$0", "2400000").value).toBe("$2.400.000");
+  });
+
+  it("descarta letras en los montos", () => {
+    render(<ProductoForm productoId="recupera-casa" />);
+    expect(escribir("$0", "24abc00").value).toBe("$2.400");
+  });
+
+  it("los campos numéricos que no son dinero no llevan el signo peso", () => {
+    // "Meses de mora" son 6, no $6.
+    render(<ProductoForm productoId="recupera-casa" />);
+    expect(escribir("Ej: 3", "6").value).toBe("6");
+  });
+
+  it("ningún campo numérico usa type=number, que dibuja flechas inútiles", () => {
+    render(<ProductoForm productoId="recupera-casa" />);
+    const numericos = screen
+      .getAllByRole("textbox")
+      .filter((i) => (i as HTMLInputElement).inputMode === "numeric");
+
+    expect(numericos.length).toBeGreaterThan(1);
+    for (const input of numericos) {
+      expect((input as HTMLInputElement).type).toBe("text");
+    }
+  });
+});

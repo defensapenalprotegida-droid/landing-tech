@@ -312,8 +312,12 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
                       // `number` el navegador rechaza los puntos de miles y
                       // además dibuja las flechitas de incremento, que no
                       // tienen sentido para una deuda.
-                      type={campo.moneda ? "text" : campo.type}
-                      inputMode={campo.moneda ? "numeric" : undefined}
+                      // Ningún campo numérico usa `type="number"`: dibuja
+                      // flechas de incremento que no sirven para una deuda ni
+                      // para un número de meses, y deja pasar notación
+                      // científica ("8e5"). Se usa texto con teclado numérico.
+                      type={campo.type === "number" ? "text" : campo.type}
+                      inputMode={campo.type === "number" ? "numeric" : undefined}
                       name={campo.name}
                       value={
                         campo.moneda
@@ -321,11 +325,12 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
                           : formData[campo.name] || ""
                       }
                       onChange={
-                        campo.moneda
+                        campo.type === "number"
                           ? (e) =>
-                              // Se guardan solo los dígitos: el formato es
-                              // presentación, y así nunca se envía un monto
-                              // con puntos que haya que reinterpretar.
+                              // Se guardan solo los dígitos. En los montos el
+                              // formato es presentación, así que nunca se
+                              // envía un número con puntos que haya que
+                              // reinterpretar.
                               handleRadioChange(
                                 campo.name,
                                 soloDigitos(e.target.value)
