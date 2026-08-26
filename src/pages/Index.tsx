@@ -28,13 +28,13 @@ const Index = () => {
       <main>
         <HeroSection />
         <PracticeAreas />
-        <DocumentsDownload />
         <ServiciosDestacados />
         <AboutSection />
         <TeamSection />
         <WhyChooseUs />
         <TestimonialsSection />
         <BlogSection />
+        <DocumentsDownload />
         <ContactSection />
       </main>
       <Footer />
