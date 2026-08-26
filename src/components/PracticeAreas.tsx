@@ -9,6 +9,7 @@ import {
   Landmark,
   ReceiptText,
   ChevronRight,
+  Download,
 } from "lucide-react";
 import { prefillArea } from "@/lib/leadPrefill";
 import { consumePendingArea, onFocusArea } from "@/lib/areaFocus";
@@ -29,6 +30,10 @@ const areas = [
     icon: AlertTriangle,
     title: "Derecho Penal",
     subtitle: "Defensa penal estratégica, inmediata y confidencial.",
+    image: "/imagenesparaweb/Penal_pagina.png",
+    documents: [
+      { name: "Declaración Jurada Testigo", file: "pagina_Declaracion_Jurada_Testigo.docx" }
+    ],
     desc: "Cuando hay una imputación, una detención o una citación de la Fiscalía, cada hora cuenta. En Arteaga y Aldunate Abogados y Asociados asumimos su defensa desde el primer minuto: comparecencia ante el Ministerio Público, control de detención, formalización, juicio oral y recursos. Nuestro enfoque combina técnica procesal, conocimiento de la jurisprudencia de la Corte Suprema y una estrategia de defensa diseñada para proteger su libertad, su honra y su patrimonio.",
     services: [
       "Defensa penal en delitos comunes y delitos económicos.",
@@ -46,6 +51,10 @@ const areas = [
     title: "Derecho Civil",
     subtitle:
       "Soluciones jurídicas sólidas para sus conflictos patrimoniales y contractuales.",
+    image: "/imagenesparaweb/Justicia_pagina.png",
+    documents: [
+      { name: "Poder Simple", file: "PAGINA_Poder_Simple.docx" }
+    ],
     desc: "El Derecho Civil es el corazón de las relaciones jurídicas entre personas: contratos, propiedad, responsabilidad, sucesiones e indemnizaciones. Nuestro equipo lo asesora tanto en la prevención, mediante la revisión y redacción de contratos, como en la litigación, incluyendo cobros, indemnizaciones, nulidades y juicios de precario. Diseñamos cada estrategia midiendo costos, tiempos y probabilidades reales de éxito.",
     services: [
       "Redacción, revisión y negociación de contratos civiles y comerciales.",
@@ -63,6 +72,10 @@ const areas = [
     title: "Derecho Laboral",
     subtitle:
       "Asesoría laboral para empresas y trabajadores, con foco en resultados.",
+    image: "/imagenesparaweb/Laboral_pagina.jpg",
+    documents: [
+      { name: "Carta de Renuncia Voluntaria", file: "paginaweb_Carta_Renuncia_Voluntaria.docx" }
+    ],
     desc: "El Derecho Laboral chileno exige decisiones rápidas y bien fundamentadas. Asesoramos a trabajadores en despidos injustificados, autodespidos, tutela de derechos fundamentales y cobranza de prestaciones; y a empresas en gestión laboral preventiva, reglamentos internos, finiquitos, sumarios y defensa en juicios. Nuestro objetivo es alcanzar la mejor solución, sea en negociación o en tribunales.",
     services: [
       "Demandas por despido injustificado, indebido o improcedente.",
@@ -80,6 +93,8 @@ const areas = [
     title: "Derecho de Familia",
     subtitle:
       "Acompañamiento jurídico cercano en los momentos más sensibles de la vida.",
+    image: "/imagenesparaweb/paraalgunblo_pagina.png",
+    documents: [],
     desc: "Los conflictos de familia exigen sensibilidad, prudencia y la mejor técnica jurídica. Asesoramos en divorcios, alimentos, cuidado personal, relación directa y regular, violencia intrafamiliar y filiación, combinando experiencia procesal en los Juzgados de Familia con un trato humano, reservado y estratégico.",
     services: [
       "Divorcios de común acuerdo, unilaterales y por culpa.",
@@ -97,6 +112,10 @@ const areas = [
     icon: Building2,
     title: "Derecho Corporativo",
     subtitle: "Su socio jurídico para constituir, operar y hacer crecer su empresa.",
+    image: "/imagenesparaweb/estafa_pagina.jpg",
+    documents: [
+      { name: "Poder Simple", file: "PAGINA_Poder_Simple.docx" }
+    ],
     desc: "Toda empresa necesita una estructura jurídica sólida. Acompañamos a emprendedores, pymes y empresas consolidadas en la constitución, modificación y transformación de sociedades, pactos de accionistas, contratos comerciales, acuerdos de confidencialidad, fusiones y adquisiciones, gobierno corporativo y compliance.",
     services: [
       "Constitución de sociedades: SpA, E.I.R.L, LTDA y S.A.",
@@ -115,6 +134,12 @@ const areas = [
     title: "Derecho Inmobiliario",
     subtitle:
       "Seguridad jurídica en cada compraventa, arrendamiento y proyecto inmobiliario.",
+    image: "/imagenesparaweb/Terreno_pagina.webp",
+    documents: [
+      { name: "Checklist Compra Bien Raíz", file: "pagina_Checklist_Compra_Bien_Raiz.docx" },
+      { name: "Checklist Arrendar Propiedad", file: "Pagina_Checklist_Arrendar_Propiedad.docx" },
+      { name: "Mandato Especial Compraventa Inmueble", file: "pagina_Mandato_Especial_Compraventa_Inmueble.docx" }
+    ],
     desc: "Una propiedad mal estudiada es un riesgo patrimonial enorme. Realizamos estudios de títulos, redactamos y revisamos compraventas, promesas, arriendos y leasings, y asesoramos a inmobiliarias, propietarios y compradores en transacciones de cualquier escala. También representamos en conflictos por arriendos, deslindes, servidumbres y comunidades de copropiedad.",
     services: [
       "Estudio de títulos y saneamiento de la propiedad.",
@@ -132,6 +157,8 @@ const areas = [
     icon: ReceiptText,
     title: "Derecho Tributario",
     subtitle: "Planificación tributaria estratégica y defensa frente al SII.",
+    image: "/imagenesparaweb/recuperaIVA_Pagina.jpg",
+    documents: [],
     desc: "El cumplimiento tributario es hoy un eje crítico para personas, empresas y profesionales. Asesoramos en planificación tributaria lícita, reorganización de patrimonios, defensa frente a fiscalizaciones del Servicio de Impuestos Internos y litigación en los Tribunales Tributarios y Aduaneros.",
     services: [
       "Planificación tributaria de personas naturales y empresas.",
@@ -256,6 +283,16 @@ const PracticeAreas = () => {
                   className="relative rounded-3xl p-[2px] bg-gradient-to-br from-[#A12341] to-[#0F3B47] shadow-soft"
                 >
                   <div className="bg-background rounded-[22px] p-7 md:p-10">
+                    {areas[active].image && (
+                      <div className="mb-8 rounded-xl overflow-hidden max-h-64 flex items-center justify-center bg-card border border-border/50">
+                        <img
+                          src={areas[active].image}
+                          alt={areas[active].title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+
                     <div className="flex flex-col md:flex-row md:items-start gap-5 mb-8">
                       <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0">
                         {(() => {
@@ -302,6 +339,30 @@ const PracticeAreas = () => {
                         ))}
                       </div>
                     </div>
+
+                    {areas[active].documents && areas[active].documents.length > 0 && (
+                      <div className="border-t border-border pt-8 mt-8">
+                        <h4 className="font-serif text-xl font-semibold text-foreground mb-5">
+                          Documentos descargables
+                        </h4>
+
+                        <div className="grid md:grid-cols-2 gap-3">
+                          {areas[active].documents.map((doc) => (
+                            <a
+                              key={doc.file}
+                              href={`/api/download-document?file=${encodeURIComponent(doc.file)}`}
+                              className="flex items-center gap-3 rounded-xl bg-card border border-primary/20 hover:border-primary/50 hover:bg-card/80 p-4 transition-all"
+                            >
+                              <Download className="w-5 h-5 text-primary flex-shrink-0" />
+                              <span className="text-foreground font-medium text-sm leading-relaxed flex-1">
+                                {doc.name}
+                              </span>
+                              <span className="text-muted-foreground text-xs">.docx</span>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
                     <div className="mt-8 rounded-2xl bg-card border border-primary/20 p-6">
                       <p className="text-primary/70 font-semibold text-sm tracking-widest uppercase mb-2">

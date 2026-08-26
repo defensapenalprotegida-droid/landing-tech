@@ -134,6 +134,31 @@ export const TEAM: TeamMember[] = [
     },
   },
   {
+    slug: "ivan-marivil",
+    name: "Iván Rodrigo Marivil",
+    role: "Asesor externo",
+    image: "/equipo/IvanRodrigo.webp",
+    areas: [
+      "Policía Local",
+      "Protección de derechos de los consumidores",
+      "Fraude bancario",
+      "Ley de tránsito",
+    ],
+    bio: "Iván Rodrigo Marivil es abogado con experiencia en litigación ante los Juzgados de Policía Local (JPL) y tribunales ordinarios. Su práctica destaca principalmente en la defensa de los derechos sobre protección a los derechos de los consumidores, ley especial sobre fraude bancario y Ley de tránsito. Se incorporó al estudio como asesor externo para reforzar la competencia en materias de policía local y protección del consumidor.",
+    formacion: [
+      "Abogado, Universidad Ucinf, 2020.",
+      "Diplomado en Derecho Procesal Penal, Universidad Central de Chile, 2023.",
+      "Diplomado en Derecho Procesal Constitucional, Universidad Central de Chile, 2023.",
+      "Diplomado en Derecho Procedimiento Civil, Universidad Central de Chile, 2023.",
+      "Curso sobre protección de los derechos de los consumidores.",
+    ],
+    contacto: {
+      telefono: "+56 9 3032 1703",
+      correo: "abogadoivanmarivil@gmail.com",
+      linkedin: "https://www.linkedin.com/in/ivan-marivil-43b2351bb/",
+    },
+  },
+  {
     slug: "kony-pedreros",
     name: "Kony Pedreros G.",
     role: "Asesora externa",
