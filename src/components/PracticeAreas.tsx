@@ -381,6 +381,27 @@ const PracticeAreas = () => {
                         <ChevronRight className="w-5 h-5 ml-2" />
                       </button>
                     </div>
+
+                    {/* Indicador de posición mejorado */}
+                    <div className="mt-6 flex items-center justify-between px-2">
+                      <span className="text-xs font-medium text-muted-foreground">
+                        {active + 1} / {areas.length}
+                      </span>
+                      <div className="flex gap-1.5">
+                        {areas.map((_, index) => (
+                          <button
+                            key={index}
+                            onClick={() => setActive(index)}
+                            className={`h-2 rounded-full transition-all ${
+                              index === active
+                                ? "w-6 bg-primary"
+                                : "w-2 bg-border hover:bg-primary/50 cursor-pointer"
+                            }`}
+                            aria-label={`Ir al área ${index + 1}`}
+                          />
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </motion.div>
               )}

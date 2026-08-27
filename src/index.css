@@ -154,14 +154,45 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  
+
   /* Professional spacing */
   .section-padding {
-    @apply py-16 lg:py-24;
+    @apply py-12 sm:py-16 lg:py-24;
   }
-  
+
   .container-padding {
     @apply px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Mobile-first improved spacing */
+  .section-gap {
+    @apply space-y-6 sm:space-y-8 md:space-y-10;
+  }
+
+  .card-gap {
+    @apply gap-3 sm:gap-4 lg:gap-6;
+  }
+
+  /* Text legibility improvements */
+  .text-readable {
+    @apply max-w-none md:max-w-3xl;
+    line-height: 1.6;
+  }
+
+  .text-readable-p {
+    @apply text-base sm:text-lg leading-relaxed;
+  }
+
+  /* Button sizing improvements for mobile */
+  .btn-touch {
+    @apply min-h-12 sm:min-h-10;
+    @apply px-4 sm:px-6;
+    @apply text-sm sm:text-base;
+  }
+
+  /* Improved mobile spacing for sections */
+  .mobile-section-spacing > * + * {
+    @apply mt-4 sm:mt-6 md:mt-8;
   }
 }
 
