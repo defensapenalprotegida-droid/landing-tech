@@ -155,9 +155,10 @@ const HeroCarousel = ({ slides, intervaloMs = 0 }: Props) => {
         <ChevronRight className="w-6 h-6 text-foreground" />
       </button>
 
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4">
+      {/* Indicadores en la parte superior (visible en mobile) */}
+      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4 md:bottom-6 md:top-auto">
         {/* Indicador visual de swipe en mobile */}
-        <div className="md:hidden flex items-center gap-2 text-xs font-medium text-foreground/50">
+        <div className="md:hidden flex items-center gap-2 text-xs font-medium text-foreground/60 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full">
           <motion.div
             animate={{ x: [-4, 4, -4] }}
             transition={{ duration: 1.5, repeat: Infinity }}
@@ -177,7 +178,7 @@ const HeroCarousel = ({ slides, intervaloMs = 0 }: Props) => {
           </motion.div>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full md:bg-transparent md:backdrop-blur-none">
           {/* Indicador numérico */}
           <span className="text-sm font-medium text-foreground/60 tabular-nums">
             {activo + 1}/{total}
