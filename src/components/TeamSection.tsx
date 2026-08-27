@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Phone, Mail, Linkedin, Plus } from "lucide-react";
 import { TEAM, type TeamMember } from "@/lib/team";
-import TeamGallery from "@/components/TeamGallery";
+// import TeamGallery from "@/components/TeamGallery";
 
 const TeamSection = () => {
   const [selected, setSelected] = useState<TeamMember | null>(null);
@@ -27,7 +27,7 @@ const TeamSection = () => {
           </h3>
         </div>
 
-        <TeamGallery />
+        {/* <TeamGallery /> */}
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
           {TEAM.map((member) => (
