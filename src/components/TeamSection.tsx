@@ -7,12 +7,26 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Phone, Mail, Linkedin, Plus } from "lucide-react";
+import { Phone, Mail, Linkedin, Plus, ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { TEAM, type TeamMember } from "@/lib/team";
 // import TeamGallery from "@/components/TeamGallery";
 
 const TeamSection = () => {
   const [selected, setSelected] = useState<TeamMember | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const goToPrevious = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? TEAM.length - 1 : prevIndex - 1
+    );
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === TEAM.length - 1 ? 0 : prevIndex + 1
+    );
+  };
 
   return (
     <section id="equipo" className="section-padding bg-background">
@@ -29,7 +43,100 @@ const TeamSection = () => {
 
         {/* <TeamGallery /> */}
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+        {/* Mobile Carousel */}
+        <div className="md:hidden">
+          <div className="relative">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Card className="group overflow-hidden rounded-xl border border-border bg-card shadow-soft">
+                  <button
+                    type="button"
+                    onClick={() => setSelected(TEAM[currentIndex])}
+                    aria-label={`Ver detalle de ${TEAM[currentIndex].name}`}
+                    className="block w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  >
+                    <div className="relative aspect-[3/4] overflow-hidden bg-muted">
+                      <img
+                        src={TEAM[currentIndex].image}
+                        alt={`${TEAM[currentIndex].name}, ${TEAM[currentIndex].role}`}
+                        loading="lazy"
+                        width={480}
+                        height={640}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+
+                      <div className="absolute inset-0 bg-legal-dark/55 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-[11px] font-semibold text-legal-dark">
+                          <Plus className="w-3 h-3" /> Ver detalle
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="p-4">
+                      <h4 className="font-serif text-base font-semibold text-foreground leading-tight">
+                        {TEAM[currentIndex].name}
+                      </h4>
+                      <p className="font-sans text-sm text-primary font-medium mt-1">
+                        {TEAM[currentIndex].role}
+                      </p>
+                    </div>
+                  </button>
+                </Card>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Controles de carrusel */}
+            <div className="mt-6 space-y-4">
+              {/* Botones de navegación */}
+              <div className="flex items-center justify-between gap-3">
+                <button
+                  onClick={goToPrevious}
+                  aria-label="Profesional anterior"
+                  className="rounded-lg bg-primary/10 p-3 transition-all hover:bg-primary/20 active:scale-95"
+                >
+                  <ChevronLeft className="h-5 w-5 text-primary" />
+                </button>
+
+                <span className="text-center text-sm font-medium text-muted-foreground">
+                  {currentIndex + 1} / {TEAM.length}
+                </span>
+
+                <button
+                  onClick={goToNext}
+                  aria-label="Siguiente profesional"
+                  className="rounded-lg bg-primary/10 p-3 transition-all hover:bg-primary/20 active:scale-95"
+                >
+                  <ChevronRight className="h-5 w-5 text-primary" />
+                </button>
+              </div>
+
+              {/* Dots de navegación */}
+              <div className="flex justify-center gap-2 flex-wrap">
+                {TEAM.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentIndex(index)}
+                    aria-label={`Ir al profesional ${index + 1}`}
+                    className={`h-2 rounded-full transition-all ${
+                      index === currentIndex
+                        ? "w-6 bg-primary"
+                        : "w-2 bg-border hover:bg-primary/50 cursor-pointer"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop Grid */}
+        <div className="hidden md:grid grid-cols-3 lg:grid-cols-4 gap-5">
           {TEAM.map((member) => (
             <Card
               key={member.slug}
@@ -42,9 +149,6 @@ const TeamSection = () => {
                 aria-label={`Ver detalle de ${member.name}`}
                 className="block w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
-                {/* Todas las fotos vienen recortadas a 3:4 y con la cara a la
-                    misma escala, así el conjunto se ve parejo pese a que los
-                    originales tenían encuadres muy distintos. */}
                 <div className="relative aspect-[3/4] overflow-hidden bg-muted">
                   <img
                     src={member.image}
