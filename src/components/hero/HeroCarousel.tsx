@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, GripVertical } from "lucide-react";
+import { motion } from "framer-motion";
 import HeroSlide from "./HeroSlide";
 import { useHeroCarousel } from "@/contexts/HeroCarouselContext";
 import type { HeroSlideData } from "@/lib/heroSlides";
@@ -154,26 +155,51 @@ const HeroCarousel = ({ slides, intervaloMs = 0 }: Props) => {
         <ChevronRight className="w-6 h-6 text-foreground" />
       </button>
 
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-4">
-        {/* Indicador numérico */}
-        <span className="text-sm font-medium text-foreground/60 tabular-nums">
-          {activo + 1}/{total}
-        </span>
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4">
+        {/* Indicador visual de swipe en mobile */}
+        <div className="md:hidden flex items-center gap-2 text-xs font-medium text-foreground/50">
+          <motion.div
+            animate={{ x: [-4, 4, -4] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="flex gap-1"
+          >
+            <ChevronLeft className="w-3 h-3" />
+            <ChevronLeft className="w-3 h-3" />
+          </motion.div>
+          <span className="px-2">Desliza</span>
+          <motion.div
+            animate={{ x: [4, -4, 4] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="flex gap-1"
+          >
+            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3" />
+          </motion.div>
+        </div>
 
-        {/* Puntos indicadores */}
-        <div className="flex gap-2">
-          {slides.map(({ data }, i) => (
-            <button
-              key={data.id}
-              type="button"
-              onClick={() => ir(i)}
-              aria-label={`Ver ${data.eyebrow}`}
-              aria-current={i === activo}
-              className={`h-2 rounded-full transition-all ${
-                i === activo ? "w-8 bg-primary" : "w-2 bg-primary/30"
-              }`}
-            />
-          ))}
+        <div className="flex items-center gap-4">
+          {/* Indicador numérico */}
+          <span className="text-sm font-medium text-foreground/60 tabular-nums">
+            {activo + 1}/{total}
+          </span>
+
+          {/* Puntos indicadores con efecto hover */}
+          <div className="flex gap-2">
+            {slides.map(({ data }, i) => (
+              <motion.button
+                key={data.id}
+                type="button"
+                onClick={() => ir(i)}
+                aria-label={`Ver ${data.eyebrow}`}
+                aria-current={i === activo}
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.9 }}
+                className={`h-2 rounded-full transition-all cursor-pointer ${
+                  i === activo ? "w-8 bg-primary" : "w-2 bg-primary/30 hover:bg-primary/60"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
