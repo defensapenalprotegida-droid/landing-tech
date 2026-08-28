@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Scale,
@@ -182,6 +182,7 @@ const INDICE_POR_AREA: Record<Area, number> = areas.reduce(
 
 const PracticeAreas = () => {
   const [active, setActive] = useState<number | null>(0);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const abrir = (area: Area) => {
@@ -193,6 +194,15 @@ const PracticeAreas = () => {
     if (pendiente) abrir(pendiente);
     return onFocusArea(abrir);
   }, []);
+
+  // Scroll automático al contenido expandido en mobile
+  useEffect(() => {
+    if (active !== null && window.innerWidth < 768 && contentRef.current) {
+      setTimeout(() => {
+        contentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }, [active]);
 
   return (
     <section id="areas" className="section-padding bg-card">
@@ -271,7 +281,7 @@ const PracticeAreas = () => {
           </div>
 
           {/* Contenido principal */}
-          <div className="lg:col-span-8">
+          <div className="lg:col-span-8" ref={contentRef}>
             <AnimatePresence mode="wait">
               {active !== null && (
                 <motion.div

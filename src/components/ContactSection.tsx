@@ -332,19 +332,42 @@ const ContactSection = () => {
         </div>
 
         <div className="mt-12">
-          <Card className="p-4 shadow-card-soft border-0">
-            <div className="bg-gradient-legal-soft rounded-lg h-64 flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="w-12 h-12 text-legal-primary mx-auto mb-4" />
+          <Card className="p-0 shadow-card-soft border-0 overflow-hidden">
+            <div className="relative h-80 w-full">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3330.0568042625426!2d-70.66632!3d-33.451897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662c5be42d3bb65%3A0x5b7b5c5b5c5b5c5b!2sBombero%20Salas%201369%2C%20Santiago!5e0!3m2!1ses!2scl!4v1629123456789"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Ubicación Arteaga & Aldunate Abogados"
+              />
+            </div>
 
+            {/* Info debajo del mapa */}
+            <div className="p-6 bg-gradient-legal-soft/50">
+              <div className="text-center">
                 <h3 className="font-heading text-lg font-bold text-legal-dark mb-2">
                   Estamos en el centro de Santiago
                 </h3>
 
                 <p className="font-body text-muted-foreground">
-                  Bombero Salas N° 1369, oficina 701 - Metro Universidad de
-                  Chile
+                  Bombero Salas N° 1369, oficina 701
+                  <br />
+                  Metro Universidad de Chile
                 </p>
+
+                <a
+                  href="https://maps.google.com/?q=Bombero+Salas+1369+Santiago"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 mt-4 text-legal-primary hover:opacity-80 transition-opacity font-medium text-sm"
+                >
+                  <MapPin className="w-4 h-4" />
+                  Ver en Google Maps
+                </a>
               </div>
             </div>
           </Card>
