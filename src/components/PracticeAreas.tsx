@@ -212,7 +212,7 @@ const PracticeAreas = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.55 }}
-          className="text-center max-w-4xl mx-auto mb-16"
+          className="text-center max-w-4xl mx-auto mb-8 md:mb-16"
         >
           <p className="text-primary/70 font-semibold text-sm tracking-[0.25em] uppercase mb-4">
             Áreas de práctica
@@ -232,9 +232,9 @@ const PracticeAreas = () => {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-12 gap-8 items-start">
+        <div className="grid lg:grid-cols-12 gap-4 md:gap-8 items-start">
           {/* Menú lateral */}
-          <div className="lg:col-span-4 space-y-3">
+          <div className="lg:col-span-4 space-y-2 md:space-y-3">
             {areas.map((area, i) => (
               <motion.button
                 key={area.title}
@@ -246,19 +246,19 @@ const PracticeAreas = () => {
                 // El estado abierto se marcaba solo con clases: sin esto, un
                 // lector de pantalla no sabe cuál área está desplegada.
                 aria-expanded={active === i}
-                className={`w-full text-left rounded-2xl border p-5 transition-all duration-300 group ${
+                className={`w-full text-left rounded-2xl border p-3 sm:p-4 md:p-5 transition-all duration-300 group ${
                   active === i
                     ? "bg-background border-primary/40 shadow-hover"
                     : "bg-background/70 border-border shadow-soft hover:shadow-hover hover:border-primary/20"
                 }`}
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3 sm:gap-4">
                   <div
-                    className={`w-12 h-12 rounded-xl flex items-center justify-center transition ${
+                    className={`w-10 sm:w-12 h-10 sm:h-12 rounded-xl flex items-center justify-center transition ${
                       active === i ? "bg-primary/10" : "bg-primary/5"
                     }`}
                   >
-                    <area.icon className="w-6 h-6 text-primary" />
+                    <area.icon className="w-5 sm:w-6 h-5 sm:h-6 text-primary" />
                   </div>
 
                   <div className="flex-1">
@@ -292,7 +292,7 @@ const PracticeAreas = () => {
                   transition={{ duration: 0.35 }}
                   className="relative rounded-3xl p-[2px] bg-gradient-to-br from-[#A12341] to-[#0F3B47] shadow-soft"
                 >
-                  <div className="bg-background rounded-[22px] p-7 md:p-10">
+                  <div className="bg-background rounded-[22px] p-4 sm:p-6 md:p-10">
                     {areas[active].image && (
                       <div className="mb-8 rounded-xl overflow-hidden max-h-64 flex items-center justify-center bg-card border border-border/50">
                         <img
