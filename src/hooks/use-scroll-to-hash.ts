@@ -21,7 +21,7 @@ export function useScrollToHash() {
     // de la misma vista, así que el desplazamiento animado no aporta.
     const timers = REINTENTOS_MS.map((ms) =>
       window.setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: "auto" });
+        document.getElementById(id)?.scrollIntoView({ behavior: "auto", block: "start" });
       }, ms),
     );
 
