@@ -63,7 +63,7 @@ describe("HeroCarousel", () => {
 
   it("cambia de slide con un gesto de swipe horizontal", () => {
     const { container } = renderWithProvider(<HeroCarousel slides={slides} />);
-    const track = container.querySelector(".flex.items-start")!;
+    const track = container.querySelector(".flex.items-stretch")!;
 
     fireEvent.touchStart(track, { touches: [{ clientX: 300, clientY: 100 }] });
     fireEvent.touchEnd(track, { changedTouches: [{ clientX: 200, clientY: 100 }] });
@@ -75,7 +75,7 @@ describe("HeroCarousel", () => {
 
   it("ignora el swipe si el desplazamiento vertical domina", () => {
     const { container } = renderWithProvider(<HeroCarousel slides={slides} />);
-    const track = container.querySelector(".flex.items-start")!;
+    const track = container.querySelector(".flex.items-stretch")!;
 
     fireEvent.touchStart(track, { touches: [{ clientX: 300, clientY: 100 }] });
     fireEvent.touchEnd(track, { changedTouches: [{ clientX: 260, clientY: 250 }] });

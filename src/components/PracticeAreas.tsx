@@ -183,6 +183,7 @@ const INDICE_POR_AREA: Record<Area, number> = areas.reduce(
 const PracticeAreas = () => {
   const [active, setActive] = useState<number | null>(0);
   const contentRef = useRef<HTMLDivElement>(null);
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
     const abrir = (area: Area) => {
@@ -195,8 +196,12 @@ const PracticeAreas = () => {
     return onFocusArea(abrir);
   }, []);
 
-  // Scroll automático al contenido expandido en mobile
+  // Scroll automático al contenido expandido en mobile (solo si el usuario cambia, no en carga inicial)
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
     if (active !== null && window.innerWidth < 768 && contentRef.current) {
       setTimeout(() => {
         contentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -294,16 +299,16 @@ const PracticeAreas = () => {
                 >
                   <div className="bg-background rounded-[22px] p-4 sm:p-6 md:p-10">
                     {areas[active].image && (
-                      <div className="mb-8 rounded-xl overflow-hidden max-h-64 flex items-center justify-center bg-card border border-border/50">
+                      <div className="mb-8 rounded-xl flex items-center justify-center bg-card border border-border/50 w-full py-8">
                         <img
                           src={areas[active].image}
                           alt={areas[active].title}
-                          className="w-full h-full object-cover"
+                          className="w-11/12 h-auto max-h-96"
                         />
                       </div>
                     )}
 
-                    <div className="flex flex-col md:flex-row md:items-start gap-5 mb-8">
+                    <div className="flex flex-col md:flex-row md:items-start gap-5 mb-6">
                       <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0">
                         {(() => {
                           const Icon = areas[active].icon;

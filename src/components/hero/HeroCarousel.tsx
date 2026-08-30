@@ -108,7 +108,7 @@ const HeroCarousel = ({ slides, intervaloMs = 0 }: Props) => {
       onKeyDown={onKeyDown}
     >
       <div
-        className="flex items-start transition-transform duration-1000 ease-in-out"
+        className="flex items-stretch transition-transform duration-1000 ease-in-out"
         style={{ transform: `translateX(-${activo * 100}%)` }}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
@@ -155,37 +155,16 @@ const HeroCarousel = ({ slides, intervaloMs = 0 }: Props) => {
         <ChevronRight className="w-6 h-6 text-foreground" />
       </button>
 
-      {/* Indicadores en la parte superior (visible en mobile) */}
-      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4 md:bottom-6 md:top-auto">
-        {/* Indicador visual de swipe en mobile */}
-        <div className="md:hidden flex items-center gap-2 text-xs font-medium text-foreground/60 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full">
-          <motion.div
-            animate={{ x: [-4, 4, -4] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="flex gap-1"
-          >
-            <ChevronLeft className="w-3 h-3" />
-            <ChevronLeft className="w-3 h-3" />
-          </motion.div>
-          <span className="px-2">Desliza</span>
-          <motion.div
-            animate={{ x: [4, -4, 4] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="flex gap-1"
-          >
-            <ChevronRight className="w-3 h-3" />
-            <ChevronRight className="w-3 h-3" />
-          </motion.div>
-        </div>
-
-        <div className="flex items-center gap-4 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full md:bg-transparent md:backdrop-blur-none">
+      {/* Indicadores sobre el hero (parte superior derecha en mobile) */}
+      <div className="absolute top-16 right-4 z-50 flex flex-col items-end gap-2 md:bottom-6 md:top-auto md:right-auto md:left-1/2 md:-translate-x-1/2">
+        <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full md:bg-transparent md:backdrop-blur-none md:gap-4 md:px-4 md:py-2">
           {/* Indicador numérico */}
-          <span className="text-sm font-medium text-foreground/60 tabular-nums">
+          <span className="text-xs md:text-sm font-medium text-foreground/60 tabular-nums">
             {activo + 1}/{total}
           </span>
 
           {/* Puntos indicadores con efecto hover */}
-          <div className="flex gap-2">
+          <div className="flex gap-1.5 md:gap-2">
             {slides.map(({ data }, i) => (
               <motion.button
                 key={data.id}
@@ -195,8 +174,8 @@ const HeroCarousel = ({ slides, intervaloMs = 0 }: Props) => {
                 aria-current={i === activo}
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.9 }}
-                className={`h-2 rounded-full transition-all cursor-pointer ${
-                  i === activo ? "w-8 bg-primary" : "w-2 bg-primary/30 hover:bg-primary/60"
+                className={`h-1.5 rounded-full transition-all cursor-pointer ${
+                  i === activo ? "w-6 bg-primary" : "w-1.5 bg-primary/30 hover:bg-primary/60"
                 }`}
               />
             ))}

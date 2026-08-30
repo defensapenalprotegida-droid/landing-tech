@@ -12,5 +12,13 @@ export default defineConfig({
     globals: true,
     environment: "jsdom",
     setupFiles: ["./src/test/setup.ts"],
+    // Los worktrees anidados traen su propia copia de react y contaminan
+    // la suite con errores de "invalid hook call".
+    exclude: [
+      "**/node_modules/**",
+      "**/dist/**",
+      ".worktrees/**",
+      ".claude/worktrees/**",
+    ],
   },
 });

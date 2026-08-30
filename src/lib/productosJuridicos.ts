@@ -11,13 +11,13 @@ import {
   faExclamationTriangle,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
-import heroRecuperaCasa from "@/assets/hero-recupera-casa.jpg";
-import heroRecuperaPie from "@/assets/hero-recupera-pie.jpg";
-import heroDefiendeDespido from "@/assets/hero-defiende-despido.jpg";
-import heroCotizacionesImpagas from "@/assets/hero-cotizaciones-impagas.jpg";
-import heroCobraPension from "@/assets/hero-cobra-pension.jpg";
-import heroDivorcioExpress from "@/assets/hero-divorcio-express.jpg";
-import heroAutodespido from "@/assets/hero-autodespido.jpg";
+import heroRecuperaCasa from "@/assets/hero-recupera-casa.webp";
+import heroRecuperaPie from "@/assets/hero-recupera-pie.webp";
+import heroDefiendeDespido from "@/assets/hero-defiende-despido.webp";
+import heroCotizacionesImpagas from "@/assets/hero-cotizaciones-impagas.webp";
+import heroCobraPension from "@/assets/hero-cobra-pension.webp";
+import heroDivorcioExpress from "@/assets/hero-divorcio-express.webp";
+import heroAutodespido from "@/assets/hero-autodespido.webp";
 
 export type Producto =
   | "recupera-casa"

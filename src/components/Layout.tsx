@@ -8,6 +8,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { HeroCarouselProvider } from "@/contexts/HeroCarouselContext";
 import JsonLd from "@/components/seo/JsonLd";
+import SplashScreen from "@/components/SplashScreen";
 import { legalServiceSchema } from "@/lib/seo/schema/organizacion";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const Layout = () => {
           {/* La identidad del estudio se emite una vez para todo el sitio.
               El resto de los schemas la referencian por @id. */}
           <JsonLd schema={legalServiceSchema()} />
+          <SplashScreen />
           <Toaster />
           <Sonner />
           <Outlet />

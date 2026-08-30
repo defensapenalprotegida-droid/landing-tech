@@ -42,7 +42,7 @@ export async function cargarProductosPublicados(
         {
           name: "stub-imagenes",
           setup(build) {
-            build.onResolve({ filter: /\.(jpg|jpeg|png|svg)$/ }, (args) => ({
+            build.onResolve({ filter: /\.(jpg|jpeg|png|svg|webp)$/ }, (args) => ({
               path: args.path,
               namespace: "stub-imagenes",
             }));

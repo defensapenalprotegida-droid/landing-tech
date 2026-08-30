@@ -4,8 +4,8 @@ import {
   faHouse,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
-import heroLegal from "@/assets/hero-legal.jpg";
-import heroCorretaje from "@/assets/hero-corretaje.jpg";
+import heroLegal from "@/assets/hero-legal.webp";
+import heroCorretaje from "@/assets/hero-corretaje.webp";
 
 export type SlideId = "legal" | "corretaje" | Producto;
 
