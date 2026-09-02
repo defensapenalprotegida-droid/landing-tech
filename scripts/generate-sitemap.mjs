@@ -2,12 +2,13 @@
 // Antes se mantenía a mano y quedó desactualizado apenas crecieron los posts.
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { cargarProductosPublicados } from "./lib/cargar-productos.mjs";
+import { cargarDocumentos, cargarProductosPublicados } from "./lib/cargar-productos.mjs";
 
 const SITE = "https://arteagayaldunate.cl";
 const DIR = "src/content/blog";
 
 const productos = await cargarProductosPublicados();
+const paginasDocumentos = await cargarDocumentos();
 
 // Plantillas .docx descargables. Google indexa documentos de Office si los
 // encuentra enlazados o en el sitemap; se sirven estáticos desde public/.
@@ -42,6 +43,8 @@ ${url(`${SITE}/`, undefined, "1.0")}
 ${url(`${SITE}/blog`, undefined, "0.8")}
 ${posts.map((p) => url(`${SITE}/blog/${p.slug}`, p.lastmod, "0.7")).join("\n")}
 ${productos.map((p) => url(`${SITE}/servicios/${p.slug}`, undefined, "0.9")).join("\n")}
+${url(`${SITE}/documentos`, undefined, "0.8")}
+${paginasDocumentos.map((d) => url(`${SITE}/documentos/${d.slug}`, undefined, "0.7")).join("\n")}
 ${documentos.map((f) => url(`${SITE}/planillasparapaginaweb/${encodeURIComponent(f)}`, undefined, "0.5")).join("\n")}
 ${url(`${SITE}/privacidad`, undefined, "0.3")}
 ${url(`${SITE}/terminos`, undefined, "0.3")}

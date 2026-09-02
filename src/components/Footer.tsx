@@ -141,6 +141,12 @@ const Footer = () => {
                 móvil y sin esto se salían del contenedor. */}
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-body text-sm text-gray-400">
               <Link
+                to="/documentos"
+                className="hover:text-legal-primary transition-colors"
+              >
+                Documentos
+              </Link>
+              <Link
                 to="/privacidad"
                 className="hover:text-legal-primary transition-colors"
               >

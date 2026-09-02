@@ -7,9 +7,8 @@ import { mkdirSync, mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
-export async function cargarProductosPublicados(
-  entryPoint = "src/lib/productosJuridicos.ts"
-) {
+/** Transpila un módulo TS del proyecto y lo importa desde Node. */
+async function importarModulo(entryPoint) {
   // El archivo temporal se crea dentro de node_modules/.cache (y no en el
   // tmpdir del sistema) para que, al marcar @fortawesome/* como externo, la
   // resolución de módulos de Node encuentre node_modules subiendo desde ahí.
@@ -55,32 +54,50 @@ export async function cargarProductosPublicados(
       ],
     });
 
-    const modulo = await import(pathToFileURL(salida).href);
-    const productos = modulo.getProductosPublicados();
-
-    // Un resultado vacío no es un build exitoso: significa que sitemap.xml y
-    // llms.txt se generarían sin ninguna página de servicio, deindexando el
-    // sitio en silencio (el único rastro sería un console.log fácil de
-    // ignorar en CI). Si algún día "cero productos publicados" es un estado
-    // legítimo, quien lo necesite debe quitar este guard a propósito.
-    if (productos.length === 0) {
-      throw new Error(
-        "cargarProductosPublicados() devolvió 0 productos publicados. " +
-          "Esto detendría el build silenciosamente generando sitemap.xml y " +
-          "llms.txt sin ninguna página /servicios/*. Revisa " +
-          "getProductosPublicados() en src/lib/productosJuridicos.ts: " +
-          "¿algún producto perdió su bloque `seo` o su flag de publicación " +
-          "por error?"
-      );
-    }
-
-    return productos.map((producto) => ({
-      slug: producto.seo.slug,
-      h1: producto.seo.h1,
-      metaDescription: producto.seo.metaDescription,
-      resumen: producto.seo.resumen,
-    }));
+    return await import(pathToFileURL(salida).href);
   } finally {
     rmSync(temporal, { recursive: true, force: true });
   }
+}
+
+/** Plantillas descargables con página propia en /documentos/<slug>. */
+export async function cargarDocumentos(entryPoint = "src/lib/documentos.ts") {
+  const modulo = await importarModulo(entryPoint);
+  return modulo.getDocumentos().map((d) => ({
+    slug: d.slug,
+    nombre: d.nombre,
+    h1: d.h1,
+    resumen: d.resumen,
+    archivo: d.archivo,
+  }));
+}
+
+export async function cargarProductosPublicados(
+  entryPoint = "src/lib/productosJuridicos.ts"
+) {
+  const modulo = await importarModulo(entryPoint);
+  const productos = modulo.getProductosPublicados();
+
+  // Un resultado vacío no es un build exitoso: significa que sitemap.xml y
+  // llms.txt se generarían sin ninguna página de servicio, deindexando el
+  // sitio en silencio (el único rastro sería un console.log fácil de
+  // ignorar en CI). Si algún día "cero productos publicados" es un estado
+  // legítimo, quien lo necesite debe quitar este guard a propósito.
+  if (productos.length === 0) {
+    throw new Error(
+      "cargarProductosPublicados() devolvió 0 productos publicados. " +
+        "Esto detendría el build silenciosamente generando sitemap.xml y " +
+        "llms.txt sin ninguna página /servicios/*. Revisa " +
+        "getProductosPublicados() en src/lib/productosJuridicos.ts: " +
+        "¿algún producto perdió su bloque `seo` o su flag de publicación " +
+        "por error?"
+    );
+  }
+
+  return productos.map((producto) => ({
+    slug: producto.seo.slug,
+    h1: producto.seo.h1,
+    metaDescription: producto.seo.metaDescription,
+    resumen: producto.seo.resumen,
+  }));
 }

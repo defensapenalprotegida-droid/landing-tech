@@ -152,6 +152,12 @@ const Header = () => {
             >
               BLOG
             </Link>
+            <Link
+              to="/documentos"
+              className="font-body text-sm font-medium hover:text-legal-primary"
+            >
+              DOCUMENTOS
+            </Link>
             <button
               onClick={() => scrollTo("contacto")}
               className="font-body text-sm font-medium hover:text-legal-primary"
@@ -246,6 +252,13 @@ const Header = () => {
                 className="block w-full text-left px-4 py-3 font-body text-base text-foreground hover:text-legal-primary hover:bg-gray-50 transition-colors duration-200"
               >
                 Blog
+              </Link>
+              <Link
+                to="/documentos"
+                onClick={() => setIsMenuOpen(false)}
+                className="block w-full text-left px-4 py-3 font-body text-base text-foreground hover:text-legal-primary hover:bg-gray-50 transition-colors duration-200"
+              >
+                Documentos
               </Link>
               <button
                 onClick={() => scrollTo("contacto")}

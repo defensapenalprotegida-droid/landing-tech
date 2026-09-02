@@ -68,6 +68,34 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://arteagayaldunate.cl/documentos</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://arteagayaldunate.cl/documentos/poder-simple</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://arteagayaldunate.cl/documentos/carta-renuncia-voluntaria</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://arteagayaldunate.cl/documentos/declaracion-jurada-testigo</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://arteagayaldunate.cl/documentos/checklist-compra-bien-raiz</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://arteagayaldunate.cl/documentos/checklist-arrendar-propiedad</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://arteagayaldunate.cl/documentos/mandato-especial-compraventa-inmueble</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://arteagayaldunate.cl/planillasparapaginaweb/PAGINA_Poder_Simple.docx</loc>
     <priority>0.5</priority>
   </url>

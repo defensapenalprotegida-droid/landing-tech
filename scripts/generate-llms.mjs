@@ -2,10 +2,15 @@
 // que un modelo lo lea entero sin tener que rastrear el HTML.
 // Deriva de la misma fuente que el sitemap y las páginas.
 import { writeFileSync } from "node:fs";
-import { cargarProductosPublicados } from "./lib/cargar-productos.mjs";
+import { cargarDocumentos, cargarProductosPublicados } from "./lib/cargar-productos.mjs";
 
 const SITE = "https://arteagayaldunate.cl";
 const productos = await cargarProductosPublicados();
+const documentos = await cargarDocumentos();
+
+const plantillas = documentos
+  .map((d) => `- [${d.h1}](${SITE}/documentos/${d.slug}): ${d.resumen}`)
+  .join("\n\n");
 
 const servicios = productos
   .map((p) => `- [${p.h1}](${SITE}/servicios/${p.slug}): ${p.resumen}`)
@@ -25,9 +30,14 @@ Horario: lunes a viernes, 09:00 a 18:00
 
 ${servicios}
 
+## Documentos descargables (Word, gratuitos)
+
+${plantillas}
+
 ## Recursos
 
 - [Blog jurídico](${SITE}/blog): artículos sobre derecho chileno vigente.
+- [Índice de documentos](${SITE}/documentos)
 - [Política de privacidad](${SITE}/privacidad)
 - [Política de cookies](${SITE}/cookies)
 

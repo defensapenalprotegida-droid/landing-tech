@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { getDocumentoByArchivo } from "@/lib/documentos";
 import {
   Scale,
   AlertTriangle,
@@ -127,10 +129,9 @@ const DocumentsDownload = () => {
                   {hasDocuments ? (
                     <div className="space-y-2">
                       {item.documents.map((doc) => (
-                        <a
+                        <Link
                           key={doc.file}
-                          href={`/planillasparapaginaweb/${encodeURIComponent(doc.file)}`}
-                          download
+                          to={`/documentos/${getDocumentoByArchivo(doc.file)?.slug ?? ""}`}
                           className="flex items-center gap-3 rounded-lg bg-background border border-primary/20 hover:border-primary/50 hover:bg-background/80 p-3 transition-all group"
                         >
                           <Download className="w-4 h-4 text-primary flex-shrink-0 group-hover:scale-110 transition-transform" />
@@ -138,7 +139,7 @@ const DocumentsDownload = () => {
                             {doc.name}
                           </span>
                           <span className="text-muted-foreground text-xs">.docx</span>
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   ) : (

@@ -14,6 +14,8 @@ import {
 import { prefillArea } from "@/lib/leadPrefill";
 import { consumePendingArea, onFocusArea } from "@/lib/areaFocus";
 import type { Area } from "@/lib/leadSchema";
+import { Link } from "react-router-dom";
+import { getDocumentoByArchivo } from "@/lib/documentos";
 
 const AREA_KEY: Record<string, Area> = {
   "Derecho Penal": "penal",
@@ -363,10 +365,9 @@ const PracticeAreas = () => {
 
                         <div className="grid md:grid-cols-2 gap-3">
                           {areas[active].documents.map((doc) => (
-                            <a
+                            <Link
                               key={doc.file}
-                              href={`/planillasparapaginaweb/${encodeURIComponent(doc.file)}`}
-                              download
+                              to={`/documentos/${getDocumentoByArchivo(doc.file)?.slug ?? ""}`}
                               className="flex items-center gap-3 rounded-xl bg-card border border-primary/20 hover:border-primary/50 hover:bg-card/80 p-4 transition-all"
                             >
                               <Download className="w-5 h-5 text-primary flex-shrink-0" />
@@ -374,7 +375,7 @@ const PracticeAreas = () => {
                                 {doc.name}
                               </span>
                               <span className="text-muted-foreground text-xs">.docx</span>
-                            </a>
+                            </Link>
                           ))}
                         </div>
                       </div>

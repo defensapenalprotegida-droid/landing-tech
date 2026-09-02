@@ -12,9 +12,24 @@ Horario: lunes a viernes, 09:00 a 18:00
 
 - [Cobro de pensión de alimentos adeudada](https://arteagayaldunate.cl/servicios/cobra-tu-pension): Cuando existe una sentencia o un acuerdo aprobado por el tribunal, la pensión de alimentos adeudada tiene mérito ejecutivo: no hay que volver a demandar para cobrarla. El tribunal de familia puede ordenar retención directa del sueldo, embargar bienes, retener la devolución de impuestos y decretar arraigo o arresto del deudor. El plazo de prescripción corre, así que la deuda antigua puede perderse.
 
+## Documentos descargables (Word, gratuitos)
+
+- [Modelo de poder simple para descargar](https://arteagayaldunate.cl/documentos/poder-simple): Un poder simple es un documento privado en el que una persona (poderdante) autoriza a otra (apoderado) para realizar un trámite específico en su nombre. No requiere notaría, aunque muchas instituciones piden la firma autorizada ante notario para aceptarlo.
+
+- [Modelo de carta de renuncia voluntaria](https://arteagayaldunate.cl/documentos/carta-renuncia-voluntaria): La carta de renuncia voluntaria es el aviso escrito con que el trabajador pone término a su contrato por decisión propia, según el artículo 159 N.º 2 del Código del Trabajo. Debe darse con al menos 30 días de anticipación y ratificarse ante ministro de fe para tener pleno valor.
+
+- [Modelo de declaración jurada de testigo](https://arteagayaldunate.cl/documentos/declaracion-jurada-testigo): La declaración jurada de testigo es un documento en el que una persona afirma, bajo juramento y con su firma autorizada ante notario, hechos que le constan personalmente. Se usa para acreditar convivencia, dependencia económica, residencia u otros hechos ante organismos públicos y tribunales.
+
+- [Checklist para comprar un bien raíz en Chile](https://arteagayaldunate.cl/documentos/checklist-compra-bien-raiz): Este checklist ordena, paso a paso, lo que un comprador debe revisar antes de firmar la compra de una casa, departamento o terreno: estudio de títulos, certificados del Conservador de Bienes Raíces, deudas del inmueble, promesa de compraventa, escritura e inscripción.
+
+- [Checklist para arrendar una propiedad](https://arteagayaldunate.cl/documentos/checklist-arrendar-propiedad): Esta guía reúne lo que arrendador y arrendatario deben verificar antes, durante y al término de un arriendo: selección del arrendatario, cláusulas del contrato, garantía, inventario de entrega, reajustes y restitución del inmueble.
+
+- [Modelo de mandato especial para compraventa de inmueble](https://arteagayaldunate.cl/documentos/mandato-especial-compraventa-inmueble): El mandato especial para compraventa de inmueble es el poder, otorgado por escritura pública ante notario, con el que una persona faculta a otra para vender o comprar una propiedad en su nombre y firmar la escritura correspondiente. Un poder simple no sirve para este acto.
+
 ## Recursos
 
 - [Blog jurídico](https://arteagayaldunate.cl/blog): artículos sobre derecho chileno vigente.
+- [Índice de documentos](https://arteagayaldunate.cl/documentos)
 - [Política de privacidad](https://arteagayaldunate.cl/privacidad)
 - [Política de cookies](https://arteagayaldunate.cl/cookies)
 

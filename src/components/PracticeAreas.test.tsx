@@ -1,5 +1,6 @@
 import { describe, it, expect, afterEach } from "vitest";
 import { render, screen, act, cleanup } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import PracticeAreas from "./PracticeAreas";
 import { focusArea, consumePendingArea } from "@/lib/areaFocus";
 
@@ -21,12 +22,12 @@ describe("PracticeAreas — selección desde el menú", () => {
   });
 
   it("abre Derecho Penal por defecto", () => {
-    render(<PracticeAreas />);
+    render(<MemoryRouter><PracticeAreas /></MemoryRouter>);
     expect(areaAbierta()).toContain("Derecho Penal");
   });
 
   it("abre el área que se eligió en el menú, no siempre la primera", () => {
-    render(<PracticeAreas />);
+    render(<MemoryRouter><PracticeAreas /></MemoryRouter>);
 
     act(() => focusArea("inmobiliario"));
     expect(areaAbierta()).toContain("Derecho Inmobiliario");
@@ -40,17 +41,17 @@ describe("PracticeAreas — selección desde el menú", () => {
     focusArea("familia");
 
     // Al llegar al home, la sección se monta y debe abrir esa área.
-    render(<PracticeAreas />);
+    render(<MemoryRouter><PracticeAreas /></MemoryRouter>);
     expect(areaAbierta()).toContain("Derecho de Familia");
   });
 
   it("no reabre un área pendiente ya consumida en un montaje posterior", () => {
     focusArea("laboral");
-    render(<PracticeAreas />);
+    render(<MemoryRouter><PracticeAreas /></MemoryRouter>);
     expect(areaAbierta()).toContain("Derecho Laboral");
 
     cleanup();
-    render(<PracticeAreas />);
+    render(<MemoryRouter><PracticeAreas /></MemoryRouter>);
     expect(areaAbierta()).toContain("Derecho Penal");
   });
 });

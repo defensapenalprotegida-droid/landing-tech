@@ -9,6 +9,9 @@ import Privacidad from "./pages/Privacidad";
 import Terminos from "./pages/Terminos";
 import Cookies from "./pages/Cookies";
 import Servicio from "./pages/Servicio";
+import Documentos from "./pages/Documentos";
+import Documento from "./pages/Documento";
+import { getDocumentos } from "@/lib/documentos";
 import NotFound from "./pages/NotFound";
 
 export const routes: RouteRecord[] = [
@@ -33,6 +36,13 @@ export const routes: RouteRecord[] = [
         entry: "src/pages/Servicio.tsx",
         getStaticPaths: () =>
           getProductosPublicados().map((p) => `/servicios/${p.seo!.slug}`),
+      },
+      { path: "documentos", element: <Documentos />, entry: "src/pages/Documentos.tsx" },
+      {
+        path: "documentos/:slug",
+        element: <Documento />,
+        entry: "src/pages/Documento.tsx",
+        getStaticPaths: () => getDocumentos().map((d) => `/documentos/${d.slug}`),
       },
       // ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE
       { path: "*", element: <NotFound /> },
