@@ -9,6 +9,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { HeroCarouselProvider } from "@/contexts/HeroCarouselContext";
 import JsonLd from "@/components/seo/JsonLd";
 import { legalServiceSchema } from "@/lib/seo/schema/organizacion";
+import { useScrollToTop } from "@/hooks/use-scroll-to-top";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,8 @@ const Layout = () => {
   // haya decidido antes. No corre durante el prerender, que es justo lo que
   // queremos: ningún script de terceros debe salir en el HTML estático.
   useEffect(() => initTracking(), []);
+
+  useScrollToTop();
 
   return (
     <QueryClientProvider client={queryClient}>

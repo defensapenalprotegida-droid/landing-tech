@@ -1,11 +1,13 @@
 ---
 title: "Autodespido en Chile: cuándo procede y qué puedes cobrar"
 slug: "autodespido-chile"
-date: "2026-08-12"
-updated: "2026-08-12"
+date: "2026-08-27"
+updated: "2026-08-27"
 category: "Derecho Laboral"
 excerpt: "Cuando es el empleador quien incumple, el trabajador puede poner término al contrato y cobrar las mismas indemnizaciones que en un despido injustificado. Cómo se hace y qué errores lo arruinan."
 description: "Guía sobre el autodespido o despido indirecto en Chile: causales, cómo se comunica, plazo para demandar, indemnizaciones que se pueden cobrar y los errores más frecuentes."
+image: "/blog/autodespido-chile.webp"
+imageAlt: "Trabajador saliendo de la oficina con una caja con sus pertenencias"
 author: "Patricio Aldunate C."
 reviewer: "Ignacio Arteaga C."
 draft: false

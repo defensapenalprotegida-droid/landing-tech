@@ -1,11 +1,13 @@
 ---
 title: "Ley Devuélveme mi Casa: cómo recuperar una propiedad arrendada en Chile"
 slug: "ley-devuelveme-mi-casa"
-date: "2026-08-12"
+date: "2026-05-12"
 updated: "2026-08-12"
 category: "Derecho Inmobiliario"
 excerpt: "Qué hacer cuando el arrendatario dejó de pagar o no quiere entregar la propiedad: el procedimiento monitorio, los documentos que necesitas y los plazos reales."
 description: "Guía práctica sobre la Ley Devuélveme mi Casa: cómo recuperar una propiedad arrendada en Chile cuando hay rentas impagas, qué documentos se necesitan y cuánto demora el procedimiento."
+image: "/blog/ley-devuelveme-mi-casa.webp"
+imageAlt: "Apretón de manos sobre maquetas de casas y un contrato de arriendo"
 author: "Ignacio Arteaga C."
 reviewer: "Patricio Aldunate C."
 draft: false

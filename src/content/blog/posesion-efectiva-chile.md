@@ -1,11 +1,13 @@
 ---
 title: "Posesión efectiva en Chile: guía paso a paso"
 slug: "posesion-efectiva-chile"
-date: "2026-08-12"
+date: "2026-04-14"
 updated: "2026-08-12"
 category: "Derecho Civil"
 excerpt: "Sin posesión efectiva no se puede vender la casa ni transferir el auto de una persona fallecida. Cómo se tramita, cuánto demora y cuándo realmente necesitas abogado."
 description: "Cómo tramitar la posesión efectiva en Chile: diferencia entre con y sin testamento, inventario, inscripción especial de herencia, impuesto y cuándo se requiere abogado."
+image: "/blog/posesion-efectiva-chile.webp"
+imageAlt: "Estatua de la justicia con balanza, símbolo de la tramitación de una posesión efectiva"
 author: "Ignacio Arteaga C."
 reviewer: "Patricio Aldunate C."
 draft: false

@@ -1,11 +1,13 @@
 ---
 title: "No me pagan la pensión de alimentos: cómo cobrar la deuda"
 slug: "cobrar-pension-alimentos-impaga"
-date: "2026-08-12"
-updated: "2026-08-12"
+date: "2026-08-04"
+updated: "2026-08-04"
 category: "Derecho de Familia"
 excerpt: "Liquidación de la deuda, Registro Nacional de Deudores, retención de sueldo y el procedimiento que permite pagar con fondos de cuentas bancarias del deudor."
 description: "Cómo cobrar una pensión de alimentos impaga en Chile: liquidación, Registro Nacional de Deudores de Pensiones de Alimentos, retenciones y el procedimiento especial de pago con fondos del deudor."
+image: "/blog/cobrar-pension-alimentos-impaga.webp"
+imageAlt: "Balanza de la justicia sobre el escritorio de un abogado"
 author: "Patricio Aldunate C."
 reviewer: "Ignacio Arteaga C."
 draft: false

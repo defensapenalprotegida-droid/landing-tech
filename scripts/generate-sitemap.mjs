@@ -9,6 +9,13 @@ const DIR = "src/content/blog";
 
 const productos = await cargarProductosPublicados();
 
+// Plantillas .docx descargables. Google indexa documentos de Office si los
+// encuentra enlazados o en el sitemap; se sirven estáticos desde public/.
+const DOCS_DIR = "public/planillasparapaginaweb";
+const documentos = readdirSync(DOCS_DIR)
+  .filter((f) => f.endsWith(".docx"))
+  .sort();
+
 const posts = readdirSync(DIR)
   .filter((f) => f.endsWith(".md"))
   .map((f) => {
@@ -35,6 +42,7 @@ ${url(`${SITE}/`, undefined, "1.0")}
 ${url(`${SITE}/blog`, undefined, "0.8")}
 ${posts.map((p) => url(`${SITE}/blog/${p.slug}`, p.lastmod, "0.7")).join("\n")}
 ${productos.map((p) => url(`${SITE}/servicios/${p.slug}`, undefined, "0.9")).join("\n")}
+${documentos.map((f) => url(`${SITE}/planillasparapaginaweb/${encodeURIComponent(f)}`, undefined, "0.5")).join("\n")}
 ${url(`${SITE}/privacidad`, undefined, "0.3")}
 ${url(`${SITE}/terminos`, undefined, "0.3")}
 ${url(`${SITE}/cookies`, undefined, "0.3")}

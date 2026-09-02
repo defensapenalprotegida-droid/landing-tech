@@ -1,11 +1,13 @@
 ---
 title: "¿La inmobiliaria no quiere devolver tu pie? Cuándo puedes exigir la devolución"
 slug: "recuperar-pie-inmobiliaria"
-date: "2026-08-12"
-updated: "2026-08-12"
+date: "2026-08-18"
+updated: "2026-08-18"
 category: "Derecho Inmobiliario"
 excerpt: "El banco rechazó tu crédito, la entrega se atrasó o la inmobiliaria incumplió. Cuándo corresponde que te devuelvan el pie y qué cláusulas no son válidas."
 description: "Qué hacer si la inmobiliaria no devuelve el pie o la reserva: rechazo del crédito hipotecario, atraso en la entrega, cláusulas abusivas, y la diferencia entre reclamar en SERNAC o demandar."
+image: "/blog/recuperar-pie-inmobiliaria.webp"
+imageAlt: "Persona de traje sosteniendo una casa en miniatura entre las manos"
 author: "Ignacio Arteaga C."
 reviewer: "Patricio Aldunate C."
 draft: false

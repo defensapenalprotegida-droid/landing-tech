@@ -11,6 +11,9 @@ export interface BlogPost {
   author?: string;
   /** Quien revisa jurídicamente. También debe existir en el equipo. */
   reviewer?: string;
+  /** Imagen de portada, ruta absoluta desde public/. */
+  image?: string;
+  imageAlt?: string;
   /** Mientras sea true el artículo no se publica ni se indexa. */
   draft: boolean;
   content: string;
@@ -51,6 +54,8 @@ function parse(path: string, raw: string): BlogPost {
     description: (data.description as string) || (data.excerpt as string),
     author: data.author as string | undefined,
     reviewer: (data.reviewer as string) || undefined,
+    image: (data.image as string) || undefined,
+    imageAlt: (data.imageAlt as string) || undefined,
     // Por defecto NO es borrador: los artículos ya publicados no traen el
     // campo y deben seguir visibles.
     draft: String(data.draft).toLowerCase() === "true",

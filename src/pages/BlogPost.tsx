@@ -23,6 +23,9 @@ const BlogPost = () => {
         description={post.description}
         path={`/blog/${post.slug}`}
         type="article"
+        image={post.image}
+        publishedTime={post.date}
+        modifiedTime={post.updated}
       />
       <Header />
       <main className="max-w-3xl mx-auto container-padding pt-32 pb-20">
@@ -44,6 +47,15 @@ const BlogPost = () => {
           date={post.date}
           updated={post.updated}
         />
+        {post.image && (
+          <img
+            src={post.image}
+            alt={post.imageAlt ?? ""}
+            width={696}
+            height={418}
+            className="w-full aspect-[5/3] object-cover rounded-2xl mb-10 shadow-soft"
+          />
+        )}
         <article className="prose prose-lg max-w-none prose-headings:font-heading prose-a:text-primary">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
         </article>

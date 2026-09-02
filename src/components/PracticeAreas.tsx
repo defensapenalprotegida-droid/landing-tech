@@ -365,7 +365,8 @@ const PracticeAreas = () => {
                           {areas[active].documents.map((doc) => (
                             <a
                               key={doc.file}
-                              href={`/api/download-document?file=${encodeURIComponent(doc.file)}`}
+                              href={`/planillasparapaginaweb/${encodeURIComponent(doc.file)}`}
+                              download
                               className="flex items-center gap-3 rounded-xl bg-card border border-primary/20 hover:border-primary/50 hover:bg-card/80 p-4 transition-all"
                             >
                               <Download className="w-5 h-5 text-primary flex-shrink-0" />

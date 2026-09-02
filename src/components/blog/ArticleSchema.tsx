@@ -18,6 +18,7 @@ const ArticleSchema = ({ post }: { post: BlogPost }) => {
     datePublished: post.date,
     dateModified: post.updated ?? post.date,
     inLanguage: "es-CL",
+    ...(post.image ? { image: `${SITE}${post.image}` } : {}),
     articleSection: post.category,
     mainEntityOfPage: {
       "@type": "WebPage",

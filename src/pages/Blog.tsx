@@ -29,8 +29,19 @@ const Blog = () => {
             <Link
               key={p.slug}
               to={`/blog/${p.slug}`}
-              className="group bg-card border border-border rounded-2xl p-7 shadow-soft hover:shadow-hover transition-all hover:-translate-y-1 flex flex-col"
+              className="group bg-card border border-border rounded-2xl overflow-hidden shadow-soft hover:shadow-hover transition-all hover:-translate-y-1 flex flex-col"
             >
+              {p.image && (
+                <img
+                  src={p.image}
+                  alt={p.imageAlt ?? ""}
+                  width={696}
+                  height={418}
+                  loading="lazy"
+                  className="w-full aspect-[5/3] object-cover"
+                />
+              )}
+              <div className="p-7 flex flex-col flex-grow">
               <div className="flex items-center gap-2 text-muted-foreground text-sm mb-3">
                 <CalendarDays className="w-4 h-4" />
                 <span>{formatPostDate(p.date)}</span>
@@ -48,6 +59,7 @@ const Blog = () => {
                 Leer más
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </span>
+              </div>
             </Link>
           ))}
         </div>

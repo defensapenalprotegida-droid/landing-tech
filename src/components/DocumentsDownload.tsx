@@ -129,7 +129,8 @@ const DocumentsDownload = () => {
                       {item.documents.map((doc) => (
                         <a
                           key={doc.file}
-                          href={`/api/download-document?file=${encodeURIComponent(doc.file)}`}
+                          href={`/planillasparapaginaweb/${encodeURIComponent(doc.file)}`}
+                          download
                           className="flex items-center gap-3 rounded-lg bg-background border border-primary/20 hover:border-primary/50 hover:bg-background/80 p-3 transition-all group"
                         >
                           <Download className="w-4 h-4 text-primary flex-shrink-0 group-hover:scale-110 transition-transform" />

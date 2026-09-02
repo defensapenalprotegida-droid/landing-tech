@@ -1,11 +1,13 @@
 ---
 title: "¿Debo firmar el finiquito? Cómo hacer reserva de derechos"
 slug: "finiquito-reserva-derechos"
-date: "2026-08-12"
+date: "2026-07-01"
 updated: "2026-08-12"
 category: "Derecho Laboral"
 excerpt: "Firmar el finiquito sin reserva puede cerrarte la puerta a reclamar después. Qué significa la reserva de derechos, cómo se escribe y cuándo conviene hacerla."
 description: "Qué es la reserva de derechos en un finiquito laboral, cómo se redacta, qué pasa si firmas sin ella y si el empleador puede negarse a aceptarla."
+image: "/blog/finiquito-reserva-derechos.webp"
+imageAlt: "Reunión de trabajo revisando documentos antes de firmar"
 author: "Patricio Aldunate C."
 reviewer: "Ignacio Arteaga C."
 draft: false

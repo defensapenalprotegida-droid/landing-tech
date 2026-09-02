@@ -1,11 +1,13 @@
 ---
 title: "Heredamos una casa entre varios hermanos: ¿qué pasa si uno no quiere vender?"
 slug: "herencia-casa-hermanos-no-quiere-vender"
-date: "2026-08-12"
+date: "2026-07-21"
 updated: "2026-08-12"
 category: "Derecho Civil"
 excerpt: "Nadie está obligado a permanecer en una comunidad. Qué opciones existen cuando un heredero bloquea la venta: cesión de derechos, partición y adjudicación."
 description: "Qué hacer cuando se hereda una casa entre hermanos y uno no quiere vender: comunidad hereditaria, cesión de derechos hereditarios, juicio de partición, adjudicación y remate."
+image: "/blog/herencia-casa-hermanos-no-quiere-vender.webp"
+imageAlt: "Vista aérea de una casa con terreno, propiedad heredada entre varios hermanos"
 author: "Ignacio Arteaga C."
 reviewer: "Patricio Aldunate C."
 draft: false

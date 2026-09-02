@@ -1,11 +1,13 @@
 ---
 title: "Denuncia y querella no son lo mismo: cuál necesitas si eres víctima"
 slug: "denuncia-vs-querella-chile"
-date: "2026-08-12"
+date: "2026-06-09"
 updated: "2026-08-12"
 category: "Derecho Penal"
 excerpt: "Denunciar pone los hechos en conocimiento de la autoridad. Querellarse te convierte en parte del proceso, con facultades que el denunciante no tiene."
 description: "Diferencia entre denuncia y querella en Chile: qué facultades da cada una a la víctima, cuándo conviene querellarse, qué se necesita y en qué plazo."
+image: "/blog/denuncia-vs-querella-chile.webp"
+imageAlt: "Hombre preocupado hablando por teléfono en la calle"
 author: "Ignacio Arteaga C."
 reviewer: "Patricio Aldunate C."
 draft: false
