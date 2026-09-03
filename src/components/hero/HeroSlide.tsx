@@ -102,7 +102,7 @@ const HeroSlide = ({ slide, isFirst, children }: Props) => {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="w-full max-h-96 md:max-h-none overflow-y-auto"
+            className="w-full"
           >
             {children}
           </motion.div>
