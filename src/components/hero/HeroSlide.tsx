@@ -22,7 +22,7 @@ const HeroSlide = ({ slide, isFirst, children }: Props) => {
   const Titular = isFirst ? "h1" : "h2";
 
   return (
-    <div className="relative h-full lg:min-h-[950px] flex flex-col lg:flex-row lg:items-center overflow-hidden bg-background">
+    <div className="relative isolate h-full lg:min-h-[950px] flex flex-col lg:flex-row lg:items-center overflow-hidden bg-background">
       {/*
         En móvil la foto (1920x1080, horizontal) recortada a pantalla vertical
         queda pixelada y el texto encima se lee mal. Por eso abajo de lg se
