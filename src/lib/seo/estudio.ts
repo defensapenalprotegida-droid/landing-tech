@@ -55,9 +55,26 @@ export const ESTUDIO = {
     "Derecho Tributario",
   ],
   /**
-   * PENDIENTE: URLs reales de Instagram, LinkedIn y Facebook. El footer las
-   * tiene como "#", y un sameAs con relleno es peor que no tener sameAs.
-   * Al completarlas, actualizar también SOCIALS en Footer.tsx.
+   * Perfiles públicos del estudio. Alimentan `sameAs` del schema de la
+   * organización y los iconos del footer. URLs canónicas, sin parámetros de
+   * tracking: Google confirma la entidad comparando la URL exacta.
    */
-  redes: [] as string[],
+  redes: [
+    {
+      nombre: "Instagram",
+      url: "https://www.instagram.com/abogados.arteagayaldunate.cl/",
+    },
+    {
+      nombre: "LinkedIn",
+      url: "https://www.linkedin.com/company/arteaga-aldunate-abogados-y-asociados/",
+    },
+    {
+      nombre: "Facebook",
+      url: "https://www.facebook.com/abogados.arteagayaldunate.cl",
+    },
+    {
+      nombre: "TikTok",
+      url: "https://www.tiktok.com/@abogadosarteagayaldunate",
+    },
+  ],
 } as const;

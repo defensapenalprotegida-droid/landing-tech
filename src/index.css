@@ -95,6 +95,13 @@
     @apply border-border;
   }
   
+  html,
+  body {
+    /* clip (no hidden): evita scroll horizontal por elementos decorativos
+       sin convertir body en contenedor de scroll, que rompería sticky. */
+    overflow-x: clip;
+  }
+
   body {
     @apply bg-background text-foreground font-body;
   }

@@ -117,7 +117,12 @@ const HeroCarousel = ({ slides, intervaloMs = 0 }: Props) => {
           <div
             key={data.id}
             data-slide={data.id}
-            className="w-full flex-shrink-0"
+            // En móvil los slides van apilados (texto + formulario) y miden
+            // distinto: el más largo estiraría a todos y dejaría un vacío
+            // enorme bajo los cortos. Los inactivos colapsan a altura 0 para
+            // que la sección mida lo que mide el slide visible. Desde lg las
+            // alturas son parejas y se conserva la transición deslizante.
+            className={`w-full flex-shrink-0 ${i === activo ? "" : "h-0 overflow-hidden lg:h-auto lg:overflow-visible"}`}
             aria-roledescription="slide"
             aria-label={`${i + 1} de ${total}`}
             // El slide oculto no debe ser tabulable ni audible: sin esto, el

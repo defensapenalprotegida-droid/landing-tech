@@ -15,11 +15,13 @@ describe("identidad del estudio", () => {
     expect(ESTUDIO.direccion.pais).toBe("CL");
   });
 
-  it("no expone redes con href de relleno", () => {
-    // El footer las tiene como "#". Un sameAs con "#" es peor que omitirlo:
-    // le pide al buscador que confíe en un enlace roto.
-    for (const url of ESTUDIO.redes) {
-      expect(url).toMatch(/^https:\/\//);
+  it("las redes son URLs canónicas, sin parámetros de tracking", () => {
+    // Un sameAs con "#" o con ?utm_source= es peor que omitirlo: el buscador
+    // compara la URL exacta para confirmar la entidad.
+    expect(ESTUDIO.redes.length).toBeGreaterThan(0);
+    for (const red of ESTUDIO.redes) {
+      expect(red.url).toMatch(/^https:\/\//);
+      expect(red.url).not.toMatch(/[?&]/);
     }
   });
 

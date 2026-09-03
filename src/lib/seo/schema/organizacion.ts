@@ -54,6 +54,8 @@ export function legalServiceSchema() {
     },
     // sameAs solo si hay perfiles reales: un enlace de relleno le pide al
     // buscador que confíe en algo roto.
-    ...(ESTUDIO.redes.length > 0 ? { sameAs: [...ESTUDIO.redes] } : {}),
+    ...(ESTUDIO.redes.length > 0
+      ? { sameAs: ESTUDIO.redes.map((r) => r.url) }
+      : {}),
   };
 }

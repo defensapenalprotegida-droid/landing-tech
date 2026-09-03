@@ -204,7 +204,7 @@ const ProductoForm: React.FC<ProductoFormProps> = ({ productoId }) => {
   };
 
   return (
-    <Card className="p-6 shadow-card-soft border border-border bg-background/80 backdrop-blur rounded-2xl md:max-h-[600px] md:overflow-y-auto">
+    <Card className="p-4 sm:p-6 shadow-card-soft border border-border bg-background/80 backdrop-blur rounded-2xl md:max-h-[600px] md:overflow-y-auto">
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Título del producto */}
         <div className="mb-2">

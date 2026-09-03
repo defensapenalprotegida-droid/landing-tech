@@ -92,7 +92,7 @@ export const CATEGORIES: readonly CategoryInfo[] = [
     id: "marketing",
     title: "Cookies de marketing",
     description:
-      "Pueden utilizarse para medir campañas o mostrar contenido y publicidad relevante.",
+      "Pueden utilizarse para medir campañas, mostrar contenido y publicidad relevante, o cargar publicaciones de redes sociales desde servicios externos.",
     alwaysOn: false,
   },
 ] as const;

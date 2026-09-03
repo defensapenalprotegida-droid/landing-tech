@@ -83,10 +83,10 @@ const LegalQuickForm = () => {
   };
 
   return (
-    <Card className="p-8 shadow-card-soft border border-border bg-background/80 backdrop-blur rounded-2xl">
-      <form onSubmit={handleSubmit} className="space-y-6">
+    <Card className="p-5 sm:p-8 shadow-card-soft border border-border bg-background/80 backdrop-blur rounded-2xl">
+      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
         <div>
-          <h3 className="font-heading text-2xl font-bold text-foreground mb-2">
+          <h3 className="font-heading text-xl sm:text-2xl font-bold text-foreground mb-2">
             Cuéntanos tu caso
           </h3>
           <p className="text-muted-foreground text-sm">
